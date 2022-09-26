@@ -1,3 +1,4 @@
 /backend/*
 /frontend/*
-!/src/.gitkeep
+!/backend/.gitkeep
+!/frontend/.gitkeep
