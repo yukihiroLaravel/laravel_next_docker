@@ -31,8 +31,25 @@ paths:
                   $ref: '#/components/schemas/Course'
 components:
   schemas:
-    User:
+    Instructor:
       type: "object"
+      required:
+        - "id"
+        - "name"
+        - "email"
+      properties:
+        id:
+          type: "int"
+          description: "講師テーブル主キー"
+          example: 1
+        name:
+          type: "string"
+          description: "講師名"
+          example: "山田 太郎"
+        email:
+          type: "string"
+          description: "メールアドレス"
+          example: "test@example.com"
     Course:
       type: "object"
       required:
@@ -52,12 +69,15 @@ components:
           type: "string"
           description: "講座サムネイル画像ファイルパス"
           example: "/course/xxx.png"
+        instructor:
+          $ref: '#/components/schemas/Instructor'
         attendance:
           $ref: '#/components/schemas/Attendance'
     Attendance:
       type: "object"
       required:
         - "id"
+        - "progress"
       properties:
         id:
           type: "int"
