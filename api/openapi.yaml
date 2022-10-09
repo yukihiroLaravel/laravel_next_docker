@@ -1,0 +1,69 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: 受講管理アプリ API
+servers:
+  - url: 'http://localhost:8080/api'
+paths:
+  /v1/courses:
+    get:
+      tags:
+        - course
+      operationId: getCourses
+      summary: "受講講座一覧参照"
+      description: >
+        受講者IDを指定して、受講している講座一覧情報を参照する
+      security: []
+      parameters:
+        - name: id
+          in: query
+          description: 受講者テーブル主キー
+          required: true
+          type: int
+      responses:
+        '200':
+          description: 受講講座一覧
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+components:
+  schemas:
+    User:
+      type: "object"
+    Course:
+      type: "object"
+      required:
+        - "id"
+        - "title"
+        - "image"
+      properties:
+        id:
+          type: "int"
+          description: "講座テーブル主キー"
+          example: 1
+        title:
+          type: "string"
+          description: "講座名"
+          example: "PHP入門講座"
+        image:
+          type: "string"
+          description: "講座サムネイル画像ファイルパス"
+          example: "/course/xxx.png"
+        attendance:
+          $ref: '#/components/schemas/Attendance'
+    Attendance:
+      type: "object"
+      required:
+        - "id"
+      properties:
+        id:
+          type: "int"
+          description: "受講テーブル主キー"
+          example: 1
+        progress:
+          type: "int"
+          description: "進捗率"
+          example: 70
