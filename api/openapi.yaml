@@ -13,7 +13,8 @@ paths:
       summary: "受講講座一覧参照"
       description: >
         受講者IDを指定して、受講している講座一覧情報を参照する
-      security: []
+      security: 
+        - Bearer: []
       parameters:
         - name: id
           in: query
@@ -30,6 +31,12 @@ paths:
                 items:
                   $ref: '#/components/schemas/Course'
 components:
+  securitySchemes:
+        Bearer:
+          type: apiKey
+          in: header
+          name: Authorization
+          description: API認証トークン
   schemas:
     Instructor:
       type: "object"
@@ -56,6 +63,8 @@ components:
         - "id"
         - "title"
         - "image"
+        - "instructor"
+        - "attendance"
       properties:
         id:
           type: "int"
