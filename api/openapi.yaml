@@ -16,7 +16,7 @@ paths:
       security: 
         - Bearer: []
       parameters:
-        - name: id
+        - name: student_id
           in: query
           description: 受講者テーブル主キー
           required: true
@@ -41,11 +41,11 @@ components:
     Instructor:
       type: "object"
       required:
-        - "id"
+        - "instructor_id"
         - "name"
         - "email"
       properties:
-        id:
+        instructor_id:
           type: "int"
           description: "講師テーブル主キー"
           example: 1
@@ -60,13 +60,13 @@ components:
     Course:
       type: "object"
       required:
-        - "id"
+        - "course_id"
         - "title"
         - "image"
         - "instructor"
         - "attendance"
       properties:
-        id:
+        course_id:
           type: "int"
           description: "講座テーブル主キー"
           example: 1
@@ -85,10 +85,10 @@ components:
     Attendance:
       type: "object"
       required:
-        - "id"
+        - "attendance_id"
         - "progress"
       properties:
-        id:
+        attendance_id:
           type: "int"
           description: "受講テーブル主キー"
           example: 1
