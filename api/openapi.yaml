@@ -1,0 +1,103 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: 受講管理アプリ API
+servers:
+  - url: 'http://localhost:8080/api'
+paths:
+  /v1/courses:
+    get:
+      tags:
+        - course
+      operationId: getCourses
+      summary: "受講講座一覧参照"
+      description: >
+        受講者IDを指定して、受講している講座一覧情報を参照する
+      security: 
+        - Bearer: []
+      parameters:
+        - name: student_id
+          in: query
+          description: 受講者テーブル主キー
+          required: true
+          type: int
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 受講講座一覧
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+components:
+  securitySchemes:
+        Bearer:
+          type: apiKey
+          in: header
+          name: XSRF-TOKEN
+          description: API認証トークン
+  schemas:
+    Instructor:
+      type: "object"
+      required:
+        - "instructor_id"
+        - "name"
+        - "email"
+      properties:
+        instructor_id:
+          type: "int"
+          description: "講師テーブル主キー"
+          example: 1
+        name:
+          type: "string"
+          description: "講師名"
+          example: "山田 太郎"
+        email:
+          type: "string"
+          description: "メールアドレス"
+          example: "test@example.com"
+    Course:
+      type: "object"
+      required:
+        - "course_id"
+        - "title"
+        - "image"
+        - "instructor"
+        - "attendance"
+      properties:
+        course_id:
+          type: "int"
+          description: "講座テーブル主キー"
+          example: 1
+        title:
+          type: "string"
+          description: "講座名"
+          example: "PHP入門講座"
+        image:
+          type: "string"
+          description: "講座サムネイル画像ファイルパス"
+          example: "/course/xxx.png"
+        instructor:
+          $ref: '#/components/schemas/Instructor'
+        attendance:
+          $ref: '#/components/schemas/Attendance'
+    Attendance:
+      type: "object"
+      required:
+        - "attendance_id"
+        - "progress"
+      properties:
+        attendance_id:
+          type: "int"
+          description: "受講テーブル主キー"
+          example: 1
+        progress:
+          type: "int"
+          description: "進捗率"
+          example: 70
