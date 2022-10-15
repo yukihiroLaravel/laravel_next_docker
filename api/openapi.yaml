@@ -21,6 +21,11 @@ paths:
           description: 受講者テーブル主キー
           required: true
           type: int
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
       responses:
         '200':
           description: 受講講座一覧
@@ -33,7 +38,7 @@ paths:
 components:
   securitySchemes:
         Bearer:
-          type: apiKey
+          type: XSRF-TOKEN
           in: header
           name: Authorization
           description: API認証トークン
