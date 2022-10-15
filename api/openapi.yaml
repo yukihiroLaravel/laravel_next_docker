@@ -38,9 +38,9 @@ paths:
 components:
   securitySchemes:
         Bearer:
-          type: XSRF-TOKEN
+          type: apiKey
           in: header
-          name: Authorization
+          name: XSRF-TOKEN
           description: API認証トークン
   schemas:
     Instructor:
