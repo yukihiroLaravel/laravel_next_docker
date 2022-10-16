@@ -101,3 +101,50 @@ components:
           type: "int"
           description: "進捗率"
           example: 70
+    Lesson:
+      type: "object"
+      required:
+       - "lesson_id"
+       - "chapter_id"
+       - "url"
+       - "title"
+       - "remarks"
+      properties:
+        lesson_id:
+          type: "int"
+          description: "lessonテーブル主キー"
+          example: 1
+        chapter_id:
+          $ref: '#/components/schemas/Chapter'
+        url:
+          type: "string"
+          description: "動画テキストurl"
+          example: "https://www.youtube.com"
+        title:
+          type: "string"
+          description: "lesson タイトル"
+          example: "phpについて知ろう"
+        remarks:
+          type: "string"
+          description: "講師用備考欄"
+          example: "動画テキストのindex"
+    Lesson_attendance:
+      type: "object"
+      required:
+        - "lesson_attendance_id"
+        - "lesson_id"
+        - "attendance_id"
+        - "status"
+      properties:
+        lesson_attendance_id:
+          type: "int"
+          description: "レッスン受講テーブル主キー"
+          example: 1
+        lesson_id:
+          $ref: '#/components/schemas/Lesson'
+        attendance_id:
+          $ref: '#/components/schemas/Attendance'
+        status :
+          type: "int"
+          description: "lesson進捗"
+          example: 1
