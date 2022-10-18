@@ -101,3 +101,34 @@ components:
           type: "int"
           description: "進捗率"
           example: 70
+
+  /v1/courses:
+    get:
+      tags:
+        -chapter
+      operationId: getChapters
+      summary: "チャプター一覧参照"
+      description: >
+        受講者IDを指定して、受講している講座のチャプター一覧・進捗情報を参照する
+      security:
+        -Bearer: []
+      parameters:
+        - name: chapter_id
+          in: query
+          description: チャプターテーブルの主キー
+          required: true
+          type: int
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      responses:
+        '200':
+          description: チャプター一覧
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Chapter'
