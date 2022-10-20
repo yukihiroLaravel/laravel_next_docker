@@ -35,6 +35,41 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Course'
+  /v1/chapters:
+    get:
+      tags:
+        - chapter
+      operationId: getChapters
+      summary: "チャプター一覧参照"
+      description: >
+        受講者IDを指定して、受講している講座のチャプター一覧・進捗情報を参照する
+      security:
+        -Bearer: []
+      parameters:
+        - name: chapter_id
+          in: query
+          description: チャプターテーブルの主キー
+          required: true
+          type: int
+        - name: attendances_id
+          in: query
+          description: 受講テーブルの主キー
+          required: true
+          type: int
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 講座詳細情報
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Chapter'
 components:
   securitySchemes:
         Bearer:
@@ -101,34 +136,56 @@ components:
           type: "int"
           description: "進捗率"
           example: 70
+    Chapter:
+      type: "object" 
+      required:
+        - "chapter_id"
+        - "title"
+        - "lesson"
+        - "attendance"
+        - "lesson_attendance"
+      properties:
+        chapter_id:
+          type: "int"
+          description: "チャプターテーブル主キー"
+          example: 1
+        title: 
+          type: "string"
+          description: "チャプター名"
+          example: "laravel入門"
+        lesson:
+          $ref: '#/components/schemas/Lesson'
+        attendance:
+          $ref: '#/components/schemas/Attendance'
+        lesson_attendance:
+          $ref: '#/components/schemas/Lesson_attendance'
+    Lesson:
+      type: "object"
+      required:
+        - "lesson_id"
+        - "title"
+      properties:
+        lesson_id:
+          type: "int"
+          description: "レッスンテーブルの主キー"
+          example: 1
+        title:
+          type: "string"
+          description: "レッスン名"
+          example: "swaggerの書き方"
+    Lesson_attendance:
+      type: "object"
+      required:
+        - "lesson_attendance_id"
+        - "status"
+      properties:
+        lesson_attendance_id:
+          type: "tinyint"
+          description: "レッスン受講テーブルの主キー"
+          example: 1
+        status:
+          type: "int"
+          description: "未or済"
+          example: 1
 
-  /v1/courses:
-    get:
-      tags:
-        -chapter
-      operationId: getChapters
-      summary: "チャプター一覧参照"
-      description: >
-        受講者IDを指定して、受講している講座のチャプター一覧・進捗情報を参照する
-      security:
-        -Bearer: []
-      parameters:
-        - name: chapter_id
-          in: query
-          description: チャプターテーブルの主キー
-          required: true
-          type: int
-        - name: XSRF-TOKEN
-          in: header
-          description: API認証トークン
-          required: true
-          type: string
-      responses:
-        '200':
-          description: チャプター一覧
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Chapter'
+
