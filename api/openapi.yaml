@@ -140,16 +140,19 @@ components:
       type: "object" 
       required:
         - "chapter_id"
-        - "title"
+        - "chapter_title"
+        - "course"
         - "lesson"
         - "attendance"
         - "lesson_attendance"
       properties:
+        course:
+          $ref: '#/components/schemas/Course'
         chapter_id:
           type: "int"
           description: "チャプターテーブル主キー"
           example: 1
-        title: 
+        chapter_title: 
           type: "string"
           description: "チャプター名"
           example: "laravel入門"
@@ -180,12 +183,12 @@ components:
         - "status"
       properties:
         lesson_attendance_id:
-          type: "tinyint"
+          type: "int"
           description: "レッスン受講テーブルの主キー"
           example: 1
         status:
-          type: "int"
-          description: "未or済"
-          example: 1
+          type: "tinyint"
+          description: "未着手、着手、完了"
+          example: "未着手"
 
 
