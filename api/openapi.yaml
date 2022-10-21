@@ -34,7 +34,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Course'
+                  allOf:
+                    - $ref: '#/components/schemas/Course'
+                    - type: "object"
+                      properties:
+                        attendance:
+                          $ref: '#/components/schemas/Attendance'
   /v1/chapters:
     get:
       tags:
@@ -120,8 +125,6 @@ components:
           example: "/course/xxx.png"
         instructor:
           $ref: '#/components/schemas/Instructor'
-        attendance:
-          $ref: '#/components/schemas/Attendance'
     Attendance:
       type: "object"
       required:
