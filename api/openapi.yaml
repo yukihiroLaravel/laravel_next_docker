@@ -17,7 +17,7 @@ paths:
         - Bearer: []
       parameters:
         - name: student_id
-          in: query
+          in: quy
           description: 受講者テーブル主キー
           required: true
           type: int
