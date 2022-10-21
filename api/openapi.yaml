@@ -190,5 +190,3 @@ components:
           type: "tinyint"
           description: "未着手、着手、完了"
           example: "未着手"
-
-
