@@ -74,7 +74,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Chapter'
+                  $ref: '#/components/schemas/Chapter_lesson'
 components:
   securitySchemes:
         Bearer:
@@ -139,37 +139,50 @@ components:
           type: "int"
           description: "進捗率"
           example: 70
-    Chapter:
+    Chapter_lesson:
       type: "object" 
       required:
-        - "chapter_id"
-        - "chapter_title"
-        - "course"
-        - "lesson"
+        - "course_id"
+        - "title"
+        - "image"
+        - "chapter"
         - "attendance"
-        - "lesson_attendance"
       properties:
-        course:
-          $ref: '#/components/schemas/Course'
-        chapter_id:
+        course_id:
           type: "int"
-          description: "チャプターテーブル主キー"
+          description: "講座テーブルの主キー"
           example: 1
-        chapter_title: 
+        title:
           type: "string"
-          description: "チャプター名"
-          example: "laravel入門"
-        lesson:
-          $ref: '#/components/schemas/Lesson'
+          description: "講座名"
+          example: "PHP入門講座"
+        image:
+          type: "string"
+          description: "講座サムネイル画像ファイルパス"
+          example: "/course/xxx.png"
+        chapter:
+          $ref: '#/components/schemas/Chapter'
         attendance:
           $ref: '#/components/schemas/Attendance'
-        lesson_attendance:
-          $ref: '#/components/schemas/Lesson_attendance'
-    Lesson:
+    Chapter:
+      type: "object"
+      required:
+        - "chapter_id"
+        - "lesson"
+      properties:
+        chapter_id:
+          type: "int"
+          description: "チャプターテーブルの主キー"
+          example: 1
+        lesson:
+          $ref: '#/components/schemas/chapter>lesson'
+    chapter>lesson:
       type: "object"
       required:
         - "lesson_id"
         - "title"
+        - "status"
+        - "lesson_attendance"
       properties:
         lesson_id:
           type: "int"
@@ -179,6 +192,12 @@ components:
           type: "string"
           description: "レッスン名"
           example: "swaggerの書き方"
+        status:
+          type: "tinyint"
+          description: "未着手、着手、完了"
+          example: "未着手"
+        lesson_attendance:
+          $ref: '#/components/schemas/Lesson_attendance'
     Lesson_attendance:
       type: "object"
       required:
