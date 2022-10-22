@@ -35,35 +35,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Course'
-  /v1/lessons:
-    get:
-      tags:
-        - lesson
-      operationId: getLesson
-      summary: 指定のlesson情報を取得
-      description: 各レッスンにアクセスした際情報を取得します
-      security: 
-        - Bearer: []
-      parameters:
-        - name: lesson_id
-          in: query
-          description: lesson主キー
-          required: true
-          type: int
-        - name: XSRF-TOKEN
-          in: header
-          description: API認証トークン
-          required: true
-          type: string
-      responses:
-        '200':
-          description: lesson画面情報
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Lesson'
   /v1/lesson_attendance:
     get:
       tags:
@@ -75,6 +46,7 @@ paths:
         - Bearer: []
       parameters:
         - name: lesson_attendance_id 
+          in: query
           description: lesson_attendances主キー
           required: true
           type: int
