@@ -202,7 +202,7 @@ components:
           description: "未着手、着手、完了"
           example: "未着手"
         lesson_attendance:
-          $ref: '#/components/schemas/Lesson_attendance'
+          $ref: '#/components/schemas/LessonAttendance'
     LessonAttendance:
       type: "object"
       required:
