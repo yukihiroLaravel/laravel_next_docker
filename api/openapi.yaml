@@ -17,7 +17,7 @@ paths:
         - Bearer: []
       parameters:
         - name: student_id
-          in: quy
+          in: query
           description: 受講者テーブル主キー
           required: true
           type: int
@@ -40,12 +40,12 @@ paths:
                       properties:
                         attendance:
                           $ref: '#/components/schemas/Attendance'
-  /v1/chapters:
+  /v1/course:
     get:
       tags:
-        - chapter
-      operationId: getChapters
-      summary: "チャプター一覧参照"
+        - course
+      operationId: getCourse
+      summary: "講座詳細一覧参照"
       description: >
         受講者IDを指定して、受講している講座のチャプター一覧・進捗情報を参照する
       security:
@@ -74,7 +74,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Chapter_lesson'
+                  $ref: '#/components/schemas/ChapterLesson'
 components:
   securitySchemes:
         Bearer:
@@ -139,7 +139,7 @@ components:
           type: "int"
           description: "進捗率"
           example: 70
-    Chapter_lesson:
+    ChapterLesson:
       type: "object" 
       required:
         - "course_id"
@@ -168,12 +168,17 @@ components:
       type: "object"
       required:
         - "chapter_id"
+        - "title"
         - "lesson"
       properties:
         chapter_id:
           type: "int"
           description: "チャプターテーブルの主キー"
           example: 1
+        title:
+          type: "string"
+          description: "チャプタータイトル"
+          example: "laravel入門講座"
         lesson:
           $ref: '#/components/schemas/chapter>lesson'
     chapter>lesson:
