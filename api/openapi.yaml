@@ -176,9 +176,9 @@ components:
         attendance_id:
           $ref: '#/components/schemas/Attendance'
         status :
-          type: "int"
-          description: "lesson進捗"
-          example: 1
+          type: "string"
+          description: "未実施　開始　完了"
+          example: "未実施"
     Chapter:
       type: "object" 
       required:
