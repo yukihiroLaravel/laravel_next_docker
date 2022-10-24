@@ -63,7 +63,9 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Lesson_attendance'
+                  allOf:
+                  - $ref: '#/components/schemas/Lesson_attendance'
+                  - $ref: '#/components/schemas/Chapter'
 components:
   securitySchemes:
         Bearer:
@@ -177,3 +179,23 @@ components:
           type: "int"
           description: "lesson進捗"
           example: 1
+    Chapter:
+      type: "object" 
+      required:
+        - "chapter_id"
+        - "chapter_title"
+        - "course"
+        - "lesson"
+        - "attendance"
+        - "lesson_attendance"
+      properties:
+        course:
+          $ref: '#/components/schemas/Course'
+        chapter_id:
+          type: "int"
+          description: "チャプターテーブル主キー"
+          example: 1
+        chapter_title: 
+          type: "string"
+          description: "チャプター名"
+          example: "laravel入門"
