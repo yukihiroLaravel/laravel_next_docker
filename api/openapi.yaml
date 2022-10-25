@@ -78,32 +78,30 @@ paths:
                 type: object
                 properties:
                   data: 
-                    type: array
-                    items:
-                      allOf:
-                        - $ref: '#/components/schemas/Course'
-                        - type: object
-                          properties:
-                            attendance:
-                              $ref: '#/components/schemas/Attendance'
-                        - type: object
-                          properties:
-                            chapters:
-                              type: array
-                              items:
-                                allOf:
-                                  - $ref: '#/components/schemas/Chapter'
-                                  - type: object
-                                    properties:
-                                      lessons:
-                                        type: array
-                                        items:
-                                          allOf:
-                                            - $ref: '#/components/schemas/Lesson'
-                                            - type: object
-                                              properties:
-                                                lesson_attendance:
-                                                  $ref: '#/components/schemas/LessonAttendance'
+                    allOf:
+                      - $ref: '#/components/schemas/Course'
+                      - type: object
+                        properties:
+                          attendance:
+                            $ref: '#/components/schemas/Attendance'
+                      - type: object
+                        properties:
+                          chapters:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/components/schemas/Chapter'
+                                - type: object
+                                  properties:
+                                    lessons:
+                                      type: array
+                                      items:
+                                        allOf:
+                                          - $ref: '#/components/schemas/Lesson'
+                                          - type: object
+                                            properties:
+                                              lesson_attendance:
+                                                $ref: '#/components/schemas/LessonAttendance'
 components:
   securitySchemes:
         Bearer:
