@@ -211,5 +211,5 @@ components:
           example: 1
         status:
           type: "tinyint"
-          description: "未着手、着手、完了"
+          description: "10, 20, 30"
           example: "未着手"
