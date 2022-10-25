@@ -32,14 +32,17 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  allOf:
-                    - $ref: '#/components/schemas/Course'
-                    - type: "object"
-                      properties:
-                        attendance:
-                          $ref: '#/components/schemas/Attendance'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/Course'
+                        - type: "object"
+                          properties:
+                            attendance:
+                              $ref: '#/components/schemas/Attendance'
   /v1/course:
     get:
       tags:
@@ -72,9 +75,35 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ChapterLesson'
+                type: object
+                properties:
+                  data: 
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/Course'
+                        - type: object
+                          properties:
+                            attendance:
+                              $ref: '#/components/schemas/Attendance'
+                        - type: object
+                          properties:
+                            chapters:
+                              type: array
+                              items:
+                                allOf:
+                                  - $ref: '#/components/schemas/Chapter'
+                                  - type: object
+                                    properties:
+                                      lessons:
+                                        type: array
+                                        items:
+                                          allOf:
+                                            - $ref: '#/components/schemas/Lesson'
+                                            - type: object
+                                              properties:
+                                                lesson_attendance:
+                                                  $ref: '#/components/schemas/LessonAttendance'
 components:
   securitySchemes:
         Bearer:
@@ -139,33 +168,8 @@ components:
           type: "int"
           description: "進捗率"
           example: 70
-    ChapterLesson:
-      type: "object" 
-      required:
-        - "course_id"
-        - "title"
-        - "image"
-        - "chapter"
-        - "attendance"
-      properties:
-        course_id:
-          type: "int"
-          description: "講座テーブルの主キー"
-          example: 1
-        title:
-          type: "string"
-          description: "講座名"
-          example: "PHP入門講座"
-        image:
-          type: "string"
-          description: "講座サムネイル画像ファイルパス"
-          example: "/course/xxx.png"
-        chapter:
-          $ref: '#/components/schemas/Chapter'
-        attendance:
-          $ref: '#/components/schemas/Attendance'
     Chapter:
-      type: "object"
+      type: "object" 
       required:
         - "chapter_id"
         - "title"
@@ -179,9 +183,7 @@ components:
           type: "string"
           description: "チャプタータイトル"
           example: "laravel入門講座"
-        lesson:
-          $ref: '#/components/schemas/chapter>lesson'
-    chapter>lesson:
+    Lesson:
       type: "object"
       required:
         - "lesson_id"
@@ -197,12 +199,6 @@ components:
           type: "string"
           description: "レッスン名"
           example: "swaggerの書き方"
-        status:
-          type: "tinyint"
-          description: "未着手、着手、完了"
-          example: "未着手"
-        lesson_attendance:
-          $ref: '#/components/schemas/LessonAttendance'
     LessonAttendance:
       type: "object"
       required:
