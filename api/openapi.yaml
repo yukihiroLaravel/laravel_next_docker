@@ -114,17 +114,27 @@ components:
       type: "object"
       required:
         - "instructor_id"
-        - "name"
+        - "nick_name"
+        - "last_name"
+        - "first_name"
         - "email"
       properties:
         instructor_id:
           type: "int"
           description: "講師テーブル主キー"
           example: 1
-        name:
+        nick_name:
           type: "string"
-          description: "講師名"
-          example: "山田 太郎"
+          description: "ニックネーム"
+          example: "タロー"
+        last_name:
+          type: "string"
+          description: "性"
+          example: "山田"
+        first_name:
+          type: "string"
+          description: "名"
+          example: "太郎"
         email:
           type: "string"
           description: "メールアドレス"
