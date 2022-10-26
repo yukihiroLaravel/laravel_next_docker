@@ -59,7 +59,7 @@ paths:
           description: チャプターテーブルの主キー
           required: true
           type: int
-        - name: attendances_id
+        - name: attendance_id
           in: query
           description: 受講テーブルの主キー
           required: true
@@ -212,4 +212,4 @@ components:
         status:
           type: "tinyint"
           description: "10, 20, 30"
-          example: "未着手"
+          example: "10"
