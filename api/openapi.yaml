@@ -64,8 +64,8 @@ paths:
                 type: array
                 items:
                   allOf:
-                  - $ref: '#/components/schemas/Lesson_attendance'
-                  - $ref: '#/components/schemas/Chapter'
+                  $ref: '#/components/schemas/Lesson_attendance'
+                  $ref: '#/components/schemas/Chapter'
 components:
   securitySchemes:
         Bearer:
@@ -176,21 +176,18 @@ components:
         attendance_id:
           $ref: '#/components/schemas/Attendance'
         status :
-          type: "string"
-          description: "未実施　開始　完了"
-          example: "未実施"
+          type: "int"
+          description: "lesson進捗"
+          example: 1
     Chapter:
       type: "object" 
       required:
         - "chapter_id"
         - "chapter_title"
-        - "course"
         - "lesson"
         - "attendance"
         - "lesson_attendance"
       properties:
-        course:
-          $ref: '#/components/schemas/Course'
         chapter_id:
           type: "int"
           description: "チャプターテーブル主キー"
@@ -199,3 +196,13 @@ components:
           type: "string"
           description: "チャプター名"
           example: "laravel入門"
+      properties:
+        lesson_attendance_id:
+          type: "tinyint"
+          type: "int"
+          description: "レッスン受講テーブルの主キー"
+          example: 1
+        status:
+          type: "tinyint"
+          description: "未着手、着手、完了"
+          example: "未着手"
