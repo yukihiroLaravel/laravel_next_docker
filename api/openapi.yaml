@@ -210,4 +210,4 @@ components:
         status:
           type: "tinyint"
           description: "レッスン受講状態（未着手, 着手, 完了）"
-          example: "10"
+          example: 10
