@@ -32,22 +32,36 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Course'
-  /v1/lesson_attendance:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/Course'
+                        - type: "object"
+                          properties:
+                            attendance:
+                              $ref: '#/components/schemas/Attendance'
+  /v1/course:
     get:
       tags:
-        - lesson_attendance
-      operationId: getlesson_attendance
-      summary: 受講lessonを取得
-      description: 受講lessonを取得
-      security: 
-        - Bearer: []
+        - course
+      operationId: getCourse
+      summary: "講座詳細参照"
+      description: >
+        受講者IDを指定して、受講している講座のチャプター一覧・進捗情報を参照する
+      security:
+        -Bearer: []
       parameters:
-        - name: lesson_attendance_id 
+        - name: chapter_id
           in: query
-          description: lesson_attendances主キー
+          description: チャプターテーブルの主キー
+          required: true
+          type: int
+        - name: attendance_id
+          in: query
+          description: 受講テーブルの主キー
           required: true
           type: int
         - name: XSRF-TOKEN
@@ -57,15 +71,85 @@ paths:
           type: string
       responses:
         '200':
-          description: 受講lesson一覧を取得
+          description: 講座詳細情報
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  allOf:
-                  $ref: '#/components/schemas/Lesson_attendance'
-                  $ref: '#/components/schemas/Chapter'
+                type: object
+                properties:
+                  data: 
+                    allOf:
+                      - $ref: '#/components/schemas/Course'
+                      - type: object
+                        properties:
+                          attendance:
+                            $ref: '#/components/schemas/Attendance'
+                      - type: object
+                        properties:
+                          chapters:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/components/schemas/Chapter'
+                                - type: object
+                                  properties:
+                                    lessons:
+                                      type: array
+                                      items:
+                                        allOf:
+                                          - $ref: '#/components/schemas/Lesson'
+                                          - type: object
+                                            properties:
+                                              lesson_attendance:
+                                                $ref: '#/components/schemas/LessonAttendance'
+  /v1/course/chapter:
+    get:
+      tags:
+        - course
+      operationId: getChapter
+      summary: "チャプター詳細参照"
+      description: >
+        チャプターIDと受講IDを指定して、チャプター詳細情報を参照する
+      security:
+        -Bearer: []
+      parameters:
+        - name: chapter_id
+          in: query
+          description: チャプターテーブルの主キー
+          required: true
+          type: int
+        - name: attendance_id
+          in: query
+          description: 受講テーブルの主キー
+          required: true
+          type: int
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      responses:
+        '200':
+          description: チャプター詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    allOf:
+                      - $ref: '#/components/schemas/Chapter'
+                      - type: object
+                        properties:
+                          lessons:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/components/schemas/Lesson'
+                                - type: object
+                                  properties:
+                                    lesson_attendance:
+                                      $ref: '#/components/schemas/LessonAttendance'
 components:
   securitySchemes:
         Bearer:
@@ -78,17 +162,27 @@ components:
       type: "object"
       required:
         - "instructor_id"
-        - "name"
+        - "nick_name"
+        - "last_name"
+        - "first_name"
         - "email"
       properties:
         instructor_id:
           type: "int"
           description: "講師テーブル主キー"
           example: 1
-        name:
+        nick_name:
           type: "string"
-          description: "講師名"
-          example: "山田 太郎"
+          description: "ニックネーム"
+          example: "タロー"
+        last_name:
+          type: "string"
+          description: "性"
+          example: "山田"
+        first_name:
+          type: "string"
+          description: "名"
+          example: "太郎"
         email:
           type: "string"
           description: "メールアドレス"
@@ -116,8 +210,6 @@ components:
           example: "/course/xxx.png"
         instructor:
           $ref: '#/components/schemas/Instructor'
-        attendance:
-          $ref: '#/components/schemas/Attendance'
     Attendance:
       type: "object"
       required:
@@ -132,77 +224,48 @@ components:
           type: "int"
           description: "進捗率"
           example: 70
-    Lesson:
-      type: "object"
-      required:
-       - "lesson_id"
-       - "chapter_id"
-       - "url"
-       - "title"
-       - "remarks"
-      properties:
-        lesson_id:
-          type: "int"
-          description: "lessonテーブル主キー"
-          example: 1
-        chapter_id:
-          $ref: '#/components/schemas/Chapter'
-        url:
-          type: "string"
-          description: "動画テキストurl"
-          example: "https://www.youtube.com"
-        title:
-          type: "string"
-          description: "lesson タイトル"
-          example: "phpについて知ろう"
-        remarks:
-          type: "string"
-          description: "講師用備考欄"
-          example: "動画テキストのindex"
-    Lesson_attendance:
-      type: "object"
-      required:
-        - "lesson_attendance_id"
-        - "lesson_id"
-        - "attendance_id"
-        - "status"
-      properties:
-        lesson_attendance_id:
-          type: "int"
-          description: "レッスン受講テーブル主キー"
-          example: 1
-        lesson_id:
-          $ref: '#/components/schemas/Lesson'
-        attendance_id:
-          $ref: '#/components/schemas/Attendance'
-        status :
-          type: "int"
-          description: "lesson進捗"
-          example: 1
     Chapter:
       type: "object" 
       required:
         - "chapter_id"
-        - "chapter_title"
+        - "title"
         - "lesson"
-        - "attendance"
-        - "lesson_attendance"
       properties:
         chapter_id:
           type: "int"
-          description: "チャプターテーブル主キー"
+          description: "チャプターテーブルの主キー"
           example: 1
-        chapter_title: 
+        title:
           type: "string"
-          description: "チャプター名"
-          example: "laravel入門"
+          description: "チャプタータイトル"
+          example: "laravel入門講座"
+    Lesson:
+      type: "object"
+      required:
+        - "lesson_id"
+        - "title"
+        - "status"
+        - "lesson_attendance"
+      properties:
+        lesson_id:
+          type: "int"
+          description: "レッスンテーブルの主キー"
+          example: 1
+        title:
+          type: "string"
+          description: "レッスン名"
+          example: "swaggerの書き方"
+    LessonAttendance:
+      type: "object"
+      required:
+        - "lesson_attendance_id"
+        - "status"
       properties:
         lesson_attendance_id:
-          type: "tinyint"
           type: "int"
           description: "レッスン受講テーブルの主キー"
           example: 1
         status:
           type: "tinyint"
-          description: "未着手、着手、完了"
-          example: "未着手"
+          description: "レッスン受講状態（未着手, 着手, 完了）"
+          example: 10
