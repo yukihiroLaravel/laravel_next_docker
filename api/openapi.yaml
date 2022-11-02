@@ -255,6 +255,14 @@ components:
           type: "string"
           description: "レッスン名"
           example: "swaggerの書き方"
+        url:
+          type: "string"
+          description: "教材動画URL"
+          example: "http::www.youtube"
+        remarks:
+          type: "string"
+          description: "備考欄"
+          example: "動画index"
     LessonAttendance:
       type: "object"
       required:
