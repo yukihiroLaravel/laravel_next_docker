@@ -48,7 +48,7 @@ paths:
       tags:
         - course
       operationId: getCourse
-      summary: "講座詳細一覧参照"
+      summary: "講座詳細参照"
       description: >
         受講者IDを指定して、受講している講座のチャプター一覧・進捗情報を参照する
       security:
@@ -102,6 +102,54 @@ paths:
                                             properties:
                                               lesson_attendance:
                                                 $ref: '#/components/schemas/LessonAttendance'
+  /v1/course/chapter:
+    get:
+      tags:
+        - course
+      operationId: getChapter
+      summary: "チャプター詳細参照"
+      description: >
+        チャプターIDと受講IDを指定して、チャプター詳細情報を参照する
+      security:
+        -Bearer: []
+      parameters:
+        - name: chapter_id
+          in: query
+          description: チャプターテーブルの主キー
+          required: true
+          type: int
+        - name: attendance_id
+          in: query
+          description: 受講テーブルの主キー
+          required: true
+          type: int
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      responses:
+        '200':
+          description: チャプター詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    allOf:
+                      - $ref: '#/components/schemas/Chapter'
+                      - type: object
+                        properties:
+                          lessons:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/components/schemas/Lesson'
+                                - type: object
+                                  properties:
+                                    lesson_attendance:
+                                      $ref: '#/components/schemas/LessonAttendance'
 components:
   securitySchemes:
         Bearer:
@@ -207,6 +255,14 @@ components:
           type: "string"
           description: "レッスン名"
           example: "swaggerの書き方"
+        url:
+          type: "string"
+          description: "教材動画URL"
+          example: "http::www.youtube"
+        remarks:
+          type: "string"
+          description: "備考欄"
+          example: "動画index"
     LessonAttendance:
       type: "object"
       required:
