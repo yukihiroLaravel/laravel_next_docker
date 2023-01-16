@@ -150,53 +150,6 @@ paths:
                                   properties:
                                     lesson_attendance:
                                       $ref: '#/components/schemas/LessonAttendance'
-  /v1/lesson-attendance:
-    patch:
-      tags:
-        - lesson-attendance
-      operationId: patchLessonAttendance
-      summary: "レッスン受講状態更新"
-      description: >
-        レッスン受講状態IDと状態を指定して、レッスン受講状態を更新する
-      security:
-        - Bearer: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              required:
-                - "lesson_attendance_id"
-                - "status"
-              type: "object"
-              properties:
-                lesson_attendance_id:
-                  type: "int"
-                  description: レッスン受講状態ID
-                  example: 1
-                status:
-                  type: "string"
-                  description: 状態(受講前、受講中、受講完了)
-                  example: 'in_attendance | before_attendance | completed_attendance'
-      responses:
-        200:
-          description: "Success"
-          content:
-            application/json:
-              schema:
-                required:
-                  - "result"
-                type: "object"
-                properties:
-                  result:
-                    type: "boolean"
-                    example: true
-                  error_code:
-                    type: "string"
-                    example: 100
-                  error_message:
-                    type: "string"
-                    example: "Invalid Request Body."
 components:
   securitySchemes:
         Bearer:
