@@ -197,6 +197,53 @@ paths:
                   error_message:
                     type: "string"
                     example: "Invalid Request Body."
+  /v1/instructor/{instructor_id}/courses:
+    get:
+      tags:
+        - course
+      operationId: getInstructorCourses
+      summary: "講師講座一覧参照"
+      description: >
+        講師IDを指定して、講座一覧情報を取得する
+      security: 
+        - Bearer: []
+      parameters:
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 講座一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: "object"
+                      required:
+                        - "course_id"
+                        - "title"
+                        - "image"
+                        - "instructor"
+                        - "attendance"
+                      properties:
+                        course_id:
+                          type: "int"
+                          description: "講座テーブル主キー"
+                          example: 1
+                        title:
+                          type: "string"
+                          description: "講座名"
+                          example: "PHP入門講座"
+                        image:
+                          type: "string"
+                          description: "講座サムネイル画像ファイルパス"
+                          example: "/course/xxx.png"
 components:
   securitySchemes:
         Bearer:
