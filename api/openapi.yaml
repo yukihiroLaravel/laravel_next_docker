@@ -106,9 +106,9 @@ paths:
       tags:
         - student-course
       operationId: getChapter
-      summary: "チャプター詳細参照"
+      summary: "受講講座のチャプターの詳細情報を取得する。"
       description: >
-        チャプターIDと受講IDを指定して、チャプター詳細情報を参照する
+        チャプターIDと受講IDを指定して、チャプター詳細情報を参照する。
       security:
         -Bearer: []
       parameters:
@@ -219,6 +219,300 @@ paths:
                     items:
                       allOf:
                         - $ref: '#/components/schemas/Course'
+  /v1/instructor/course/{course_id}:
+    get:
+      tags:
+        - instructor-course
+      operationId: getInstructorCourse
+      summary: "講座の詳細情報を取得する。"
+      description: >
+        講座の詳細情報を取得する。
+      security:
+        -Bearer: []
+      parameters:
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 講座詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: 
+                    allOf:
+                      - $ref: '#/components/schemas/Course'
+                      - type: object
+                        properties:
+                          chapters:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/components/schemas/Chapter'
+                                - type: object
+                                  properties:
+                                    lessons:
+                                      type: array
+                                      items:
+                                        allOf:
+                                          - $ref: '#/components/schemas/Lesson'
+    post:
+      tags:
+        - instructor-course
+      operationId: patchInstructorCourse
+      summary: "講座情報を更新する。"
+      description: >
+        講座情報を更新する。
+      security:
+        -Bearer: []
+      parameters:
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: "string"
+                  description: タイトル
+                  example: '講座タイトル'
+                image:
+                  type: "file"
+                  description: 画像ファイル
+                  example: 'thumbnail.png'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+                  data: 
+                    allOf:
+                      - $ref: '#/components/schemas/Course'
+    delete:
+      tags:
+        - instructor-course
+      operationId: deleteInstructorCourse
+      summary: "講座情報を削除する。"
+      description: >
+        講座情報を削除する。
+      security:
+        -Bearer: []
+      parameters:
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+  /v1/instructor/course/{course_id}/edit:
+    get:
+      tags:
+        - instructor-course
+      operationId: getInstructorCourseEdit
+      summary: "編集講座の情報を取得する。"
+      description: >
+        編集講座の情報を取得する。
+      security:
+        -Bearer: []
+      parameters:
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 講座詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: 
+                    allOf:
+                      - $ref: '#/components/schemas/Course'
+  /v1/instructor/course:
+    post:
+      tags:
+        - instructor-course
+      operationId: postInstructorCourse
+      summary: "講座情報を登録する。"
+      description: >
+        講座情報を登録する。
+      security:
+        -Bearer: []
+      parameters:
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: "string"
+                  description: タイトル
+                  example: '講座タイトル'
+                image:
+                  type: "file"
+                  description: 画像ファイル
+                  example: 'thumbnail.png'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+  /v1/instructor/course/{course_id}/chapter:
+    post:
+      tags:
+        - instructor-course
+      operationId: postInstructorChapter
+      summary: "チャプター情報を登録する。"
+      description: >
+        チャプター情報を登録する。
+      security:
+        -Bearer: []
+      parameters:
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: "string"
+                  description: タイトル
+                  example: 'チャプタータイトル'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+  /v1/instructor/course/{course_id}/chapter/{chapter_id}:
+    patch:
+      tags:
+        - instructor-course
+      operationId: patchInstructorChapter
+      summary: "チャプター情報を更新する。"
+      description: >
+        チャプター情報を更新する。
+      security:
+        -Bearer: []
+      parameters:
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: "string"
+                  description: タイトル
+                  example: 'チャプタータイトル'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+    delete:
+      tags:
+        - instructor-course
+      operationId: deleteInstructorChapter
+      summary: "チャプター情報を削除する。"
+      description: >
+        チャプター情報を削除する。
+      security:
+        -Bearer: []
+      parameters:
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
 components:
   securitySchemes:
         Bearer:
