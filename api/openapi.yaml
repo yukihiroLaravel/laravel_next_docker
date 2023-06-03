@@ -104,7 +104,7 @@ paths:
   /v1/course/chapter:
     get:
       tags:
-        - student-course
+        - student-chapter
       operationId: getChapter
       summary: "受講講座のチャプターの詳細情報を取得する。"
       description: >
@@ -408,7 +408,7 @@ paths:
   /v1/instructor/course/{course_id}/chapter:
     post:
       tags:
-        - instructor-course
+        - instructor-chapter
       operationId: postInstructorChapter
       summary: "チャプター情報を登録する。"
       description: >
@@ -446,9 +446,36 @@ paths:
                     type: "boolean"
                     example: true
   /v1/instructor/course/{course_id}/chapter/{chapter_id}:
+    get:
+      tags:
+        - instructor-chapter
+      operationId: getInstructorChapter
+      summary: "チャプターの詳細情報を取得する。"
+      description: >
+        チャプターの詳細情報を取得する。
+      security:
+        -Bearer: []
+      responses:
+        '200':
+          description: チャプター詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    allOf:
+                      - $ref: '#/components/schemas/Chapter'
+                      - type: object
+                        properties:
+                          lessons:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/components/schemas/Lesson'
     patch:
       tags:
-        - instructor-course
+        - instructor-chapter
       operationId: patchInstructorChapter
       summary: "チャプター情報を更新する。"
       description: >
@@ -487,11 +514,195 @@ paths:
                     example: true
     delete:
       tags:
-        - instructor-course
+        - instructor-chapter
       operationId: deleteInstructorChapter
       summary: "チャプター情報を削除する。"
       description: >
         チャプター情報を削除する。
+      security:
+        -Bearer: []
+      parameters:
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+  /v1/instructor/course/{course_id}/chapter/sort:
+    post:
+      tags:
+        - instructor-chapter
+      operationId: sortInstructorChapter
+      summary: "チャプター情報の並び順を更新する。"
+      description: >
+        チャプター情報の並び順を更新する。
+      security:
+        -Bearer: []
+      parameters:
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                chapters:
+                  type: "array"
+                  description: チャプターの配列
+                  items:
+                    type: "object"
+                    properties:
+                      chapter_id:
+                        type: "int"
+                        description: チャプターID
+                        example: 1
+                      order:
+                        type: "int"
+                        description: 並び順
+                        example: 1
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+  /v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson:
+    post:
+      tags:
+        - instructor-lesson
+      operationId: storeInstructorChapterLesson
+      summary: "レッスン情報を登録する。"
+      description: >
+        レッスン情報を登録する。
+      security:
+        -Bearer: []
+      parameters:
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: "string"
+                  description: タイトル
+                  example: 'レッスンタイトル'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+                  data:
+                    type: "object"
+                    properties:
+                      chapter_id:
+                        type: "int"
+                        description: チャプターID
+                        example: 1
+                      lesson:
+                        type: "object"
+                        properties:
+                          lesson_id:
+                            type: "int"
+                            description: レッスンID
+                            example: 1
+                          title:
+                            type: "string"
+                            description: タイトル
+                            example: 'レッスンタイトル'
+  /v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}}:
+    patch:
+      tags:
+        - instructor-lesson
+      operationId: patchInstructorChapterLesson
+      summary: "レッスン情報を更新する。"
+      description: >
+        レッスン情報を更新する。
+      security:
+        -Bearer: []
+      parameters:
+        - name: XSRF-TOKEN
+          in: header
+          description: API認証トークン
+          required: true
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: "string"
+                  description: タイトル
+                  example: 'レッスンタイトル'
+                url:
+                  type: "string"
+                  description: URL
+                  example: 'https://www.youtube.com/watch?v=xxxxxxxxxxx'
+                remarks:
+                  type: "string"
+                  description: 備考
+                  example: '備考'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+    delete:
+      tags:
+        - instructor-lesson
+      operationId: deleteInstructorChapterLesson
+      summary: "レッスン情報を削除する。"
+      description: >
+        レッスン情報を削除する。
       security:
         -Bearer: []
       parameters:
