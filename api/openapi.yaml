@@ -20,7 +20,8 @@ paths:
           in: query
           description: 受講者テーブル主キー
           required: true
-          type: int
+          schema:
+            type: integer
         - name: XSRF-TOKEN
           in: header
           description: API認証トークン
@@ -60,7 +61,7 @@ paths:
           in: query
           description: 受講テーブルの主キー
           required: true
-          type: int
+          type: integer
         - name: XSRF-TOKEN
           in: header
           description: API認証トークン
@@ -116,12 +117,12 @@ paths:
           in: query
           description: チャプターテーブルの主キー
           required: true
-          type: int
+          type: integer
         - name: attendance_id
           in: query
           description: 受講テーブルの主キー
           required: true
-          type: int
+          type: integer
         - name: XSRF-TOKEN
           in: header
           description: API認証トークン
@@ -788,11 +789,11 @@ components:
         - "progress"
       properties:
         attendance_id:
-          type: "int"
+          type: "integer"
           description: "受講テーブル主キー"
           example: 1
         progress:
-          type: "int"
+          type: "integer"
           description: "進捗率"
           example: 70
     Chapter:
@@ -804,7 +805,7 @@ components:
         - "order"
       properties:
         chapter_id:
-          type: "int"
+          type: "integer"
           description: "チャプターテーブルの主キー"
           example: 1
         title:
@@ -812,7 +813,7 @@ components:
           description: "チャプタータイトル"
           example: "laravel入門講座"
         order:
-          type: "int"
+          type: "integer"
           description: "順番"
           example: 1
     Lesson:
@@ -825,7 +826,7 @@ components:
         - "order"
       properties:
         lesson_id:
-          type: "int"
+          type: "integer"
           description: "レッスンテーブルの主キー"
           example: 1
         title:
@@ -841,7 +842,7 @@ components:
           description: "備考欄"
           example: "動画index"
         order:
-          type: "int"
+          type: "integer"
           description: "順番"
           example: 1
     LessonAttendance:
@@ -851,7 +852,7 @@ components:
         - "status"
       properties:
         lesson_attendance_id:
-          type: "int"
+          type: "integer"
           description: "レッスン受講テーブルの主キー"
           example: 1
         status:
