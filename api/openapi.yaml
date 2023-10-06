@@ -134,8 +134,7 @@ paths:
                     type: object
                     properties:
                       student_id:
-                        type: integer
-                        example: 1
+                        $ref: '#/schemas/student/StudentId'
                       nick_name:
                         $ref: '#/schemas/student/NickName'
                       last_name:
@@ -161,8 +160,6 @@ paths:
         - student-course
       operationId: getCourseIndex
       summary: "受講講座情報の一覧を取得する。"
-      description: >
-        受講者IDから、受講講座の一覧情報を取得する。
       parameters:
         - name: student_id
           in: query
@@ -170,11 +167,6 @@ paths:
           required: true
           schema:
             type: integer
-        - name: XSRF-TOKEN
-          in: header
-          description: API認証トークン
-          required: true
-          type: string
       responses:
         '200':
           description: 受講講座一覧
@@ -186,22 +178,41 @@ paths:
                   data:
                     type: array
                     items:
-                      allOf:
-                        - $ref: '#/components/schemas/Course'
-                        - type: "object"
+                      type: object
+                      properties:
+                        course_id:
+                          type: integer
+                          example: 1
+                        title:
+                          $ref: '#/schemas/course/Title'
+                        image:
+                          $ref: '#/schemas/course/Image'
+                        instructor:
+                          type: object
                           properties:
-                            attendance:
-                              $ref: '#/components/schemas/Attendance'
-                            instructor:
-                              $ref: '#/components/schemas/Instructor'
+                            instructor_id:
+                              $ref: '#/schemas/instructor/InstructorId'
+                            nick_name:
+                              $ref: '#/schemas/instructor/NickName'
+                            last_name:
+                              $ref: '#/schemas/instructor/LastName'
+                            first_name:
+                              $ref: '#/schemas/instructor/FirstName'
+                            email:
+                              $ref: '#/schemas/instructor/Email'
+                        attendance:
+                          type: object
+                          properties:
+                            attendance_id:
+                              $ref: '#/schemas/attendance/AttendanceId'
+                            progress:
+                              $ref: '#/schemas/attendance/Progress'
   /v1/course:
     get:
       tags:
         - student-course
       operationId: getCourse
       summary: "受講講座の詳細情報を取得する。"
-      description: >
-        受講者IDを指定して、受講講座の詳細情報を取得する。
       parameters:
         - name: attendance_id
           in: query
@@ -216,85 +227,114 @@ paths:
               schema:
                 type: object
                 properties:
-                  data: 
-                    allOf:
-                      - $ref: '#/components/schemas/Course'
-                      - type: object
+                  data:
+                    type: object
+                    properties:
+                      course_id:
+                        type: integer
+                        example: 1
+                      title:
+                        $ref: '#/schemas/course/Title'
+                      image:
+                        $ref: '#/schemas/course/Image'
+                      instructor:
+                        type: object
                         properties:
-                          instructor:
-                            $ref: '#/components/schemas/Instructor'
-                          attendance:
-                            $ref: '#/components/schemas/Attendance'
-                      - type: object
+                          instructor_id:
+                            $ref: '#/schemas/instructor/InstructorId'
+                          nick_name:
+                            $ref: '#/schemas/instructor/NickName'
+                          last_name:
+                            $ref: '#/schemas/instructor/LastName'
+                          first_name:
+                            $ref: '#/schemas/instructor/FirstName'
+                          email:
+                            $ref: '#/schemas/instructor/Email'
+                      attendance:
+                        type: object
                         properties:
-                          chapters:
-                            type: array
-                            items:
-                              allOf:
-                                - $ref: '#/components/schemas/Chapter'
-                                - type: object
-                                  properties:
-                                    lessons:
-                                      type: array
-                                      items:
-                                        allOf:
-                                          - $ref: '#/components/schemas/Lesson'
-                                          - type: object
-                                            properties:
-                                              lesson_attendance:
-                                                $ref: '#/components/schemas/LessonAttendance'
+                          attendance_id:
+                            $ref: '#/schemas/attendance/AttendanceId'
+                          progress:
+                            $ref: '#/schemas/attendance/Progress'
+                      chapters:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            chapter_id:
+                              $ref: '#/schemas/chapter/ChapterId'
+                            title:
+                              $ref: '#/schemas/chapter/Title'
+                            lessons:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  lesson_id:
+                                    $ref: '#/schemas/lesson/LessonId'
+                                  title:
+                                    $ref: '#/schemas/lesson/Title'
+                                  url:
+                                    $ref: '#/schemas/lesson/Url'
+                                  remarks:
+                                    $ref: '#/schemas/lesson/Remarks'
+                                  lesson_attendance:
+                                    type: object
+                                    properties:
+                                      lesson_attendance_id:
+                                        $ref: '#/schemas/lesson-attendance/LessonAttendanceId'
+                                      status:
+                                        $ref: '#/schemas/lesson-attendance/Status'
   /v1/course/{course_id}/progress:
     get:
       tags:
         - student-course
       operationId: getCourseProgress
       summary: "受講講座の進捗率を取得する。"
-      description: >
-        受講者IDと講座IDを指定して、受講講座の進捗率を取得する。
       parameters:
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
           type: integer
-          responses:
-            '200':
-              description: 講座進捗率
-              content:
-                application/json:
-                  schema:
+      responses:
+        '200':
+          description: 講座進捗率
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
                     type: object
                     properties:
-                      data:
+                      course:
                         type: object
                         properties:
-                          course:
-                            type: object
-                            properties:
-                              course_id:
-                                type: integer
-                                example: 1
-                              progress:
-                                type: integer
-                                example: 10
-                          number_of_completed_chapters:
+                          course_id:
+                            $ref: '#/schemas/course/CourseId'
+                          progress:
                             type: integer
-                            example: 1
-                          number_of_total_chapters:
-                            type: integer
-                            example: 3
-                          number_of_completed_lessons:
-                            type: integer
-                            example: 2
-                          number_of_total_lessons:
-                            type: integer
-                            example: 6
-                          continue_lesson_id:
-                            type: integer
-                            example: 3
-                          youngestUnCompletedLessonId:
-                            type: integer
-                            example: 4
+                            example: 10
+                      number_of_completed_chapters:
+                        type: integer
+                        example: 1
+                      number_of_total_chapters:
+                        type: integer
+                        example: 3
+                      number_of_completed_lessons:
+                        type: integer
+                        example: 2
+                      number_of_total_lessons:
+                        type: integer
+                        example: 6
+                      continue_lesson_id:
+                        type: integer
+                        example: 3
+                      youngestUnCompletedLessonId:
+                        type: integer
+                        example: 4
   /v1/course/chapter:
     get:
       tags:
@@ -920,6 +960,10 @@ paths:
                     example: true
 schemas:
   student:
+    StudentId:
+      type: integer
+      description: 生徒テーブル主キー
+      example: 1
     GivenNameNyInstructor:
       type: string
       description: ユーザー名
@@ -960,6 +1004,92 @@ schemas:
       type: string
       description: 住所
       example: "東京都"
+  instructor:
+    InstructorId:
+      type: integer
+      description: 講師テーブル主キー
+      example: 1
+    NickName:
+      type: string
+      description: ニックネーム
+      example: "ニックネーム"
+    LastName:
+      type: string
+      description: 名字
+      example: "名字"
+    FirstName:
+      type: string
+      description: 名前
+      example: "名前"
+    Email:
+      type: string
+      description: メールアドレス
+      example: "test@example.com"
+  course:
+    CourseId:
+      type: integer
+      description: 講座テーブル主キー
+      example: 1
+    Title:
+      type: "string"
+      description: "講座名"
+      example: "PHP入門講座"
+    Image:
+      type: "string"
+      description: "講座サムネイル画像ファイルパス"
+      example: "/course/xxx.png"
+  attendance:
+    AttendanceId:
+      type: integer
+      description: 受講テーブル主キー
+      example: 1
+    Progress:
+      type: "integer"
+      description: "進捗率"
+      example: 70
+  chapter:
+    ChapterId:
+      type: integer
+      description: チャプターテーブルの主キー
+      example: 1
+    Title:
+      type: string
+      description: チャプタータイトル
+      example: "laravel入門講座"
+    Order:
+      type: integer
+      description: 順番
+      example: 1
+  lesson:
+    LessonId:
+      type: integer
+      description: レッスンテーブルの主キー
+      example: 1
+    Title:
+      type: string
+      description: レッスン名
+      example: "swaggerの書き方"
+    Url:
+      type: string
+      description: 教材動画URL
+      example: "http::www.youtube"
+    Remarks:
+      type: string
+      description: 備考欄
+      example: "動画index"
+    Order:
+      type: integer
+      description: 順番
+      example: 1
+  lesson-attendance:
+    LessonAttendanceId:
+      type: integer
+      description: レッスン受講テーブルの主キー
+      example: 1
+    Status:
+      type: string
+      description: レッスン受講状態（未着手, 着手, 完了）
+      example: "before_attendance"
 components:
   securitySchemes:
         Bearer:
