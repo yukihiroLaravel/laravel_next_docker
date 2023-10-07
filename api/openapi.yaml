@@ -718,11 +718,11 @@ paths:
                 start_date:
                   type: "string"
                   description: お知らせ開始日
-                  example: '2021-10-01'
+                  example: '2021-10-01 00:00:00'
                 end_date:
                   type: "string"
                   description: お知らせ終了日
-                  example: '2021-10-10'
+                  example: '2021-10-10 00:00:00'
                 type:
                   type: "string"
                   description: お知らせタイプ
@@ -1190,7 +1190,155 @@ paths:
                   result:
                     type: "boolean"
                     example: true
-
+  # 講師-お知らせ
+  /v1/instructor/notification/index:
+    get:
+      tags:
+        - Instructor-Notification
+      operationId: getInstructorNotificationIndex
+      summary: "お知らせ一覧を取得する。"
+      responses:
+        '200':
+          description: お知らせ一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        notifications:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                $ref: '#/schemas/notification/NotificationId'
+                              title:
+                                $ref: '#/schemas/notification/Title'
+                              content:
+                                $ref: '#/schemas/notification/Content'
+                              start_date:
+                                $ref: '#/schemas/notification/StartDate'
+                              end_date:
+                                $ref: '#/schemas/notification/EndDate'
+                              type:
+                                $ref: '#/schemas/notification/Type'
+                        pagination:
+                          type: object
+                          properties:
+                            page:
+                              $ref: '#/schemas/pagination/Page'
+                            total:
+                              $ref: '#/schemas/pagination/Total'
+  /v1/instructor/notification/{notification_id}:
+    get:
+      tags:
+        - Instructor-Notification
+      operationId: getInstructorNotification
+      summary: "お知らせの詳細情報を取得する。"
+      parameters:
+        - name: notification_id
+          in: path
+          description: お知らせテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: お知らせ詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      notification_id:
+                        $ref: '#/schemas/notification/NotificationId'
+                      couse_id:
+                        $ref: '#/schemas/course/CourseId'
+                      title:
+                        $ref: '#/schemas/notification/Title'
+                      content:
+                        $ref: '#/schemas/notification/Content'
+                      start_date:
+                        $ref: '#/schemas/notification/StartDate'
+                      end_date:
+                        $ref: '#/schemas/notification/EndDate'
+                      type:
+                        $ref: '#/schemas/notification/Type'
+    patch:
+      tags:
+        - Instructor-Notification
+      operationId: patchInstructorNotification
+      summary: "お知らせ情報を更新する。"
+      parameters:
+        - name: notification_id
+          in: path
+          description: お知らせテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - "title"
+                - "content"
+                - "start_date"
+                - "end_date"
+                - "type"
+              type: "object"
+              properties:
+                title:
+                  type: "string"
+                  description: お知らせタイトル
+                  example: 'レッスン「変数とは？」閲覧について'
+                content:
+                  type: "string"
+                  description: 本文
+                  example: '10月1日〜10日の間、レッスン「変数とは？」がメンテナンスにつき閲覧できなくなります。'
+                start_date:
+                  type: "string"
+                  description: お知らせ開始日
+                  example: '2021-10-01 00:00:00'
+                end_date:
+                  type: "string"
+                  description: お知らせ終了日
+                  example: '2021-10-10 00:00:00'
+                type:
+                  type: "string"
+                  description: お知らせタイプ
+                  example: 'once'
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+                  data:
+                    type: "object"
+                    properties:
+                      title:
+                        $ref: '#/schemas/notification/Title'
+                      content:
+                        $ref: '#/schemas/notification/Content'
+                      start_date:
+                        $ref: '#/schemas/notification/StartDate'
+                      end_date:
+                        $ref: '#/schemas/notification/EndDate'
+                      type:
+                        $ref: '#/schemas/notification/Type'
 schemas:
   student:
     StudentId:
@@ -1343,13 +1491,21 @@ schemas:
     StartDate:
       type: string
       description: 開始日
-      example: "2022-10-17"
+      example: "2022-10-17 00:00:00"
     EndDate:
       type: string
       description: 終了日
-      example: "2022-11-17"
+      example: "2022-11-17 00:00:00"
     Type:
       type: string
       description: 表示区分（一度だけ表示、毎回表示）
       example: "once"
-  
+  pagination:
+    Page:
+      type: integer
+      description: ページ番号
+      example: 1
+    Total:
+      type: integer
+      description: ページ総数
+      example: 1
