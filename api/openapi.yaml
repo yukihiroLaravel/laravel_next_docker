@@ -23,7 +23,7 @@ paths:
                     type: integer
                     example: 1
                   given_name_by_instructor:
-                    $ref: '#/schemas/student/GivenNameNyInstructor'
+                    $ref: '#/schemas/student/GivenNameByInstructor'
                   nick_name:
                     $ref: '#/schemas/student/NickName'
                   last_name:
@@ -1476,7 +1476,7 @@ schemas:
       type: integer
       description: 生徒テーブル主キー
       example: 1
-    GivenNameNyInstructor:
+    GivenNameByInstructor:
       type: string
       description: ユーザー名
       example: "ユーザー名"
