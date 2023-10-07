@@ -980,7 +980,51 @@ paths:
                   result:
                     type: "boolean"
                     example: true
-
+  /v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/sort:
+    post:
+      tags: 
+        - Instructor-Lesson
+      operationId: sortInstructorChapterLesson
+      summary: "レッスン情報の並び順を更新する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer 
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                lessons:
+                  type: "array"
+                  description: レッスンの配列
+                  items:
+                    type: "object"
+                    properties:
+                      lesson_id:
+                        $ref: '#/schemas/lesson/LessonId'
+                      order:
+                        $ref: '#/schemas/lesson/Order'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
 schemas:
   student:
     StudentId:
