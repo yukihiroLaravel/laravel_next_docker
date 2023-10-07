@@ -341,10 +341,6 @@ paths:
         - student-chapter
       operationId: getChapter
       summary: "受講講座のチャプターの詳細情報を取得する。"
-      description: >
-        チャプターIDと受講IDを指定して、チャプター詳細情報を参照する。
-      security:
-        -Bearer: []
       parameters:
         - name: chapter_id
           in: query
@@ -356,11 +352,6 @@ paths:
           description: 受講テーブルの主キー
           required: true
           type: integer
-        - name: XSRF-TOKEN
-          in: header
-          description: API認証トークン
-          required: true
-          type: string
       responses:
         '200':
           description: チャプター詳細情報
@@ -370,19 +361,32 @@ paths:
                 type: object
                 properties:
                   data:
-                    allOf:
-                      - $ref: '#/components/schemas/Chapter'
-                      - type: object
-                        properties:
-                          lessons:
-                            type: array
-                            items:
-                              allOf:
-                                - $ref: '#/components/schemas/Lesson'
-                                - type: object
-                                  properties:
-                                    lesson_attendance:
-                                      $ref: '#/components/schemas/LessonAttendance'
+                    type: object
+                    properties:
+                      chapter_id:
+                        $ref: '#/schemas/chapter/ChapterId'
+                      title:
+                        $ref: '#/schemas/chapter/Title'
+                      lessons:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            lesson_id:
+                              $ref: '#/schemas/lesson/LessonId'
+                            title:
+                              $ref: '#/schemas/lesson/Title'
+                            url:
+                              $ref: '#/schemas/lesson/Url'
+                            remarks:
+                              $ref: '#/schemas/lesson/Remarks'
+                            lesson_attendance:
+                              type: object
+                              properties:
+                                lesson_attendance_id:
+                                  $ref: '#/schemas/lesson-attendance/LessonAttendanceId'
+                                status:
+                                  $ref: '#/schemas/lesson-attendance/Status'
   /v1/lesson-attendance:
     patch:
       tags:
