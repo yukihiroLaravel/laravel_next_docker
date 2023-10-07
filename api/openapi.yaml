@@ -650,19 +650,15 @@ paths:
   /v1/instructor/course/{course_id}/chapter:
     post:
       tags:
-        - instructor-chapter
+        - Instructor-Chapter
       operationId: postInstructorChapter
       summary: "チャプター情報を登録する。"
-      description: >
-        チャプター情報を登録する。
-      security:
-        -Bearer: []
       parameters:
-        - name: XSRF-TOKEN
-          in: header
-          description: API認証トークン
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
           required: true
-          type: string
+          type: integer
       requestBody:
         required: true
         content:
@@ -671,9 +667,7 @@ paths:
               type: "object"
               properties:
                 title:
-                  type: "string"
-                  description: タイトル
-                  example: 'チャプタータイトル'
+                  $ref: '#/schemas/chapter/Title'
       responses:
         '200':
           description: "Success"
@@ -690,13 +684,20 @@ paths:
   /v1/instructor/course/{course_id}/chapter/{chapter_id}:
     get:
       tags:
-        - instructor-chapter
+        - Instructor-Chapter
       operationId: getInstructorChapter
       summary: "チャプターの詳細情報を取得する。"
-      description: >
-        チャプターの詳細情報を取得する。
-      security:
-        -Bearer: []
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
       responses:
         '200':
           description: チャプター詳細情報
@@ -706,30 +707,43 @@ paths:
                 type: object
                 properties:
                   data:
-                    allOf:
-                      - $ref: '#/components/schemas/Chapter'
-                      - type: object
-                        properties:
-                          lessons:
-                            type: array
-                            items:
-                              allOf:
-                                - $ref: '#/components/schemas/Lesson'
+                    type: object
+                    properties:
+                      chapter_id:
+                        $ref: '#/schemas/chapter/ChapterId'
+                      title:
+                        $ref: '#/schemas/chapter/Title'
+                      lessons:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            lesson_id:
+                              $ref: '#/schemas/lesson/LessonId'
+                            title:
+                              $ref: '#/schemas/lesson/Title'
+                            url:
+                              $ref: '#/schemas/lesson/Url'
+                            remarks:
+                              $ref: '#/schemas/lesson/Remarks'
+                            order:
+                              $ref: '#/schemas/lesson/Order'
     patch:
       tags:
-        - instructor-chapter
+        - Instructor-Chapter
       operationId: patchInstructorChapter
       summary: "チャプター情報を更新する。"
-      description: >
-        チャプター情報を更新する。
-      security:
-        -Bearer: []
       parameters:
-        - name: XSRF-TOKEN
-          in: header
-          description: API認証トークン
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
           required: true
-          type: string
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
       requestBody:
         required: true
         content:
@@ -756,19 +770,20 @@ paths:
                     example: true
     delete:
       tags:
-        - instructor-chapter
+        - Instructor-Chapter
       operationId: deleteInstructorChapter
       summary: "チャプター情報を削除する。"
-      description: >
-        チャプター情報を削除する。
-      security:
-        -Bearer: []
       parameters:
-        - name: XSRF-TOKEN
-          in: header
-          description: API認証トークン
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
           required: true
-          type: string
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
       responses:
         '200':
           description: "Success"
@@ -785,19 +800,15 @@ paths:
   /v1/instructor/course/{course_id}/chapter/sort:
     post:
       tags:
-        - instructor-chapter
+        - Instructor-Chapter
       operationId: sortInstructorChapter
       summary: "チャプター情報の並び順を更新する。"
-      description: >
-        チャプター情報の並び順を更新する。
-      security:
-        -Bearer: []
       parameters:
-        - name: XSRF-TOKEN
-          in: header
-          description: API認証トークン
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
           required: true
-          type: string
+          type: integer
       requestBody:
         required: true
         content:
@@ -812,13 +823,9 @@ paths:
                     type: "object"
                     properties:
                       chapter_id:
-                        type: "int"
-                        description: チャプターID
-                        example: 1
+                        $ref: '#/schemas/chapter/ChapterId'
                       order:
-                        type: "int"
-                        description: 並び順
-                        example: 1
+                        $ref: '#/schemas/chapter/Order'
       responses:
         '200':
           description: "Success"
@@ -832,6 +839,7 @@ paths:
                   result:
                     type: "boolean"
                     example: true
+
   /v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson:
     post:
       tags:
@@ -1067,7 +1075,7 @@ schemas:
     Title:
       type: string
       description: チャプタータイトル
-      example: "laravel入門講座"
+      example: "Hello Worldを出力する"
     Order:
       type: integer
       description: 順番
