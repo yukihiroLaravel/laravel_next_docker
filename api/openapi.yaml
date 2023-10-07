@@ -1063,6 +1063,39 @@ paths:
                   result:
                     type: "boolean"
                     example: true
+  /v1/instructor/attendance:
+    post:
+      tags: 
+        - Instructor-Attendance
+      operationId: postInstructorAttendance
+      summary: "受講情報を登録する。"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                student_id:
+                  type: "integer"
+                  description: 生徒テーブル主キー
+                  example: 1
+                course_id:
+                  type: "integer"
+                  description: 講座テーブル主キー
+                  example: 1
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+
 schemas:
   student:
     StudentId:
