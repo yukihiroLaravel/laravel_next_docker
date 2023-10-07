@@ -877,7 +877,48 @@ paths:
                   result:
                     type: "boolean"
                     example: true
-
+  /v1/instructor/course/{course_id}/chapter/{chapter_id}/status:
+    patch:
+      tags:
+        - Instructor-Chapter
+      operationId: patchInstructorChapterStatus
+      summary: "チャプターの公開状態を更新する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターID
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - "status"
+              type: "object"
+              properties:
+                status:
+                  type: "string"
+                  description: 状態(公開、非公開)
+                  example: 'public'
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+  # 講師-講座-チャプター-レッスン
   /v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson:
     post:
       tags:
