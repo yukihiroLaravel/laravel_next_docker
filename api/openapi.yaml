@@ -843,19 +843,20 @@ paths:
   /v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson:
     post:
       tags:
-        - instructor-lesson
+        - Instructor-Lesson
       operationId: storeInstructorChapterLesson
       summary: "レッスン情報を登録する。"
-      description: >
-        レッスン情報を登録する。
-      security:
-        -Bearer: []
       parameters:
-        - name: XSRF-TOKEN
-          in: header
-          description: API認証トークン
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
           required: true
-          type: string
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
       requestBody:
         required: true
         content:
@@ -866,7 +867,7 @@ paths:
                 title:
                   type: "string"
                   description: タイトル
-                  example: 'レッスンタイトル'
+                  example: 'swaggerの書き方'
       responses:
         '200':
           description: "Success"
@@ -883,37 +884,36 @@ paths:
                   data:
                     type: "object"
                     properties:
-                      chapter_id:
-                        type: "int"
-                        description: チャプターID
-                        example: 1
-                      lesson:
-                        type: "object"
-                        properties:
-                          lesson_id:
-                            type: "int"
-                            description: レッスンID
-                            example: 1
-                          title:
-                            type: "string"
-                            description: タイトル
-                            example: 'レッスンタイトル'
+                      lesson_id:
+                        $ref: '#/schemas/lesson/LessonId'
+                      title:
+                        $ref: '#/schemas/lesson/Title'
+                      status:
+                        $ref: '#/schemas/lesson/Status'
+                      order:
+                        $ref: '#/schemas/lesson/Order'
   /v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}}:
     patch:
       tags:
-        - instructor-lesson
+        - Instructor-Lesson
       operationId: patchInstructorChapterLesson
       summary: "レッスン情報を更新する。"
-      description: >
-        レッスン情報を更新する。
-      security:
-        -Bearer: []
       parameters:
-        - name: XSRF-TOKEN
-          in: header
-          description: API認証トークン
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
           required: true
-          type: string
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+        - name: lesson_id
+          in: path
+          description: レッスンテーブルの主キー
+          required: true
+          type: integer
       requestBody:
         required: true
         content:
@@ -948,19 +948,25 @@ paths:
                     example: true
     delete:
       tags:
-        - instructor-lesson
+        - Instructor-Lesson
       operationId: deleteInstructorChapterLesson
       summary: "レッスン情報を削除する。"
-      description: >
-        レッスン情報を削除する。
-      security:
-        -Bearer: []
       parameters:
-        - name: XSRF-TOKEN
-          in: header
-          description: API認証トークン
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
           required: true
-          type: string
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+        - name: lesson_id
+          in: path
+          description: レッスンテーブルの主キー
+          required: true
+          type: integer
       responses:
         '200':
           description: "Success"
@@ -974,6 +980,7 @@ paths:
                   result:
                     type: "boolean"
                     example: true
+
 schemas:
   student:
     StudentId:
@@ -1110,137 +1117,3 @@ schemas:
       type: string
       description: レッスン受講状態（未着手, 着手, 完了）
       example: "before_attendance"
-components:
-  securitySchemes:
-        Bearer:
-          type: apiKey
-          in: header
-          name: XSRF-TOKEN
-          description: API認証トークン
-  schemas:
-    Instructor:
-      type: "object"
-      required:
-        - "instructor_id"
-        - "nick_name"
-        - "last_name"
-        - "first_name"
-        - "email"
-      properties:
-        instructor_id:
-          type: "int"
-          description: "講師テーブル主キー"
-          example: 1
-        nick_name:
-          type: "string"
-          description: "ニックネーム"
-          example: "タロー"
-        last_name:
-          type: "string"
-          description: "性"
-          example: "山田"
-        first_name:
-          type: "string"
-          description: "名"
-          example: "太郎"
-        email:
-          type: "string"
-          description: "メールアドレス"
-          example: "test@example.com"
-    Course:
-      type: "object"
-      required:
-        - "course_id"
-        - "title"
-        - "image"
-        - "attendance"
-      properties:
-        course_id:
-          type: "int"
-          description: "講座テーブル主キー"
-          example: 1
-        title:
-          type: "string"
-          description: "講座名"
-          example: "PHP入門講座"
-        image:
-          type: "string"
-          description: "講座サムネイル画像ファイルパス"
-          example: "/course/xxx.png"
-    Attendance:
-      type: "object"
-      required:
-        - "attendance_id"
-        - "progress"
-      properties:
-        attendance_id:
-          type: "integer"
-          description: "受講テーブル主キー"
-          example: 1
-        progress:
-          type: "integer"
-          description: "進捗率"
-          example: 70
-    Chapter:
-      type: "object" 
-      required:
-        - "chapter_id"
-        - "title"
-        - "lesson"
-        - "order"
-      properties:
-        chapter_id:
-          type: "integer"
-          description: "チャプターテーブルの主キー"
-          example: 1
-        title:
-          type: "string"
-          description: "チャプタータイトル"
-          example: "laravel入門講座"
-        order:
-          type: "integer"
-          description: "順番"
-          example: 1
-    Lesson:
-      type: "object"
-      required:
-        - "lesson_id"
-        - "title"
-        - "status"
-        - "lesson_attendance"
-        - "order"
-      properties:
-        lesson_id:
-          type: "integer"
-          description: "レッスンテーブルの主キー"
-          example: 1
-        title:
-          type: "string"
-          description: "レッスン名"
-          example: "swaggerの書き方"
-        url:
-          type: "string"
-          description: "教材動画URL"
-          example: "http::www.youtube"
-        remarks:
-          type: "string"
-          description: "備考欄"
-          example: "動画index"
-        order:
-          type: "integer"
-          description: "順番"
-          example: 1
-    LessonAttendance:
-      type: "object"
-      required:
-        - "lesson_attendance_id"
-        - "status"
-      properties:
-        lesson_attendance_id:
-          type: "integer"
-          description: "レッスン受講テーブルの主キー"
-          example: 1
-        status:
-          type: "string"
-          description: "レッスン受講状態（未着手, 着手, 完了）"
-          example: "before_attendance"
