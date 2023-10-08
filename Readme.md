@@ -22,10 +22,10 @@
 docker exec -it laravel_app bash
 ````
 
-`laravel_app`アプリ作成
+`laravel_app`アプリクローン
 
 ````
-/var/www/html# composer create-project "laravel/laravel=6.*" --prefer-dist laravelapp
+/var/www/html# git clone https://github.com/yukihiroLaravel/juko_laravel.git laravelapp
 ````
 
 `next_app`コンテナへアクセス
@@ -34,9 +34,9 @@ docker exec -it laravel_app bash
 docker exec -it next_app bash
 ````
 
-`next_app`アプリ作成
+`next_app`アプリクローン
 
 ````
-npx create-next-app nextapp --ts
+/www/html# git clone https://github.com/yukihiroLaravel/juko_next.git nextapp
 ````
 
