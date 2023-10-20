@@ -424,7 +424,7 @@ paths:
                 properties:
                   result:
                     type: "boolean"
-                    example: true               
+                    example: true
 # 講師-講座
   /v1/instructor/course/index:
     get:
