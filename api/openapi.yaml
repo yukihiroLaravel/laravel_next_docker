@@ -89,33 +89,23 @@ paths:
                     type: object
                     properties:
                       nick_name:
-                        type: string
-                        example: "ニックネーム"
+                        $ref: '#/schemas/student/NickName'
                       last_name:
-                        type: string
-                        example: "田中"
+                        $ref: '#/schemas/student/LastName'
                       first_name:
-                        type: string
-                        example: "太郎"
+                        $ref: '#/schemas/student/FirstName'
                       occupation:
-                        type: string
-                        example: "SE"
+                        $ref: '#/schemas/student/Occupation'
                       purpose:
-                        type: string
-                        example: "スキル向上のため"
+                        $ref: '#/schemas/student/Purpose'
                       email:
-                        type: string
-                        example: "test_student_1@example.com"
+                        $ref: '#/schemas/student/Email'
                       birth_date:
-                        type: string
-                        format: date-time
-                        example: "2022-10-17"
+                        $ref: '#/schemas/student/BirthDate'
                       sex:
-                        type: string
-                        example: "woman"
+                        $ref: '#/schemas/student/Sex'
                       address:
-                        type: string
-                        example: "東京都"
+                        $ref: '#/schemas/student/Address'
   /v1/student/edit:
     get:
       tags:
@@ -1606,20 +1596,15 @@ paths:
                     type: "object"
                     properties:
                       nick_name:
-                        type: "string"
-                        example: 'ニックネーム'
+                        $ref: '#/schemas/instructor/NickName'
                       last_name:
-                        type: "string"
-                        example: '田中'
+                        $ref: '#/schemas/instructor/LastName'
                       first_name:
-                        type: "string"
-                        example: '一郎'
+                        $ref: '#/schemas/instructor/FirstName'
                       email:
-                        type: "string"
-                        example: 'test@example.com'
+                        $ref: '#/schemas/instructor/Email'
                       profile_image:
-                        type: "file"
-                        example: 'a.png'
+                        $ref: '#/schemas/instructor/ProfileImage'
   /v1/instructor/{instructor_id}/edit:
     get:
       tags:
@@ -1700,6 +1685,10 @@ schemas:
       type: string
       description: 最終ログイン日時
       example: "2022/10/17 00:00:00"
+    ProfileImage:
+      type: string
+      description: プロフィール画像
+      example: "/student/xxx.png"
   instructor:
     InstructorId:
       type: integer
@@ -1721,6 +1710,10 @@ schemas:
       type: string
       description: メールアドレス
       example: "test@example.com"
+    ProfileImage:
+      type: string
+      description: プロフィール画像
+      example: "/instructor/xxx.png"
   course:
     CourseId:
       type: integer
