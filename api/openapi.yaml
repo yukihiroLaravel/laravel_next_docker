@@ -3,9 +3,119 @@ info:
   version: 1.0.0
   title: 受講管理アプリ API
 servers:
-  - url: 'http://localhost:8080/api'
+  - url: 'http://localhost:8080'
 paths:
-  /v1/user:
+  /login:
+    post:
+      tags:
+        - Login-Student
+      operationId: postLoginStudent
+      summary: "生徒ログイン"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - "email"
+                - "password"
+              type: "object"
+              properties:
+                email:
+                  type: "string"
+                  description: メールアドレス
+                  example: 'test@example.com'
+                password:
+                  type: "string"
+                  description: パスワード
+                  example: 'password'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+                  message:
+                    type: "string"
+                    example: 'Authenticated.'
+  /logout:
+    post:
+      tags:
+        - Login-Student
+      operationId: postLogoutStudent
+      summary: "生徒ログアウト"
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+                    example: 'Unauthenticated.'
+  /login/instructor:
+    post:
+      tags:
+        - Login-Instructor
+      operationId: postLoginInstructor
+      summary: "講師ログイン"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - "email"
+                - "password"
+              type: "object"
+              properties:
+                email:
+                  type: "string"
+                  description: メールアドレス
+                  example: 'test@example.com'
+                password:
+                  type: "string"
+                  description: パスワード
+                  example: 'password'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+                  message:
+                    type: "string"
+                    example: 'Authenticated.'
+  /logout/instructor:
+    post:
+      tags:
+        - Login-Instructor
+      operationId: postLogoutInstructor
+      summary: "講師ログアウト"
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+                    example: 'Unauthenticated.'
+  /api/v1/user:
     get:
       tags:
         - Login-User
@@ -43,7 +153,7 @@ paths:
                   address:
                     $ref: '#/schemas/student/Address'
 
-  /v1/student/:
+  /api/v1/student/:
     patch:
       tags:
         - Student
@@ -106,7 +216,7 @@ paths:
                         $ref: '#/schemas/student/Sex'
                       address:
                         $ref: '#/schemas/student/Address'
-  /v1/student/edit:
+  /api/v1/student/edit:
     get:
       tags:
         - Student
@@ -145,7 +255,7 @@ paths:
                         $ref: '#/schemas/student/Address'
                       profile_image:
                         $ref: '#/schemas/student/ProfileImage'
-  /v1/course/index:
+  /api/v1/course/index:
     get:
       tags:
         - Student-Course
@@ -198,7 +308,7 @@ paths:
                               $ref: '#/schemas/attendance/AttendanceId'
                             progress:
                               $ref: '#/schemas/attendance/Progress'
-  /v1/course:
+  /api/v1/course:
     get:
       tags:
         - Student-Course
@@ -277,7 +387,7 @@ paths:
                                         $ref: '#/schemas/lesson-attendance/LessonAttendanceId'
                                       status:
                                         $ref: '#/schemas/lesson-attendance/Status'
-  /v1/course/{course_id}/progress:
+  /api/v1/course/{course_id}/progress:
     get:
       tags:
         - Student-Course
@@ -327,7 +437,7 @@ paths:
                         type: integer
                         example: 4
 
-  /v1/course/chapter:
+  /api/v1/course/chapter:
     get:
       tags:
         - Student-Chapter
@@ -380,7 +490,7 @@ paths:
                                 status:
                                   $ref: '#/schemas/lesson-attendance/Status'
   
-  /v1/lesson-attendance:
+  /api/v1/lesson-attendance:
     patch:
       tags:
         - Lesson-Attendance
@@ -418,7 +528,7 @@ paths:
                     type: "boolean"
                     example: true
 # 講師-講座
-  /v1/instructor/course/index:
+  /api/v1/instructor/course/index:
     get:
       tags:
         - Instructor-Course
@@ -445,7 +555,7 @@ paths:
                           $ref: '#/schemas/course/Image'
                         status:
                           $ref: '#/schemas/course/Status'
-  /v1/instructor/course/{course_id}:
+  /api/v1/instructor/course/{course_id}:
     get:
       tags:
         - Instructor-Course
@@ -574,7 +684,7 @@ paths:
                   result:
                     type: "boolean"
                     example: true
-  /v1/instructor/course/{course_id}/edit:
+  /api/v1/instructor/course/{course_id}/edit:
     get:
       tags:
         - Instructor-Course
@@ -605,7 +715,7 @@ paths:
                         $ref: '#/schemas/course/Image'
                       status:
                         $ref: '#/schemas/course/Status'
-  /v1/instructor/course:
+  /api/v1/instructor/course:
     post:
       tags:
         - Instructor-Course
@@ -639,7 +749,7 @@ paths:
                   result:
                     type: "boolean"
                     example: true
-  /v1/instructor/course/{course_id}/attendance/status:
+  /api/v1/instructor/course/{course_id}/attendance/status:
     get:
       tags:
         - Instructor-Course
@@ -676,7 +786,7 @@ paths:
                               completed_count:
                                 type: integer
                                 example: 1
-  /v1/instructor/course/{course_id}/notification:
+  /api/v1/instructor/course/{course_id}/notification:
     post:
       tags:
         - Instructor-Course
@@ -729,7 +839,7 @@ paths:
                   result:
                     type: "boolean"
                     example: true
-  /v1/instructor/course/{course_id}/student/index:
+  /api/v1/instructor/course/{course_id}/student/index:
     get:
       tags:
         - Instructor-Course
@@ -791,7 +901,7 @@ paths:
                                 example: 1
 
   # 講師-講座-チャプター
-  /v1/instructor/course/{course_id}/chapter:
+  /api/v1/instructor/course/{course_id}/chapter:
     post:
       tags:
         - Instructor-Chapter
@@ -825,7 +935,7 @@ paths:
                   result:
                     type: "boolean"
                     example: true
-  /v1/instructor/course/{course_id}/chapter/{chapter_id}:
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}:
     get:
       tags:
         - Instructor-Chapter
@@ -941,7 +1051,7 @@ paths:
                   result:
                     type: "boolean"
                     example: true
-  /v1/instructor/course/{course_id}/chapter/sort:
+  /api/v1/instructor/course/{course_id}/chapter/sort:
     post:
       tags:
         - Instructor-Chapter
@@ -983,7 +1093,7 @@ paths:
                   result:
                     type: "boolean"
                     example: true
-  /v1/instructor/course/{course_id}/chapter/{chapter_id}/status:
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/status:
     patch:
       tags:
         - Instructor-Chapter
@@ -1025,7 +1135,7 @@ paths:
                     type: "boolean"
                     example: true
   # 講師-講座-チャプター-レッスン
-  /v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson:
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson:
     post:
       tags:
         - Instructor-Lesson
@@ -1077,7 +1187,7 @@ paths:
                         $ref: '#/schemas/lesson/Status'
                       order:
                         $ref: '#/schemas/lesson/Order'
-  /v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}}:
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}}:
     patch:
       tags:
         - Instructor-Lesson
@@ -1165,7 +1275,7 @@ paths:
                   result:
                     type: "boolean"
                     example: true
-  /v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/sort:
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/sort:
     post:
       tags: 
         - Instructor-Lesson
@@ -1210,7 +1320,7 @@ paths:
                   result:
                     type: "boolean"
                     example: true
-  /v1/instructor/attendance:
+  /api/v1/instructor/attendance:
     post:
       tags: 
         - Instructor-Attendance
@@ -1243,7 +1353,7 @@ paths:
                     type: "boolean"
                     example: true
   # 講師-お知らせ
-  /v1/instructor/notification/index:
+  /api/v1/instructor/notification/index:
     get:
       tags:
         - Instructor-Notification
@@ -1286,7 +1396,7 @@ paths:
                               $ref: '#/schemas/pagination/Page'
                             total:
                               $ref: '#/schemas/pagination/Total'
-  /v1/instructor/notification/{notification_id}:
+  /api/v1/instructor/notification/{notification_id}:
     get:
       tags:
         - Instructor-Notification
@@ -1392,7 +1502,7 @@ paths:
                       type:
                         $ref: '#/schemas/notification/Type'
   # 講師-生徒
-  /v1/instructor/student/:
+  /api/v1/instructor/student/:
     post:
       tags:
         - Instructor-Student
@@ -1436,7 +1546,7 @@ paths:
                       email:
                         $ref: '#/schemas/student/Email'
 
-  /v1/instructor/student/{student_id}:
+  /api/v1/instructor/student/{student_id}:
     get:
       tags:
         - Instructor-Student
@@ -1523,7 +1633,7 @@ paths:
                                               $ref: '#/schemas/lesson-attendance/Status'
 
   # お知らせ
-  /v1/notification:
+  /api/v1/notification:
     get:
       tags:
         - Notification
@@ -1554,7 +1664,7 @@ paths:
                           $ref: '#/schemas/notification/Content'
                         type:
                           $ref: '#/schemas/notification/Type'
-  /v1/instructor/{instructor_id}:
+  /api/v1/instructor/{instructor_id}:
     post:
       tags:
         - Instructor
@@ -1605,7 +1715,7 @@ paths:
                         $ref: '#/schemas/instructor/Email'
                       profile_image:
                         $ref: '#/schemas/instructor/ProfileImage'
-  /v1/instructor/{instructor_id}/edit:
+  /api/v1/instructor/{instructor_id}/edit:
     get:
       tags:
         - Instructor
