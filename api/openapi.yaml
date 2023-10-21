@@ -153,6 +153,8 @@ paths:
                         $ref: '#/schemas/student/Sex'
                       address:
                         $ref: '#/schemas/student/Address'
+                      profile_image:
+                        $ref: '#/schemas/student/ProfileImage'
   /v1/course/index:
     get:
       tags:
@@ -1570,14 +1572,6 @@ paths:
       summary: "講師情報を更新する。"
       description: >
         講師情報を更新する。
-      security:
-        -Bearer: []
-      parameters:
-        - name: XSRF-TOKEN
-          in: header
-          description: API認証トークン
-          required: true
-          type: string
       requestBody:
         required: true
         content:
@@ -1586,25 +1580,15 @@ paths:
               type: "object"
               properties:
                 nick_name:
-                  type: "string"
-                  description: ニックネーム
-                  example: 'ニックネーム'
+                 $ref: '#/schemas/instructor/NickName'
                 last_name:
-                  type: "string"
-                  description: 名字
-                  example: '名字'
+                  $ref: '#/schemas/instructor/LastName'
                 first_name:
-                  type: "string"
-                  description: 名前
-                  example: '名前'
+                  $ref: '#/schemas/instructor/FirstName'
                 email:
-                  type: "string"
-                  description: email
-                  example: 'test@example.com'
+                  $ref: '#/schemas/instructor/Email'
                 profile_image:
-                  type: "file"
-                  description: 画像ファイル
-                  example: 'a.png'
+                  $ref: '#/schemas/instructor/ProfileImage'
       responses:
         '200':
           description: "Success"
@@ -1623,23 +1607,18 @@ paths:
                     properties:
                       nick_name:
                         type: "string"
-                        description: ニックネーム
                         example: 'ニックネーム'
                       last_name:
                         type: "string"
-                        description: 名字
                         example: '田中'
                       first_name:
                         type: "string"
-                        description: 名前
                         example: '一郎'
                       email:
                         type: "string"
-                        description: email
                         example: 'test@example.com'
                       profile_image:
                         type: "file"
-                        description: 画像ファイル
                         example: 'a.png'
   /v1/instructor/{instructor_id}/edit:
     get:
@@ -1659,29 +1638,17 @@ paths:
                     type: object
                     properties:
                       instructor_id:
-                        type: "int"
-                        description: 講師ID
-                        example: 1
+                        $ref: '#/schemas/instructor/InstructorId'
                       nick_name:
-                        type: "string"
-                        description: ニックネーム
-                        example: 'ニックネーム'
+                        $ref: '#/schemas/instructor/NickName'
                       last_name:
-                        type: "string"
-                        description: 名字
-                        example: '田中'
+                        $ref: '#/schemas/instructor/LastName'
                       first_name:
-                        type: "string"
-                        description: 名前
-                        example: '一郎'
+                        $ref: '#/schemas/instructor/FirstName'
                       email:
-                        type: "string"
-                        description: email
-                        example: 'test@example.com'
+                        $ref: '#/schemas/instructor/Email'
                       profile_image:
-                        type: "file"
-                        description: 画像ファイル
-                        example: 'a.png'
+                        $ref: '#/schemas/instructor/ProfileImage'
 
 schemas:
   student:
