@@ -353,22 +353,15 @@ paths:
                         $ref: '#/schemas/student/Address'
                       profile_image:
                         $ref: '#/schemas/student/ProfileImage'
-  /api/v1/course/index:
+  /api/v1/attendance/index:
     get:
       tags:
-        - Student-Course
-      operationId: getCourseIndex
-      summary: "受講講座情報の一覧を取得する。"
-      parameters:
-        - name: student_id
-          in: query
-          description: 受講者テーブル主キー
-          required: true
-          schema:
-            type: integer
+        - Student-Attendance
+      operationId: getAttendanceIndex
+      summary: "受講一覧を取得する。"
       responses:
         '200':
-          description: 受講講座一覧
+          description: 受講一覧
           content:
             application/json:
               schema:
@@ -379,33 +372,32 @@ paths:
                     items:
                       type: object
                       properties:
-                        course_id:
-                          type: integer
-                          example: 1
-                        title:
-                          $ref: '#/schemas/course/Title'
-                        image:
-                          $ref: '#/schemas/course/Image'
-                        instructor:
+                        attendance_id:
+                          $ref: '#/schemas/attendance/AttendanceId'
+                        progress:
+                          $ref: '#/schemas/attendance/Progress'
+                        course:
                           type: object
                           properties:
-                            instructor_id:
-                              $ref: '#/schemas/instructor/InstructorId'
-                            nick_name:
-                              $ref: '#/schemas/instructor/NickName'
-                            last_name:
-                              $ref: '#/schemas/instructor/LastName'
-                            first_name:
-                              $ref: '#/schemas/instructor/FirstName'
-                            email:
-                              $ref: '#/schemas/instructor/Email'
-                        attendance:
-                          type: object
-                          properties:
-                            attendance_id:
-                              $ref: '#/schemas/attendance/AttendanceId'
-                            progress:
-                              $ref: '#/schemas/attendance/Progress'
+                            course_id:
+                              $ref: '#/schemas/course/CourseId'
+                            title:
+                              $ref: '#/schemas/course/Title'
+                            image:
+                              $ref: '#/schemas/course/Image'
+                            instructor:
+                              type: object
+                              properties:
+                                instructor_id:
+                                  $ref: '#/schemas/instructor/InstructorId'
+                                nick_name:
+                                  $ref: '#/schemas/instructor/NickName'
+                                last_name:
+                                  $ref: '#/schemas/instructor/LastName'
+                                first_name:
+                                  $ref: '#/schemas/instructor/FirstName'
+                                email:
+                                  $ref: '#/schemas/instructor/Email'
   /api/v1/course:
     get:
       tags:
