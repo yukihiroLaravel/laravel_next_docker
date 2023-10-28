@@ -398,21 +398,21 @@ paths:
                                   $ref: '#/schemas/instructor/FirstName'
                                 email:
                                   $ref: '#/schemas/instructor/Email'
-  /api/v1/course:
+  /api/v1/attendance/{attendance_id}:
     get:
       tags:
-        - Student-Course
-      operationId: getCourse
-      summary: "受講講座の詳細情報を取得する。"
+        - Student-Attendance
+      operationId: getAttendance
+      summary: "受講の詳細情報を取得する。"
       parameters:
         - name: attendance_id
-          in: query
+          in: path
           description: 受講テーブルの主キー
           required: true
           type: integer
       responses:
         '200':
-          description: 講座詳細情報
+          description: 受講詳細情報
           content:
             application/json:
               schema:
@@ -421,62 +421,61 @@ paths:
                   data:
                     type: object
                     properties:
-                      course_id:
-                        type: integer
-                        example: 1
-                      title:
-                        $ref: '#/schemas/course/Title'
-                      image:
-                        $ref: '#/schemas/course/Image'
-                      instructor:
+                      attendance_id:
+                        $ref: '#/schemas/attendance/AttendanceId'
+                      progress:
+                        $ref: '#/schemas/attendance/Progress'
+                      course:
                         type: object
                         properties:
-                          instructor_id:
-                            $ref: '#/schemas/instructor/InstructorId'
-                          nick_name:
-                            $ref: '#/schemas/instructor/NickName'
-                          last_name:
-                            $ref: '#/schemas/instructor/LastName'
-                          first_name:
-                            $ref: '#/schemas/instructor/FirstName'
-                          email:
-                            $ref: '#/schemas/instructor/Email'
-                      attendance:
-                        type: object
-                        properties:
-                          attendance_id:
-                            $ref: '#/schemas/attendance/AttendanceId'
-                          progress:
-                            $ref: '#/schemas/attendance/Progress'
-                      chapters:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            chapter_id:
-                              $ref: '#/schemas/chapter/ChapterId'
-                            title:
-                              $ref: '#/schemas/chapter/Title'
-                            lessons:
-                              type: array
-                              items:
-                                type: object
-                                properties:
-                                  lesson_id:
-                                    $ref: '#/schemas/lesson/LessonId'
-                                  title:
-                                    $ref: '#/schemas/lesson/Title'
-                                  url:
-                                    $ref: '#/schemas/lesson/Url'
-                                  remarks:
-                                    $ref: '#/schemas/lesson/Remarks'
-                                  lesson_attendance:
+                          course_id:
+                            $ref: '#/schemas/course/CourseId'
+                          title:
+                            $ref: '#/schemas/course/Title'
+                          image:
+                            $ref: '#/schemas/course/Image'
+                          instructor:
+                            type: object
+                            properties:
+                              instructor_id:
+                                $ref: '#/schemas/instructor/InstructorId'
+                              nick_name:
+                                $ref: '#/schemas/instructor/NickName'
+                              last_name:
+                                $ref: '#/schemas/instructor/LastName'
+                              first_name:
+                                $ref: '#/schemas/instructor/FirstName'
+                              email:
+                                $ref: '#/schemas/instructor/Email'
+                          chapters:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                chapter_id:
+                                  $ref: '#/schemas/chapter/ChapterId'
+                                title:
+                                  $ref: '#/schemas/chapter/Title'
+                                lessons:
+                                  type: array
+                                  items:
                                     type: object
                                     properties:
-                                      lesson_attendance_id:
-                                        $ref: '#/schemas/lesson-attendance/LessonAttendanceId'
-                                      status:
-                                        $ref: '#/schemas/lesson-attendance/Status'
+                                      lesson_id:
+                                        $ref: '#/schemas/lesson/LessonId'
+                                      title:
+                                        $ref: '#/schemas/lesson/Title'
+                                      url:
+                                        $ref: '#/schemas/lesson/Url'
+                                      remarks:
+                                        $ref: '#/schemas/lesson/Remarks'
+                                      lesson_attendance:
+                                        type: object
+                                        properties:
+                                          lesson_attendance_id:
+                                            $ref: '#/schemas/lesson-attendance/LessonAttendanceId'
+                                          status:
+                                            $ref: '#/schemas/lesson-attendance/Status'
   /api/v1/course/{course_id}/progress:
     get:
       tags:
