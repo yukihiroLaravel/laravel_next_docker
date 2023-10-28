@@ -234,7 +234,8 @@ paths:
                         $ref: '#/schemas/student/Sex'
                       address:
                         $ref: '#/schemas/student/Address'
-    patch:
+  /api/v1/student/update:
+    post:
       tags:
         - Student
       operationId: patchStudent
@@ -242,7 +243,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
@@ -282,6 +283,10 @@ paths:
                   type: string
                   description: 住所
                   example: '住所'
+                profile_image:
+                  type: file
+                  description: プロフィール画像
+                  example: 'profile.png'
       responses:
         '200':
           description: "Success"
@@ -314,6 +319,8 @@ paths:
                         $ref: '#/schemas/student/Sex'
                       address:
                         $ref: '#/schemas/student/Address'
+                      profile_image:
+                        $ref: '#/schemas/student/ProfileImage'
   /api/v1/student/edit:
     get:
       tags:
