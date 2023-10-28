@@ -154,6 +154,86 @@ paths:
                     $ref: '#/schemas/student/Address'
 
   /api/v1/student/:
+    post:
+      tags:
+        - Student
+      operationId: storeStudent
+      summary: "生徒情報を登録する。"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nick_name:
+                  type: string
+                  description: ニックネーム
+                  example: 'ニックネーム'
+                last_name:
+                  type: string
+                  description: 姓
+                  example: '名字'
+                first_name:
+                  type: string
+                  description: 名
+                  example: '名前'
+                occupation:
+                  type: string
+                  description: 職業
+                  example: 'エンジニア'
+                purpose:
+                  type: string
+                  description: 目的
+                  example: 'スキルアップのため'
+                email:
+                  type: string
+                  description: メールアドレス
+                  example: 'test@example.com'
+                birth_date:
+                  type: string
+                  description: 生年月日
+                  example: '2022-10-17'
+                sex:
+                  type: string
+                  description: 性別
+                  example: 'woman'
+                address:
+                  type: string
+                  description: 住所
+                  example: '東京都'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      nick_name:
+                        $ref: '#/schemas/student/NickName'
+                      last_name:
+                        $ref: '#/schemas/student/LastName'
+                      first_name:
+                        $ref: '#/schemas/student/FirstName'
+                      occupation:
+                        $ref: '#/schemas/student/Occupation'
+                      purpose:
+                        $ref: '#/schemas/student/Purpose'
+                      email:
+                        $ref: '#/schemas/student/Email'
+                      birth_date:
+                        $ref: '#/schemas/student/BirthDate'
+                      sex:
+                        $ref: '#/schemas/student/Sex'
+                      address:
+                        $ref: '#/schemas/student/Address'
     patch:
       tags:
         - Student
@@ -167,23 +247,41 @@ paths:
               type: object
               properties:
                 nick_name:
-                  $ref: '#/schemas/student/NickName'
+                  type: string
+                  description: ニックネーム
+                  example: 'ニックネーム'
                 last_name:
-                  $ref: '#/schemas/student/LastName'
+                  type: string
+                  description: 姓
+                  example: '姓'
                 first_name:
-                  $ref: '#/schemas/student/FirstName'
+                  type: string
+                  description: 名
+                  example: '名'
                 occupation:
-                  $ref: '#/schemas/student/Occupation'
+                  type: string
+                  description: 職業
+                  example: '職業'
                 purpose:
-                  $ref: '#/schemas/student/Purpose'
+                  type: string
+                  description: 目的
+                  example: '目的'
                 email:
-                  $ref: '#/schemas/student/Email'
+                  type: string
+                  description: メールアドレス
+                  example: 'test@example.com'
                 birth_date:
-                  $ref: '#/schemas/student/BirthDate'
+                  type: string
+                  description: 生年月日
+                  example: '2022-10-17'
                 sex:
-                  $ref: '#/schemas/student/Sex'
+                  type: string
+                  description: 性別
+                  example: 'man'
                 address:
-                  $ref: '#/schemas/student/Address'
+                  type: string
+                  description: 住所
+                  example: '住所'
       responses:
         '200':
           description: "Success"
