@@ -619,13 +619,13 @@ paths:
                       number_of_total_lessons:
                         type: integer
                         example: 6
-                      continue_lesson_id:
-                        type: integer
-                        example: 3
-                      youngestUnCompletedLessonId:
-                        type: integer
-                        example: 4
-
+                      continue_lesson:
+                        type: object
+                        properties:
+                          chapter_id:
+                            $ref: '#/schemas/chapter/ChapterId'
+                          lesson_id:
+                            $ref: '#/schemas/lesson/LessonId'
   
   /api/v1/lesson-attendance:
     patch:
