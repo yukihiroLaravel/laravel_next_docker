@@ -1867,7 +1867,7 @@ paths:
       tags:
         - Manager-Course
       operationId: postManagerCourse
-      summary: "講座情報を更新する。"
+      summary: "管理下の講師の講座情報を更新する。"
       parameters:
         - name: course_id
           in: path
@@ -1914,7 +1914,7 @@ paths:
       tags:
         - Manager-Course
       operationId: deleteManagerCourse
-      summary: "講座情報を削除する。"
+      summary: "管理下の講師の講座情報を削除する。"
       parameters:
         - name: course_id
           in: path
