@@ -1514,6 +1514,30 @@ paths:
                   result:
                     type: "boolean"
                     example: true
+  /api/v1/instructor/attendance/{attendance_id}:
+    delete:
+      tags: 
+        - Instructor-Attendance
+      operationId: deleteInstructorAttendance
+      summary: "受講情報を削除する。"
+      parameters:
+        - name: attendance_id
+          in: path
+          description: 受講テーブル主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+  
   # 講師-お知らせ
   /api/v1/instructor/notification/index:
     get:
