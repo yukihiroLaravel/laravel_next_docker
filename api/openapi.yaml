@@ -769,6 +769,10 @@ paths:
                   type: "string"
                   description: タイトル
                   example: '講座タイトル'
+                status: 
+                  type: "string"
+                  description: ステータス
+                  example: 'public'
                 image:
                   type: "file"
                   description: 画像ファイル
@@ -886,6 +890,27 @@ paths:
                   result:
                     type: "boolean"
                     example: true
+                    
+  /api/v1/instructor/course/status:
+    put:
+      tags:
+        - Instructor-Course
+      operationId: putInstructorCourseStatus
+      summary: "講座のステータスを一括更新する。"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - "status"
+              type: "object"
+              properties:
+                status:
+                  type: "string"
+                  description: ステータス
+                  example: 'public'
+
   /api/v1/instructor/course/{course_id}/attendance/status:
     get:
       tags:
