@@ -769,6 +769,10 @@ paths:
                   type: "string"
                   description: タイトル
                   example: '講座タイトル'
+                status: 
+                  type: "string"
+                  description: ステータス
+                  example: 'public'
                 image:
                   type: "file"
                   description: 画像ファイル
@@ -886,6 +890,27 @@ paths:
                   result:
                     type: "boolean"
                     example: true
+
+  /api/v1/instructor/course/status:
+    put:
+      tags:
+        - Instructor-Course
+      operationId: putInstructorCourseStatus
+      summary: "講座のステータスを一括更新する。"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - "status"
+              type: "object"
+              properties:
+                status:
+                  type: "string"
+                  description: ステータス
+                  example: 'public'
+
   /api/v1/instructor/course/{course_id}/attendance/status:
     get:
       tags:
@@ -1489,6 +1514,30 @@ paths:
                   result:
                     type: "boolean"
                     example: true
+  /api/v1/instructor/attendance/{attendance_id}:
+    delete:
+      tags: 
+        - Instructor-Attendance
+      operationId: deleteInstructorAttendance
+      summary: "受講情報を削除する。"
+      parameters:
+        - name: attendance_id
+          in: path
+          description: 受講テーブル主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+  
   # 講師-お知らせ
   /api/v1/instructor/notification/index:
     get:
@@ -1768,6 +1817,148 @@ paths:
                                               $ref: '#/schemas/lesson-attendance/LessonAttendanceId'
                                             status:
                                               $ref: '#/schemas/lesson-attendance/Status'
+
+  # マネージャー 講座
+  /api/v1/manager/course/index:
+    get:
+      tags:
+        - Manager-Course
+      operationId: getManagerCourseIndex
+      summary: "管理下の講師の講座一覧を取得する。"
+      responses:
+        '200':
+          description: 講座一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        course_id:
+                          $ref: '#/schemas/course/CourseId'
+                        title:
+                          $ref: '#/schemas/course/Title'
+                        image:
+                          $ref: '#/schemas/course/Image'
+                        status:
+                          $ref: '#/schemas/course/Status'
+                        instructor:
+                          type: object
+                          properties:
+                            instructor_id:
+                              $ref: '#/schemas/instructor/InstructorId'
+                            nick_name:
+                              $ref: '#/schemas/instructor/NickName'
+                            last_name:
+                              $ref: '#/schemas/instructor/LastName'
+                            first_name:
+                              $ref: '#/schemas/instructor/FirstName'
+                            email:
+                              $ref: '#/schemas/instructor/Email'
+                            profile_image:
+                              $ref: '#/schemas/instructor/ProfileImage'
+  
+  /api/v1/manager/course/{course_id}:
+    post:
+      tags:
+        - Manager-Course
+      operationId: postManagerCourse
+      summary: "管理下の講師の講座情報を更新する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: "string"
+                  description: タイトル
+                  example: '講座タイトル'
+                image:
+                  type: "file"
+                  description: 画像ファイル
+                  example: 'thumbnail.png'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                  data:
+                    type: "object"
+                    properties:
+                      course_id:
+                        $ref: '#/schemas/course/CourseId'
+                      title:
+                        $ref: '#/schemas/course/Title'
+                      image:
+                        $ref: '#/schemas/course/Image'
+                      status:
+                        $ref: '#/schemas/course/Status'
+    delete:
+      tags:
+        - Manager-Course
+      operationId: deleteManagerCourse
+      summary: "管理下の講師の講座情報を削除する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+  /api/v1/manager/course/status:
+    put:
+      tags:
+        - Manager-Course
+      operationId: putManagerCourseStatus
+      summary: "管理下の講師の講座のステータスを一括更新する。"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                status:
+                  type: "string"
+                  description: ステータス
+                  example: 'public'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
 
   # お知らせ
   /api/v1/notification:
