@@ -335,7 +335,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  data: 
+                  data:
                     type: object
                     properties:
                       student_id:
@@ -626,7 +626,7 @@ paths:
                             $ref: '#/schemas/chapter/ChapterId'
                           lesson_id:
                             $ref: '#/schemas/lesson/LessonId'
-  
+
   /api/v1/lesson-attendance:
     patch:
       tags:
@@ -712,7 +712,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  data: 
+                  data:
                     type: object
                     properties:
                       course_id:
@@ -769,7 +769,7 @@ paths:
                   type: "string"
                   description: タイトル
                   example: '講座タイトル'
-                status: 
+                status:
                   type: "string"
                   description: ステータス
                   example: 'public'
@@ -790,7 +790,7 @@ paths:
                   result:
                     type: "boolean"
                     example: true
-                  data: 
+                  data:
                     type: object
                     properties:
                       course_id:
@@ -845,7 +845,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  data: 
+                  data:
                     type: object
                     properties:
                       course_id:
@@ -1439,7 +1439,7 @@ paths:
                     example: true
   /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/sort:
     post:
-      tags: 
+      tags:
         - Instructor-Lesson
       operationId: sortInstructorChapterLesson
       summary: "レッスン情報の並び順を更新する。"
@@ -1448,7 +1448,7 @@ paths:
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer 
+          type: integer
         - name: chapter_id
           in: path
           description: チャプターテーブルの主キー
@@ -1484,7 +1484,7 @@ paths:
                     example: true
   /api/v1/instructor/attendance:
     post:
-      tags: 
+      tags:
         - Instructor-Attendance
       operationId: postInstructorAttendance
       summary: "受講情報を登録する。"
@@ -1516,7 +1516,7 @@ paths:
                     example: true
   /api/v1/instructor/attendance/{attendance_id}:
     delete:
-      tags: 
+      tags:
         - Instructor-Attendance
       operationId: deleteInstructorAttendance
       summary: "受講情報を削除する。"
@@ -1537,7 +1537,7 @@ paths:
                   result:
                     type: "boolean"
                     example: true
-  
+
   # 講師-お知らせ
   /api/v1/instructor/notification/index:
     get:
@@ -1861,7 +1861,7 @@ paths:
                               $ref: '#/schemas/instructor/Email'
                             profile_image:
                               $ref: '#/schemas/instructor/ProfileImage'
-  
+
   /api/v1/manager/course/{course_id}:
     post:
       tags:
@@ -1885,6 +1885,10 @@ paths:
                   type: "string"
                   description: タイトル
                   example: '講座タイトル'
+                status:
+                  type: "string"
+                  description: ステータス
+                  example: 'public'
                 image:
                   type: "file"
                   description: 画像ファイル
@@ -2057,7 +2061,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  data: 
+                  data:
                     type: object
                     properties:
                       instructor_id:
