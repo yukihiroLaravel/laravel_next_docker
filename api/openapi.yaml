@@ -365,7 +365,7 @@ paths:
       tags:
         - Student-Attendance
       operationId: getAttendanceIndex
-      summary: "受講一覧を取得する。"
+      summary: "受講中の講座一覧を取得する。"
       parameters:
         - name: search_word
           in: query
@@ -416,7 +416,7 @@ paths:
       tags:
         - Student-Attendance
       operationId: getAttendance
-      summary: "受講の詳細情報を取得する。"
+      summary: "受講中の講座の詳細情報を取得する。"
       parameters:
         - name: attendance_id
           in: path
@@ -489,12 +489,63 @@ paths:
                                             $ref: '#/schemas/lesson-attendance/LessonAttendanceId'
                                           status:
                                             $ref: '#/schemas/lesson-attendance/Status'
-  /api/v1/attendance/{attendance_id}/course/{course_id}/chapter/{chapter_id}:
+  /api/v1/attendance/{attendance_id}/progress:
     get:
       tags:
         - Student-Attendance
+      operationId: getAttendanceProgress
+      summary: "受講中の講座の進捗率を取得する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 講座進捗率
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      course:
+                        type: object
+                        properties:
+                          course_id:
+                            $ref: '#/schemas/course/CourseId'
+                          progress:
+                            type: integer
+                            example: 10
+                      number_of_completed_chapters:
+                        type: integer
+                        example: 1
+                      number_of_total_chapters:
+                        type: integer
+                        example: 3
+                      number_of_completed_lessons:
+                        type: integer
+                        example: 2
+                      number_of_total_lessons:
+                        type: integer
+                        example: 6
+                      continue_lesson:
+                        type: object
+                        properties:
+                          chapter_id:
+                            $ref: '#/schemas/chapter/ChapterId'
+                          lesson_id:
+                            $ref: '#/schemas/lesson/LessonId'
+
+  /api/v1/attendance/{attendance_id}/course/{course_id}/chapter/{chapter_id}:
+    get:
+      tags:
+        - Student-Attendance-Course-Chapter
       operationId: getAttendanceCourseChapter
-      summary: "受講の講座のチャプターの詳細情報を取得する。"
+      summary: "受講中の講座のチャプターの詳細情報を取得する。"
       parameters:
         - name: attendance_id
           in: path
@@ -575,57 +626,6 @@ paths:
                                           $ref: '#/schemas/lesson-attendance/LessonAttendanceId'
                                         status:
                                           $ref: '#/schemas/lesson-attendance/Status'
-
-  /api/v1/course/{course_id}/progress:
-    get:
-      tags:
-        - Student-Course
-      operationId: getCourseProgress
-      summary: "受講講座の進捗率を取得する。"
-      parameters:
-        - name: course_id
-          in: path
-          description: 講座テーブルの主キー
-          required: true
-          type: integer
-      responses:
-        '200':
-          description: 講座進捗率
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      course:
-                        type: object
-                        properties:
-                          course_id:
-                            $ref: '#/schemas/course/CourseId'
-                          progress:
-                            type: integer
-                            example: 10
-                      number_of_completed_chapters:
-                        type: integer
-                        example: 1
-                      number_of_total_chapters:
-                        type: integer
-                        example: 3
-                      number_of_completed_lessons:
-                        type: integer
-                        example: 2
-                      number_of_total_lessons:
-                        type: integer
-                        example: 6
-                      continue_lesson:
-                        type: object
-                        properties:
-                          chapter_id:
-                            $ref: '#/schemas/chapter/ChapterId'
-                          lesson_id:
-                            $ref: '#/schemas/lesson/LessonId'
 
   /api/v1/lesson-attendance:
     patch:
@@ -1862,7 +1862,92 @@ paths:
                             profile_image:
                               $ref: '#/schemas/instructor/ProfileImage'
 
+  /api/v1/manager/course/:
+    post:
+      tags:
+        - Manager-Course
+      operationId: postManagerCourse
+      summary: "講座情報を登録する。"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: "string"
+                  description: タイトル
+                  example: '講座タイトル'
+                image:
+                  type: "file"
+                  description: 画像ファイル
+                  example: 'thumbnail.png'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
   /api/v1/manager/course/{course_id}:
+    get:
+      tags:
+        - Manager-Course
+      operationId: getManagerCourse
+      summary: "講座の詳細情報を取得する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 講座詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      course_id:
+                        $ref: '#/schemas/course/CourseId'
+                      title:
+                        $ref: '#/schemas/course/Title'
+                      image:
+                        $ref: '#/schemas/course/Image'
+                      status:
+                        $ref: '#/schemas/course/Status'
+                      chapters:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            chapter_id:
+                              $ref: '#/schemas/chapter/ChapterId'
+                            title:
+                              $ref: '#/schemas/chapter/Title'
+                            order:
+                              $ref: '#/schemas/chapter/Order'
+                            lessons:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  lesson_id:
+                                    $ref: '#/schemas/lesson/LessonId'
+                                  title:
+                                    $ref: '#/schemas/lesson/Title'
+                                  url:
+                                    $ref: '#/schemas/lesson/Url'
+                                  remarks:
+                                    $ref: '#/schemas/lesson/Remarks'
     post:
       tags:
         - Manager-Course
@@ -1935,6 +2020,38 @@ paths:
                 properties:
                   result:
                     type: "boolean"
+  /api/v1/manager/course/{course_id}/edit:
+    get:
+      tags:
+        - Manager-Course
+      operationId: getManagerCourseEdit
+      summary: "編集講座の情報を取得する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 講座詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      course_id:
+                        $ref: '#/schemas/course/CourseId'
+                      title:
+                        $ref: '#/schemas/course/Title'
+                      image:
+                        $ref: '#/schemas/course/Image'
+                      status:
+                        $ref: '#/schemas/course/Status'
+
   /api/v1/manager/course/status:
     put:
       tags:
@@ -1963,6 +2080,114 @@ paths:
                   result:
                     type: "boolean"
                     example: true
+  /api/v1/manager/course/{course_id}/student/index:
+    get:
+      tags:
+        - Manager-Course
+      operationId: getManagerCourseStudentIndex
+      summary: "講座の受講生一覧を取得する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 講座受講生一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        course:
+                          type: object
+                          properties:
+                            course_id:
+                              $ref: '#/schemas/course/CourseId'
+                            title:
+                              $ref: '#/schemas/course/Title'
+                            image:
+                              $ref: '#/schemas/course/Image'
+                        students:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                $ref: '#/schemas/student/StudentId'
+                              nick_name:
+                                $ref: '#/schemas/student/NickName'
+                              email:
+                                $ref: '#/schemas/student/Email'
+                              course_title:
+                                $ref: '#/schemas/course/Title'
+                              last_login_at:
+                                $ref: '#/schemas/student/LastLoginAt'
+                              attendanced_at:
+                                $ref: '#/schemas/attendance/AttendancedAt'
+                          pagination:
+                            type: object
+                            properties:
+                              page:
+                                type: integer
+                                example: 1
+                              total:
+                                type: integer
+                                example: 1
+
+  /api/v1/manager/course/{course_id}/chapter/{chapter_id}:
+    get:
+      tags:
+        - Manager-Chapter
+      operationId: getManagerCourseChapter
+      summary: "チャプターの詳細情報を取得する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: チャプター詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      chapter_id:
+                        $ref: '#/schemas/chapter/ChapterId'
+                      title:
+                        $ref: '#/schemas/chapter/Title'
+                      lessons:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            lesson_id:
+                              $ref: '#/schemas/lesson/LessonId'
+                            title:
+                              $ref: '#/schemas/lesson/Title'
+                            url:
+                              $ref: '#/schemas/lesson/Url'
+                            remarks:
+                              $ref: '#/schemas/lesson/Remarks'
+                            order:
+                              $ref: '#/schemas/lesson/Order'
 
   # お知らせ
   /api/v1/notification:
