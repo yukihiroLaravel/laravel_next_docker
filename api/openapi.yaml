@@ -1995,6 +1995,67 @@ paths:
                   result:
                     type: "boolean"
                     example: true
+  /api/v1/manager/course/{course_id}/student/index:
+    get:
+      tags:
+        - Manager-Course
+      operationId: getManagerCourseStudentIndex
+      summary: "講座の受講生一覧を取得する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 講座受講生一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        course:
+                          type: object
+                          properties:
+                            course_id:
+                              $ref: '#/schemas/course/CourseId'
+                            title:
+                              $ref: '#/schemas/course/Title'
+                            image:
+                              $ref: '#/schemas/course/Image'
+                        students:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                $ref: '#/schemas/student/StudentId'
+                              nick_name:
+                                $ref: '#/schemas/student/NickName'
+                              email:
+                                $ref: '#/schemas/student/Email'
+                              course_title:
+                                $ref: '#/schemas/course/Title'
+                              last_login_at:
+                                $ref: '#/schemas/student/LastLoginAt'
+                              attendanced_at:
+                                $ref: '#/schemas/attendance/AttendancedAt'
+                          pagination:
+                            type: object
+                            properties:
+                              page:
+                                type: integer
+                                example: 1
+                              total:
+                                type: integer
+                                example: 1
+
   /api/v1/manager/course/{course_id}/chapter/{chapter_id}:
     get:
       tags:
@@ -2042,6 +2103,7 @@ paths:
                               $ref: '#/schemas/lesson/Remarks'
                             order:
                               $ref: '#/schemas/lesson/Order'
+
   # お知らせ
   /api/v1/notification:
     get:
