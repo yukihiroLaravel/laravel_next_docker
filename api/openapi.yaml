@@ -365,7 +365,7 @@ paths:
       tags:
         - Student-Attendance
       operationId: getAttendanceIndex
-      summary: "受講一覧を取得する。"
+      summary: "受講中の講座一覧を取得する。"
       parameters:
         - name: search_word
           in: query
@@ -416,7 +416,7 @@ paths:
       tags:
         - Student-Attendance
       operationId: getAttendance
-      summary: "受講の詳細情報を取得する。"
+      summary: "受講中の講座の詳細情報を取得する。"
       parameters:
         - name: attendance_id
           in: path
@@ -489,12 +489,63 @@ paths:
                                             $ref: '#/schemas/lesson-attendance/LessonAttendanceId'
                                           status:
                                             $ref: '#/schemas/lesson-attendance/Status'
-  /api/v1/attendance/{attendance_id}/course/{course_id}/chapter/{chapter_id}:
+  /api/v1/attendance/{attendance_id}/progress:
     get:
       tags:
         - Student-Attendance
+      operationId: getAttendanceProgress
+      summary: "受講中の講座の進捗率を取得する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 講座進捗率
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      course:
+                        type: object
+                        properties:
+                          course_id:
+                            $ref: '#/schemas/course/CourseId'
+                          progress:
+                            type: integer
+                            example: 10
+                      number_of_completed_chapters:
+                        type: integer
+                        example: 1
+                      number_of_total_chapters:
+                        type: integer
+                        example: 3
+                      number_of_completed_lessons:
+                        type: integer
+                        example: 2
+                      number_of_total_lessons:
+                        type: integer
+                        example: 6
+                      continue_lesson:
+                        type: object
+                        properties:
+                          chapter_id:
+                            $ref: '#/schemas/chapter/ChapterId'
+                          lesson_id:
+                            $ref: '#/schemas/lesson/LessonId'
+
+  /api/v1/attendance/{attendance_id}/course/{course_id}/chapter/{chapter_id}:
+    get:
+      tags:
+        - Student-Attendance-Course-Chapter
       operationId: getAttendanceCourseChapter
-      summary: "受講の講座のチャプターの詳細情報を取得する。"
+      summary: "受講中の講座のチャプターの詳細情報を取得する。"
       parameters:
         - name: attendance_id
           in: path
@@ -575,57 +626,6 @@ paths:
                                           $ref: '#/schemas/lesson-attendance/LessonAttendanceId'
                                         status:
                                           $ref: '#/schemas/lesson-attendance/Status'
-
-  /api/v1/course/{course_id}/progress:
-    get:
-      tags:
-        - Student-Course
-      operationId: getCourseProgress
-      summary: "受講講座の進捗率を取得する。"
-      parameters:
-        - name: course_id
-          in: path
-          description: 講座テーブルの主キー
-          required: true
-          type: integer
-      responses:
-        '200':
-          description: 講座進捗率
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      course:
-                        type: object
-                        properties:
-                          course_id:
-                            $ref: '#/schemas/course/CourseId'
-                          progress:
-                            type: integer
-                            example: 10
-                      number_of_completed_chapters:
-                        type: integer
-                        example: 1
-                      number_of_total_chapters:
-                        type: integer
-                        example: 3
-                      number_of_completed_lessons:
-                        type: integer
-                        example: 2
-                      number_of_total_lessons:
-                        type: integer
-                        example: 6
-                      continue_lesson:
-                        type: object
-                        properties:
-                          chapter_id:
-                            $ref: '#/schemas/chapter/ChapterId'
-                          lesson_id:
-                            $ref: '#/schemas/lesson/LessonId'
 
   /api/v1/lesson-attendance:
     patch:
@@ -1998,7 +1998,7 @@ paths:
   /api/v1/manager/course/{course_id}/chapter/{chapter_id}:
     get:
       tags:
-        - Manager-Course-Chapter
+        - Manager-Chapter
       operationId: getManagerCourseChapter
       summary: "チャプターの詳細情報を取得する。"
       parameters:
