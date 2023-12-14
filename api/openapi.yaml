@@ -1013,6 +1013,26 @@ paths:
           description: 講座ID
           required: true
           type: integer
+        - name: page
+          in: query
+          description: ページ番号
+          required: false
+          type: integer
+        - name: per_page
+          in: query
+          description: 1ページあたりの表示件数
+          required: false
+          type: integer
+        - name: sort_by
+          in: query
+          description: ソート対象
+          required: false
+          type: string
+        - name: order
+          in: query
+          description: ソート順
+          required: false
+          type: string
       responses:
         '200':
           description: 講座受講生一覧
@@ -2092,6 +2112,26 @@ paths:
           description: 講座ID
           required: true
           type: integer
+        - name: page
+          in: query
+          description: ページ番号
+          required: false
+          type: integer
+        - name: per_page
+          in: query
+          description: 1ページあたりの表示件数
+          required: false
+          type: integer
+        - name: sort_by
+          in: query
+          description: ソート対象
+          required: false
+          type: string
+        - name: order
+          in: query
+          description: ソート順
+          required: false
+          type: string
       responses:
         '200':
           description: 講座受講生一覧
