@@ -1162,8 +1162,8 @@ paths:
                               $ref: '#/schemas/lesson/Url'
                             remarks:
                               $ref: '#/schemas/lesson/Remarks'
-                            order:
-                              $ref: '#/schemas/lesson/Order'
+                            status:
+                              $ref: '#/schemas/lesson/Status'
     patch:
       tags:
         - Instructor-Chapter
@@ -1369,11 +1369,11 @@ paths:
                         $ref: '#/schemas/lesson/Status'
                       order:
                         $ref: '#/schemas/lesson/Order'
-  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}}:
-    patch:
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}:
+    put:
       tags:
         - Instructor-Lesson
-      operationId: patchInstructorChapterLesson
+      operationId: putInstructorChapterLesson
       summary: "レッスン情報を更新する。"
       parameters:
         - name: course_id
@@ -2181,6 +2181,7 @@ paths:
                                 type: integer
                                 example: 1
 
+  # マネージャー 講座-チャプター
   /api/v1/manager/course/{course_id}/chapter/{chapter_id}:
     get:
       tags:
@@ -2226,9 +2227,68 @@ paths:
                               $ref: '#/schemas/lesson/Url'
                             remarks:
                               $ref: '#/schemas/lesson/Remarks'
-                            order:
-                              $ref: '#/schemas/lesson/Order'
-
+                            status:
+                              $ref: '#/schemas/lesson/Status'
+    post:
+      tags:
+        - Manager-Chapter
+      operationId: postManagerCourseChapter
+      summary: "チャプター情報を登録する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: "string"
+                  description: タイトル
+                  example: 'チャプタータイトル'
+      responses:
+        '200':
+          description: チャプター詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+    delete:
+      tags:
+        - Manager-Chapter
+      operationId: deleteManagerCourseChapter
+      summary: "チャプター情報を削除する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターID
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: チャプター詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
   # お知らせ
   /api/v1/notification:
     get:
@@ -2481,6 +2541,10 @@ schemas:
       type: string
       description: 備考欄
       example: "動画index"
+    Status:
+      type: string
+      description: レッスンステータス
+      example: "public"
     Order:
       type: integer
       description: 順番
