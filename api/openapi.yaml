@@ -632,7 +632,7 @@ paths:
       tags:
         - Lesson-Attendance
       operationId: patchLessonAttendance
-      summary: "レッスン受講状態更新"
+      summary: "レッスン受講状態を更新する。"
       requestBody:
         required: true
         content:
@@ -664,13 +664,95 @@ paths:
                   result:
                     type: "boolean"
                     example: true
+# 講師
+  /api/v1/instructor:
+    post:
+      tags:
+        - Instructor
+      operationId: updateInstructor
+      summary: "講師情報を更新する。"
+      description: >
+        講師情報を更新する。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                nick_name:
+                 $ref: '#/schemas/instructor/NickName'
+                last_name:
+                  $ref: '#/schemas/instructor/LastName'
+                first_name:
+                  $ref: '#/schemas/instructor/FirstName'
+                email:
+                  $ref: '#/schemas/instructor/Email'
+                profile_image:
+                  $ref: '#/schemas/instructor/ProfileImage'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+                  data:
+                    type: "object"
+                    properties:
+                      nick_name:
+                        $ref: '#/schemas/instructor/NickName'
+                      last_name:
+                        $ref: '#/schemas/instructor/LastName'
+                      first_name:
+                        $ref: '#/schemas/instructor/FirstName'
+                      email:
+                        $ref: '#/schemas/instructor/Email'
+                      profile_image:
+                        $ref: '#/schemas/instructor/ProfileImage'
+  /api/v1/instructor/edit:
+    get:
+      tags:
+        - Instructor
+      operationId: getInstructor
+      summary: "講師情報を取得する。"
+      responses:
+        '200':
+          description: 講師情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      instructor_id:
+                        $ref: '#/schemas/instructor/InstructorId'
+                      nick_name:
+                        $ref: '#/schemas/instructor/NickName'
+                      last_name:
+                        $ref: '#/schemas/instructor/LastName'
+                      first_name:
+                        $ref: '#/schemas/instructor/FirstName'
+                      email:
+                        $ref: '#/schemas/instructor/Email'
+                      profile_image:
+                        $ref: '#/schemas/instructor/ProfileImage'
+
 # 講師-講座
   /api/v1/instructor/course/index:
     get:
       tags:
         - Instructor-Course
       operationId: getInstructorCourseIndex
-      summary: "講師講座一覧参照"
+      summary: "講師講座一覧を取得する。"
       responses:
         '200':
           description: 講座一覧
@@ -2321,86 +2403,7 @@ paths:
                           $ref: '#/schemas/notification/Content'
                         type:
                           $ref: '#/schemas/notification/Type'
-  /api/v1/instructor/{instructor_id}:
-    post:
-      tags:
-        - Instructor
-      operationId: updateInstructor
-      summary: "講師情報を更新する。"
-      description: >
-        講師情報を更新する。
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: "object"
-              properties:
-                nick_name:
-                 $ref: '#/schemas/instructor/NickName'
-                last_name:
-                  $ref: '#/schemas/instructor/LastName'
-                first_name:
-                  $ref: '#/schemas/instructor/FirstName'
-                email:
-                  $ref: '#/schemas/instructor/Email'
-                profile_image:
-                  $ref: '#/schemas/instructor/ProfileImage'
-      responses:
-        '200':
-          description: "Success"
-          content:
-            application/json:
-              schema:
-                required:
-                  - "result"
-                type: "object"
-                properties:
-                  result:
-                    type: "boolean"
-                    example: true
-                  data:
-                    type: "object"
-                    properties:
-                      nick_name:
-                        $ref: '#/schemas/instructor/NickName'
-                      last_name:
-                        $ref: '#/schemas/instructor/LastName'
-                      first_name:
-                        $ref: '#/schemas/instructor/FirstName'
-                      email:
-                        $ref: '#/schemas/instructor/Email'
-                      profile_image:
-                        $ref: '#/schemas/instructor/ProfileImage'
-  /api/v1/instructor/{instructor_id}/edit:
-    get:
-      tags:
-        - Instructor
-      operationId: getInstructor
-      summary: "講師情報を取得する。"
-      responses:
-        '200':
-          description: 講師情報
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      instructor_id:
-                        $ref: '#/schemas/instructor/InstructorId'
-                      nick_name:
-                        $ref: '#/schemas/instructor/NickName'
-                      last_name:
-                        $ref: '#/schemas/instructor/LastName'
-                      first_name:
-                        $ref: '#/schemas/instructor/FirstName'
-                      email:
-                        $ref: '#/schemas/instructor/Email'
-                      profile_image:
-                        $ref: '#/schemas/instructor/ProfileImage'
+
 
 schemas:
   student:
