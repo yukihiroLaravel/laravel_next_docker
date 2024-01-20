@@ -1390,6 +1390,10 @@ paths:
                   type: "string"
                   description: 備考
                   example: '備考'
+                status:
+                  type: "string"
+                  description: ステータス
+                  example: 'public'
       responses:
         '200':
           description: "Success"
