@@ -40,3 +40,18 @@ docker exec -it next_app bash
 /www/html# git clone https://github.com/yukihiroLaravel/juko_next.git nextapp
 ````
 
+## resource
+openapiのyamlファイルを配置
+
+### バンドルコマンド
+
+```shell
+npx swagger-cli bundle resource/*.yaml -o bundle-yaml/*.yaml -t yaml
+```
+
+### 結合コマンド
+
+```shell
+npx swagger-combine swagger-config.json -o combined-api.yaml -f yaml
+```
+

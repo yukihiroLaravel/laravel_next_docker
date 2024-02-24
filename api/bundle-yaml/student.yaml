@@ -3,6 +3,49 @@ info:
   title: Student API
   version: 1.0.0
 paths:
+  /api/v1/student/edit:
+    get:
+      tags:
+        - Student
+      operationId: getStudent
+      summary: 生徒情報を取得する。
+      responses:
+        '200':
+          description: 生徒情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      student_id:
+                        type: integer
+                        description: 生徒テーブル主キー
+                        example: 1
+                      nick_name:
+                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/nick_name'
+                      last_name:
+                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/last_name'
+                      first_name:
+                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/first_name'
+                      occupation:
+                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/occupation'
+                      purpose:
+                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/purpose'
+                      email:
+                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/email'
+                      birth_date:
+                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/birth_date'
+                      sex:
+                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/sex'
+                      address:
+                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/address'
+                      profile_image:
+                        type: string
+                        description: プロフィール画像
+                        example: /student/xxx.png
   /api/v1/student/:
     post:
       tags:
@@ -189,384 +232,3 @@ paths:
                         $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/address'
                       profile_image:
                         $ref: '#/paths/~1api~1v1~1student~1edit/get/responses/200/content/application~1json/schema/properties/data/properties/profile_image'
-  /api/v1/student/edit:
-    get:
-      tags:
-        - Student
-      operationId: getStudent
-      summary: 生徒情報を取得する。
-      responses:
-        '200':
-          description: 生徒情報
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      student_id:
-                        type: integer
-                        description: 生徒テーブル主キー
-                        example: 1
-                      nick_name:
-                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/nick_name'
-                      last_name:
-                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/last_name'
-                      first_name:
-                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/first_name'
-                      occupation:
-                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/occupation'
-                      purpose:
-                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/purpose'
-                      email:
-                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/email'
-                      birth_date:
-                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/birth_date'
-                      sex:
-                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/sex'
-                      address:
-                        $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/address'
-                      profile_image:
-                        type: string
-                        description: プロフィール画像
-                        example: /student/xxx.png
-  /api/v1/attendance/index:
-    get:
-      tags:
-        - Student-Attendance
-      operationId: getAttendanceIndex
-      summary: 受講中の講座一覧を取得する。
-      parameters:
-        - name: search_word
-          in: query
-          description: 検索ワード
-          required: false
-          type: string
-      responses:
-        '200':
-          description: 受講一覧
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        attendance_id:
-                          $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/attendance_id'
-                        progress:
-                          $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/progress'
-                        course:
-                          type: object
-                          properties:
-                            course_id:
-                              $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/course_id'
-                            title:
-                              $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/title'
-                            image:
-                              $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/image'
-                            instructor:
-                              type: object
-                              properties:
-                                instructor_id:
-                                  $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/instructor/properties/instructor_id'
-                                nick_name:
-                                  $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/instructor/properties/nick_name'
-                                last_name:
-                                  $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/instructor/properties/last_name'
-                                first_name:
-                                  $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/instructor/properties/first_name'
-                                email:
-                                  $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/instructor/properties/email'
-  '/api/v1/attendance/{attendance_id}':
-    get:
-      tags:
-        - Student-Attendance
-      operationId: getAttendance
-      summary: 受講中の講座の詳細情報を取得する。
-      parameters:
-        - name: attendance_id
-          in: path
-          description: 受講テーブルの主キー
-          required: true
-          type: integer
-      responses:
-        '200':
-          description: 受講詳細情報
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      attendance_id:
-                        type: integer
-                        description: 受講テーブル主キー
-                        example: 1
-                      progress:
-                        type: integer
-                        description: 進捗率
-                        example: 70
-                      course:
-                        type: object
-                        properties:
-                          course_id:
-                            type: integer
-                            description: 講座テーブル主キー
-                            example: 1
-                          title:
-                            type: string
-                            description: 講座名
-                            example: PHP入門講座
-                          image:
-                            type: string
-                            description: 講座サムネイル画像ファイルパス
-                            example: /course/xxx.png
-                          instructor:
-                            type: object
-                            properties:
-                              instructor_id:
-                                type: integer
-                                description: 講師テーブル主キー
-                                example: 1
-                              nick_name:
-                                type: string
-                                description: ニックネーム
-                                example: ニックネーム
-                              last_name:
-                                type: string
-                                description: 名字
-                                example: 名字
-                              first_name:
-                                type: string
-                                description: 名前
-                                example: 名前
-                              email:
-                                type: string
-                                description: メールアドレス
-                                example: test@example.com
-                          chapters:
-                            type: array
-                            items:
-                              type: object
-                              properties:
-                                chapter_id:
-                                  $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D~1progress/get/responses/200/content/application~1json/schema/properties/data/properties/continue_lesson/properties/chapter_id'
-                                title:
-                                  $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D~1course~1%7Bcourse_id%7D~1chapter~1%7Bchapter_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/chapter/properties/title'
-                                lessons:
-                                  type: array
-                                  items:
-                                    type: object
-                                    properties:
-                                      lesson_id:
-                                        $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D~1progress/get/responses/200/content/application~1json/schema/properties/data/properties/continue_lesson/properties/lesson_id'
-                                      title:
-                                        $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D~1course~1%7Bcourse_id%7D~1chapter~1%7Bchapter_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/chapter/properties/lessons/items/properties/title'
-                                      url:
-                                        $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D~1course~1%7Bcourse_id%7D~1chapter~1%7Bchapter_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/chapter/properties/lessons/items/properties/url'
-                                      remarks:
-                                        $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D~1course~1%7Bcourse_id%7D~1chapter~1%7Bchapter_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/chapter/properties/lessons/items/properties/remarks'
-                                      lesson_attendance:
-                                        type: object
-                                        properties:
-                                          lesson_attendance_id:
-                                            $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D~1course~1%7Bcourse_id%7D~1chapter~1%7Bchapter_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/chapter/properties/lessons/items/properties/lesson_attendance/properties/lesson_attendance_id'
-                                          status:
-                                            $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D~1course~1%7Bcourse_id%7D~1chapter~1%7Bchapter_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/chapter/properties/lessons/items/properties/lesson_attendance/properties/status'
-  '/api/v1/attendance/{attendance_id}/progress':
-    get:
-      tags:
-        - Student-Attendance
-      operationId: getAttendanceProgress
-      summary: 受講中の講座の進捗率を取得する。
-      parameters:
-        - name: course_id
-          in: path
-          description: 講座テーブルの主キー
-          required: true
-          type: integer
-      responses:
-        '200':
-          description: 講座進捗率
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      course:
-                        type: object
-                        properties:
-                          course_id:
-                            $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/course_id'
-                          progress:
-                            type: integer
-                            example: 10
-                      number_of_completed_chapters:
-                        type: integer
-                        example: 1
-                      number_of_total_chapters:
-                        type: integer
-                        example: 3
-                      number_of_completed_lessons:
-                        type: integer
-                        example: 2
-                      number_of_total_lessons:
-                        type: integer
-                        example: 6
-                      continue_lesson:
-                        type: object
-                        properties:
-                          chapter_id:
-                            type: integer
-                            description: チャプターテーブルの主キー
-                            example: 1
-                          lesson_id:
-                            type: integer
-                            description: レッスンテーブルの主キー
-                            example: 1
-  '/api/v1/attendance/{attendance_id}/course/{course_id}/chapter/{chapter_id}':
-    get:
-      tags:
-        - Student-Attendance-Course-Chapter
-      operationId: getAttendanceCourseChapter
-      summary: 受講中の講座のチャプターの詳細情報を取得する。
-      parameters:
-        - name: attendance_id
-          in: path
-          description: 受講テーブルの主キー
-          required: true
-          type: integer
-        - name: course_id
-          in: path
-          description: 講座テーブルの主キー
-          required: true
-          type: integer
-        - name: chapter_id
-          in: path
-          description: チャプターテーブルの主キー
-          required: true
-          type: integer
-      responses:
-        '200':
-          description: チャプター詳細情報
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      attendance_id:
-                        $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/attendance_id'
-                      progress:
-                        $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/progress'
-                      course:
-                        type: object
-                        properties:
-                          course_id:
-                            $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/course_id'
-                          title:
-                            $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/title'
-                          image:
-                            $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/image'
-                          instructor:
-                            type: object
-                            properties:
-                              instructor_id:
-                                $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/instructor/properties/instructor_id'
-                              nick_name:
-                                $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/instructor/properties/nick_name'
-                              last_name:
-                                $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/instructor/properties/last_name'
-                              first_name:
-                                $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/instructor/properties/first_name'
-                              email:
-                                $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/course/properties/instructor/properties/email'
-                          chapter:
-                            type: object
-                            properties:
-                              chapter_id:
-                                $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D~1progress/get/responses/200/content/application~1json/schema/properties/data/properties/continue_lesson/properties/chapter_id'
-                              title:
-                                type: string
-                                description: チャプタータイトル
-                                example: Hello Worldを出力する
-                              lessons:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    lesson_id:
-                                      $ref: '#/paths/~1api~1v1~1attendance~1%7Battendance_id%7D~1progress/get/responses/200/content/application~1json/schema/properties/data/properties/continue_lesson/properties/lesson_id'
-                                    title:
-                                      type: string
-                                      description: レッスン名
-                                      example: swaggerの書き方
-                                    url:
-                                      type: string
-                                      description: 教材動画URL
-                                      example: 'http::www.youtube'
-                                    remarks:
-                                      type: string
-                                      description: 備考欄
-                                      example: 動画index
-                                    lesson_attendance:
-                                      type: object
-                                      properties:
-                                        lesson_attendance_id:
-                                          type: integer
-                                          description: レッスン受講テーブルの主キー
-                                          example: 1
-                                        status:
-                                          type: string
-                                          description: 'レッスン受講状態（未着手, 着手, 完了）'
-                                          example: before_attendance
-  /api/v1/lesson-attendance:
-    patch:
-      tags:
-        - Lesson-Attendance
-      operationId: patchLessonAttendance
-      summary: レッスン受講状態を更新する。
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              required:
-                - lesson_attendance_id
-                - status
-              type: object
-              properties:
-                lesson_attendance_id:
-                  type: int
-                  description: レッスン受講状態ID
-                  example: 1
-                status:
-                  type: string
-                  description: 状態(受講前、受講中、受講完了)
-                  example: in_attendance
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                required:
-                  - result
-                type: object
-                properties:
-                  result:
-                    type: boolean
-                    example: true

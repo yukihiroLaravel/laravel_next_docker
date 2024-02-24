@@ -183,3 +183,89 @@ paths:
                             $ref: '../components/schemas/Chapter.yml#/ChapterId'
                           lesson_id:
                             $ref: '../components/schemas/Lesson.yml#/LessonId'
+  /api/v1/attendance/{attendance_id}/course/{course_id}/chapter/{chapter_id}:
+    get:
+      tags:
+        - Student-Attendance
+      operationId: getAttendanceCourseChapter
+      summary: "受講中の講座のチャプターの詳細情報を取得する。"
+      parameters:
+        - name: attendance_id
+          in: path
+          description: 受講テーブルの主キー
+          required: true
+          type: integer
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: チャプター詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      attendance_id:
+                        $ref: '../components/schemas/Attendance.yml#/AttendanceId'
+                      progress:
+                        $ref: '../components/schemas/Attendance.yml#/Progress'
+                      course:
+                        type: object
+                        properties:
+                          course_id:
+                            $ref: '../components/schemas/Course.yml#/CourseId'
+                          title:
+                            $ref: '../components/schemas/Course.yml#/Title'
+                          image:
+                            $ref: '../components/schemas/Course.yml#/Image'
+                          instructor:
+                            type: object
+                            properties:
+                              instructor_id:
+                                $ref: '../components/schemas/Instructor.yml#/InstructorId'
+                              nick_name:
+                                $ref: '../components/schemas/Instructor.yml#/NickName'
+                              last_name:
+                                $ref: '../components/schemas/Instructor.yml#/LastName'
+                              first_name:
+                                $ref: '../components/schemas/Instructor.yml#/FirstName'
+                              email:
+                                $ref: '../components/schemas/Instructor.yml#/Email'
+                          chapter:
+                            type: object
+                            properties:
+                              chapter_id:
+                                $ref: '../components/schemas/Chapter.yml#/ChapterId'
+                              title:
+                                $ref: '../components/schemas/Chapter.yml#/Title'
+                              lessons:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    lesson_id:
+                                      $ref: '../components/schemas/Lesson.yml#/LessonId'
+                                    title:
+                                      $ref: '../components/schemas/Lesson.yml#/Title'
+                                    url:
+                                      $ref: '../components/schemas/Lesson.yml#/Url'
+                                    remarks:
+                                      $ref: '../components/schemas/Lesson.yml#/Remarks'
+                                    lesson_attendance:
+                                      type: object
+                                      properties:
+                                        lesson_attendance_id:
+                                          $ref: '../components/schemas/LessonAttendance.yml#/LessonAttendanceId'
+                                        status:
+                                          $ref: '../components/schemas/LessonAttendance.yml#/Status'

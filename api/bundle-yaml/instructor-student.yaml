@@ -1,0 +1,120 @@
+openapi: 3.0.0
+info:
+  title: Instructor Course API
+  version: 1.0.0
+  description: This is the Instructor Course API
+paths:
+  /api/v1/instructor/student/:
+    post:
+      tags:
+        - Instructor-Student
+      operationId: postInstructorStudent
+      summary: 生徒情報を登録する。
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - given_name_by_instructor
+                - email
+              type: object
+              properties:
+                given_name_by_instructor:
+                  type: string
+                  description: ユーザー名
+                  example: ユーザー名
+                email:
+                  type: string
+                  description: メールアドレス
+                  example: test@example.com
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: 生徒テーブル主キー
+                        example: 1
+                      given_name_by_instructor:
+                        type: string
+                        description: ユーザー名
+                        example: ユーザー名
+                      email:
+                        type: string
+                        description: メールアドレス
+                        example: test@example.com
+  '/api/v1/instructor/student/{student_id}':
+    get:
+      tags:
+        - Instructor-Student
+      operationId: getInstructorStudent
+      summary: 生徒の詳細情報を取得する。
+      parameters:
+        - name: student_id
+          in: path
+          description: 生徒テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      student_id:
+                        $ref: '#/paths/~1api~1v1~1instructor~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/id'
+                      given_name_by_instructor:
+                        $ref: '#/paths/~1api~1v1~1instructor~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/given_name_by_instructor'
+                      nick_name:
+                        type: string
+                        description: ニックネーム
+                        example: ニックネーム
+                      last_name:
+                        type: string
+                        description: 名字
+                        example: 名字
+                      first_name:
+                        type: string
+                        description: 名前
+                        example: 名前
+                      occupation:
+                        type: string
+                        description: 職業
+                        example: エンジニア
+                      email:
+                        $ref: '#/paths/~1api~1v1~1instructor~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/email'
+                      purpose:
+                        type: string
+                        description: 目的
+                        example: スキルアップのため
+                      birth_date:
+                        type: string
+                        description: 生年月日
+                        example: 2022/10/17
+                      sex:
+                        type: string
+                        description: 性別
+                        example: man
+                      address:
+                        type: string
+                        description: 住所
+                        example: 東京都
+                      last_login_at:
+                        type: string
+                        description: 最終ログイン日時
+                        example: '2022/10/17 00:00:00'

@@ -1,0 +1,173 @@
+openapi: 3.0.0
+info:
+  title: Login API
+  version: 1.0.0
+  description: This is the Login API
+paths:
+  /login:
+    post:
+      tags:
+        - Login
+      operationId: postLoginStudent
+      summary: 生徒ログイン
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - email
+                - password
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: メールアドレス
+                  example: test@example.com
+                password:
+                  type: string
+                  description: パスワード
+                  example: password
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Authenticated.
+  /logout:
+    post:
+      tags:
+        - Login
+      operationId: postLogoutStudent
+      summary: 生徒ログアウト
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+  /login/instructor:
+    post:
+      tags:
+        - Login
+      operationId: postLoginInstructor
+      summary: 講師ログイン
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - email
+                - password
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: メールアドレス
+                  example: test@example.com
+                password:
+                  type: string
+                  description: パスワード
+                  example: password
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Authenticated.
+  /logout/instructor:
+    post:
+      tags:
+        - Login
+      operationId: postLogoutInstructor
+      summary: 講師ログアウト
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+  /api/v1/user:
+    get:
+      tags:
+        - Login
+      operationId: getLoginUser
+      summary: 認証者情報を取得する
+      responses:
+        '200':
+          description: 認証者情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  given_name_by_instructor:
+                    type: string
+                    description: ユーザー名
+                    example: ユーザー名
+                  nick_name:
+                    type: string
+                    description: ニックネーム
+                    example: ニックネーム
+                  last_name:
+                    type: string
+                    description: 名字
+                    example: 名字
+                  first_name:
+                    type: string
+                    description: 名前
+                    example: 名前
+                  occupation:
+                    type: string
+                    description: 職業
+                    example: エンジニア
+                  email:
+                    type: string
+                    description: メールアドレス
+                    example: test@example.com
+                  purpose:
+                    type: string
+                    description: 目的
+                    example: スキルアップのため
+                  birth_date:
+                    type: string
+                    description: 生年月日
+                    example: 2022/10/17
+                  sex:
+                    type: string
+                    description: 性別
+                    example: man
+                  address:
+                    type: string
+                    description: 住所
+                    example: 東京都

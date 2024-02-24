@@ -1,0 +1,255 @@
+openapi: 3.0.0
+info:
+  title: Instructor Course API
+  version: 1.0.0
+  description: This is the Instructor Course API
+paths:
+  '/api/v1/instructor/course/{course_id}/chapter':
+    post:
+      tags:
+        - Instructor-Chapter
+      operationId: postInstructorChapter
+      summary: チャプター情報を登録する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: チャプタータイトル
+                  example: Hello Worldを出力する
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  '/api/v1/instructor/course/{course_id}/chapter/{chapter_id}':
+    get:
+      tags:
+        - Instructor-Chapter
+      operationId: getInstructorChapter
+      summary: チャプターの詳細情報を取得する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: チャプター詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      chapter_id:
+                        $ref: '#/paths/~1api~1v1~1instructor~1course~1%7Bcourse_id%7D~1chapter~1sort/post/requestBody/content/application~1json/schema/properties/chapters/items/properties/chapter_id'
+                      title:
+                        $ref: '#/paths/~1api~1v1~1instructor~1course~1%7Bcourse_id%7D~1chapter/post/requestBody/content/application~1json/schema/properties/title'
+                      lessons:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            lesson_id:
+                              type: integer
+                              description: レッスンテーブルの主キー
+                              example: 1
+                            title:
+                              type: string
+                              description: レッスン名
+                              example: swaggerの書き方
+                            url:
+                              type: string
+                              description: 教材動画URL
+                              example: 'http::www.youtube'
+                            remarks:
+                              type: string
+                              description: 備考欄
+                              example: 動画index
+                            status:
+                              type: string
+                              description: レッスンステータス
+                              example: public
+    patch:
+      tags:
+        - Instructor-Chapter
+      operationId: patchInstructorChapter
+      summary: チャプター情報を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: タイトル
+                  example: チャプタータイトル
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+    delete:
+      tags:
+        - Instructor-Chapter
+      operationId: deleteInstructorChapter
+      summary: チャプター情報を削除する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  '/api/v1/instructor/course/{course_id}/chapter/sort':
+    post:
+      tags:
+        - Instructor-Chapter
+      operationId: sortInstructorChapter
+      summary: チャプター情報の並び順を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                chapters:
+                  type: array
+                  description: チャプターの配列
+                  items:
+                    type: object
+                    properties:
+                      chapter_id:
+                        type: integer
+                        description: チャプターテーブルの主キー
+                        example: 1
+                      order:
+                        type: integer
+                        description: 順番
+                        example: 1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  '/api/v1/instructor/course/{course_id}/chapter/{chapter_id}/status':
+    patch:
+      tags:
+        - Instructor-Chapter
+      operationId: patchInstructorChapterStatus
+      summary: チャプターの公開状態を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターID
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - status
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: 状態(公開、非公開)
+                  example: public
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true

@@ -65,7 +65,7 @@ paths:
                         $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/application~1json/schema/properties/email'
                       profile_image:
                         $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/application~1json/schema/properties/profile_image'
-  /api/v1/Instructor.yml#/edit:
+  /api/v1/instructor/edit:
     get:
       tags:
         - Instructor

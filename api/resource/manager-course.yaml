@@ -1,14 +1,14 @@
 openapi: 3.0.0
 info:
-  title: Instructor Course API
+  title: Manager Course API
   version: 1.0.0
-  description: This is the Instructor Course API
+  description: This is the Manager Course API
 paths:
-  /api/v1/instructor/course/index:
+  /api/v1/manager/course/index:
     get:
       tags:
-        - Instructor-Course
-      operationId: getInstructorCourseIndex
+        - Manager-Course
+      operationId: getManagerCourseIndex
       summary: "講師講座一覧を取得する。"
       responses:
         '200':
@@ -31,11 +31,11 @@ paths:
                           $ref: '../components/schemas/Course.yml#/Image'
                         status:
                           $ref: '../components/schemas/Course.yml#/Status'
-  /api/v1/instructor/course/{course_id}:
+  /api/v1/manager/course/{course_id}:
     get:
       tags:
-        - Instructor-Course
-      operationId: getInstructorCourse
+        - Manager-Course
+      operationId: getManagerCourse
       summary: "講座の詳細情報を取得する。"
       parameters:
         - name: course_id
@@ -88,8 +88,8 @@ paths:
                                     $ref: '../components/schemas/Lesson.yml#/Remarks'
     post:
       tags:
-        - Instructor-Course
-      operationId: patchInstructorCourse
+        - Manager-Course
+      operationId: postManagerCourse
       summary: "講座情報を更新する。"
       parameters:
         - name: course_id
@@ -142,8 +142,8 @@ paths:
                         $ref: '../components/schemas/Course.yml#/Status'
     delete:
       tags:
-        - Instructor-Course
-      operationId: deleteInstructorCourse
+        - Manager-Course
+      operationId: deleteManagerCourse
       summary: "講座情報を削除する。"
       parameters:
         - name: course_id
@@ -164,42 +164,11 @@ paths:
                   result:
                     type: "boolean"
                     example: true
-  /api/v1/instructor/course/{course_id}/edit:
-    get:
-      tags:
-        - Instructor-Course
-      operationId: getInstructorCourseEdit
-      summary: "編集講座の情報を取得する。"
-      parameters:
-        - name: course_id
-          in: path
-          description: 講座テーブルの主キー
-          required: true
-          type: integer
-      responses:
-        '200':
-          description: 講座詳細情報
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      course_id:
-                        $ref: '../components/schemas/Course.yml#/CourseId'
-                      title:
-                        $ref: '../components/schemas/Course.yml#/Title'
-                      image:
-                        $ref: '../components/schemas/Course.yml#/Image'
-                      status:
-                        $ref: '../components/schemas/Course.yml#/Status'
-  /api/v1/instructor/course:
+  /api/v1/manager/course:
     post:
       tags:
-        - Instructor-Course
-      operationId: postInstructorCourse
+        - Manager-Course
+      operationId: postManagerCourse
       summary: "講座情報を登録する。"
       requestBody:
         required: true
@@ -229,11 +198,11 @@ paths:
                   result:
                     type: "boolean"
                     example: true
-  /api/v1/instructor/course/{course_id}/attendance/status:
+  /api/v1/manager/course/{course_id}/attendance/status:
     get:
       tags:
-        - Instructor-Course
-      operationId: getInstructorCourseAttendanceStatus
+        - Manager-Course
+      operationId: getManagerCourseAttendanceStatus
       summary: "講座の受講状況を取得する。"
       parameters:
         - name: course_id
@@ -266,11 +235,11 @@ paths:
                               completed_count:
                                 type: integer
                                 example: 1
-  /api/v1/instructor/course/{course_id}/notification:
+  /api/v1/manager/course/{course_id}/notification:
     post:
       tags:
-        - Instructor-Course
-      operationId: postInstructorCourseNotification
+        - Manager-Course
+      operationId: postManagerCourseNotification
       summary: "講座のお知らせを登録する。"
       parameters:
         - name: course_id
@@ -319,11 +288,11 @@ paths:
                   result:
                     type: "boolean"
                     example: true
-  /api/v1/instructor/course/{course_id}/student/index:
+  /api/v1/manager/course/{course_id}/student/index:
     get:
       tags:
-        - Instructor-Course
-      operationId: getInstructorCourseStudentIndex
+        - Manager-Course
+      operationId: getManagerCourseStudentIndex
       summary: "講座の受講生一覧を取得する。"
       parameters:
         - name: course_id
@@ -399,11 +368,11 @@ paths:
                               total:
                                 type: integer
                                 example: 1
-  /api/v1/instructor/course/status:
+  /api/v1/manager/course/status:
     put:
       tags:
-        - Instructor-Course
-      operationId: putInstructorCourseStatus
+        - Manager-Course
+      operationId: putManagerCourseStatus
       summary: "講座のステータスを一括更新する。"
       requestBody:
         required: true

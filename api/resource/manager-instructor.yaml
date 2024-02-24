@@ -1,0 +1,91 @@
+openapi: 3.0.0
+info:
+  title: Manager Instructor API
+  version: 1.0.0
+  description: This is the Instructor API
+paths:
+  /api/v1/manager/instructor/{instructor_id}:
+    get:
+      tags:
+        - Manager-Instructor
+      operationId: getManagerInstructor
+      summary: "講師情報を取得する。"
+      responses:
+        '200':
+          description: 講師情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      instructor_id:
+                        $ref: '../components/schemas/Instructor.yml#/InstructorId'
+                      nick_name:
+                        $ref: '../components/schemas/Instructor.yml#/NickName'
+                      last_name:
+                        $ref: '../components/schemas/Instructor.yml#/LastName'
+                      first_name:
+                        $ref: '../components/schemas/Instructor.yml#/FirstName'
+                      email:
+                        $ref: '../components/schemas/Instructor.yml#/Email'
+                      profile_image:
+                        $ref: '../components/schemas/Instructor.yml#/ProfileImage'
+    post:
+      tags:
+        - Manager-Instructor
+      operationId: postManagerInstructor
+      summary: "講師情報を更新する。"
+      description: >
+        講師情報を更新する。
+      parameters:
+        - name: instructor_id
+          in: path
+          description: 講師テーブル主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                nick_name:
+                 $ref: '../components/schemas/Instructor.yml#/NickName'
+                last_name:
+                  $ref: '../components/schemas/Instructor.yml#/LastName'
+                first_name:
+                  $ref: '../components/schemas/Instructor.yml#/FirstName'
+                email:
+                  $ref: '../components/schemas/Instructor.yml#/Email'
+                profile_image:
+                  $ref: '../components/schemas/Instructor.yml#/ProfileImage'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+                  data:
+                    type: "object"
+                    properties:
+                      nick_name:
+                        $ref: '../components/schemas/Instructor.yml#/NickName'
+                      last_name:
+                        $ref: '../components/schemas/Instructor.yml#/LastName'
+                      first_name:
+                        $ref: '../components/schemas/Instructor.yml#/FirstName'
+                      email:
+                        $ref: '../components/schemas/Instructor.yml#/Email'
+                      profile_image:
+                        $ref: '../components/schemas/Instructor.yml#/ProfileImage'

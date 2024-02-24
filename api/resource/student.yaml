@@ -3,6 +3,45 @@ info:
   title: Student API
   version: 1.0.0
 paths:
+  /api/v1/student/edit:
+    get:
+      tags:
+        - Student
+      operationId: getStudent
+      summary: "生徒情報を取得する。"
+      responses:
+        '200':
+          description: 生徒情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      student_id:
+                        $ref: '../components/schemas/Student.yml#/StudentId'
+                      nick_name:
+                        $ref: '../components/schemas/Student.yml#/StudentNickName'
+                      last_name:
+                        $ref: '../components/schemas/Student.yml#/LastName'
+                      first_name:
+                        $ref: '../components/schemas/Student.yml#/FirstName'
+                      occupation:
+                        $ref: '../components/schemas/Student.yml#/Occupation'
+                      purpose:
+                        $ref: '../components/schemas/Student.yml#/Purpose'
+                      email:
+                        $ref: '../components/schemas/Student.yml#/StudentEmail'
+                      birth_date:
+                        $ref: '../components/schemas/Student.yml#/BirthDate'
+                      sex:
+                        $ref: '../components/schemas/Student.yml#/Sex'
+                      address:
+                        $ref: '../components/schemas/Student.yml#/Address'
+                      profile_image:
+                        $ref: '../components/schemas/Student.yml#/StudentProfileImage'
   /api/v1/student/:
     post:
       tags:
@@ -151,45 +190,6 @@ paths:
                   data:
                     type: object
                     properties:
-                      nick_name:
-                        $ref: '../components/schemas/Student.yml#/StudentNickName'
-                      last_name:
-                        $ref: '../components/schemas/Student.yml#/LastName'
-                      first_name:
-                        $ref: '../components/schemas/Student.yml#/FirstName'
-                      occupation:
-                        $ref: '../components/schemas/Student.yml#/Occupation'
-                      purpose:
-                        $ref: '../components/schemas/Student.yml#/Purpose'
-                      email:
-                        $ref: '../components/schemas/Student.yml#/StudentEmail'
-                      birth_date:
-                        $ref: '../components/schemas/Student.yml#/BirthDate'
-                      sex:
-                        $ref: '../components/schemas/Student.yml#/Sex'
-                      address:
-                        $ref: '../components/schemas/Student.yml#/Address'
-                      profile_image:
-                        $ref: '../components/schemas/Student.yml#/StudentProfileImage'
-  /api/v1/student/edit:
-    get:
-      tags:
-        - Student
-      operationId: getStudent
-      summary: "生徒情報を取得する。"
-      responses:
-        '200':
-          description: 生徒情報
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      student_id:
-                        $ref: '../components/schemas/Student.yml#/StudentId'
                       nick_name:
                         $ref: '../components/schemas/Student.yml#/StudentNickName'
                       last_name:
