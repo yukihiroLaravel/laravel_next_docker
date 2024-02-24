@@ -46,7 +46,7 @@ openapiのyamlファイルを配置
 ### バンドルコマンド
 
 ```shell
-npx swagger-cli bundle resource/*.yaml -o bundle-yaml/*.yaml -t yaml
+./bundle.sh
 ```
 
 ### 結合コマンド

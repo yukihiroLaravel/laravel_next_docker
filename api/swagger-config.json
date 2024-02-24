@@ -22,6 +22,7 @@
     { "url": "./bundle-yaml/manager-chapter.yaml" },
     { "url": "./bundle-yaml/manager-lesson.yaml" },
     { "url": "./bundle-yaml/manager-student.yaml" },
-    { "url": "./bundle-yaml/manager-notification.yaml" }
+    { "url": "./bundle-yaml/manager-notification.yaml" },
+    { "url": "./bundle-yaml/notification.yaml" }
   ]
 }
