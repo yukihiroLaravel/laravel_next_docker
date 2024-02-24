@@ -1,0 +1,6 @@
+openapi: 3.0.0
+info:
+  title: Instructor Course API
+  version: 1.0.0
+  description: This is the Instructor Course API
+paths: null

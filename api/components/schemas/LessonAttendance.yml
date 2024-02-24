@@ -1,0 +1,8 @@
+LessonAttendanceId:
+  type: integer
+  description: レッスン受講テーブルの主キー
+  example: 1
+Status:
+  type: string
+  description: レッスン受講状態（未着手, 着手, 完了）
+  example: "before_attendance"

@@ -1,0 +1,24 @@
+InstructorId:
+  type: integer
+  description: 講師テーブル主キー
+  example: 1
+NickName:
+  type: string
+  description: ニックネーム
+  example: "ニックネーム"
+LastName:
+  type: string
+  description: 名字
+  example: "名字"
+FirstName:
+  type: string
+  description: 名前
+  example: "名前"
+Email:
+  type: string
+  description: メールアドレス
+  example: "test@example.com"
+ProfileImage:
+  type: string
+  description: プロフィール画像
+  example: "/instructor/xxx.png"

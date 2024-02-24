@@ -1,0 +1,44 @@
+openapi: 3.0.0
+info:
+  title: Studnet Lesson Attendance API
+  version: 1.0.0
+  description: This is the Student Lesson Attendance API
+paths:
+  /api/v1/lesson-attendance:
+    patch:
+      tags:
+        - Lesson-Attendance
+      operationId: patchLessonAttendance
+      summary: "レッスン受講状態を更新する。"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - "lesson_attendance_id"
+                - "status"
+              type: "object"
+              properties:
+                lesson_attendance_id:
+                  type: "int"
+                  description: レッスン受講状態ID
+                  example: 1
+                status:
+                  type: "string"
+                  description: 状態(受講前、受講中、受講完了)
+                  example: 'in_attendance'
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+
