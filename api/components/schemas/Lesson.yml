@@ -1,0 +1,24 @@
+LessonId:
+  type: integer
+  description: レッスンテーブルの主キー
+  example: 1
+Title:
+  type: string
+  description: レッスン名
+  example: "swaggerの書き方"
+Url:
+  type: string
+  description: 教材動画URL
+  example: "http::www.youtube"
+Remarks:
+  type: string
+  description: 備考欄
+  example: "動画index"
+Status:
+  type: string
+  description: レッスンステータス
+  example: "public"
+Order:
+  type: integer
+  description: 順番
+  example: 1

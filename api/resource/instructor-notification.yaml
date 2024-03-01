@@ -1,0 +1,154 @@
+openapi: 3.0.0
+info:
+  title: Instructor Course API
+  version: 1.0.0
+  description: This is the Instructor Course API
+paths:
+  /api/v1/instructor/notification/index:
+    get:
+      tags:
+        - Instructor-Notification
+      operationId: getInstructorNotificationIndex
+      summary: "お知らせ一覧を取得する。"
+      responses:
+        '200':
+          description: お知らせ一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        notifications:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                $ref: '../components/schemas/Notification.yml#/NotificationId'
+                              title:
+                                $ref: '../components/schemas/Notification.yml#/Title'
+                              content:
+                                $ref: '../components/schemas/Notification.yml#/Content'
+                              start_date:
+                                $ref: '../components/schemas/Notification.yml#/StartDate'
+                              end_date:
+                                $ref: '../components/schemas/Notification.yml#/EndDate'
+                              type:
+                                $ref: '../components/schemas/Notification.yml#/Type'
+                        pagination:
+                          type: object
+                          properties:
+                            page:
+                              $ref: '../components/schemas/Pagination.yml#/Page'
+                            total:
+                              $ref: '../components/schemas/Pagination.yml#/Total'
+  /api/v1/instructor/notification/{notification_id}:
+    get:
+      tags:
+        - Instructor-Notification
+      operationId: getInstructorNotification
+      summary: "お知らせの詳細情報を取得する。"
+      parameters:
+        - name: notification_id
+          in: path
+          description: お知らせテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: お知らせ詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      notification_id:
+                        $ref: '../components/schemas/Notification.yml#/NotificationId'
+                      couse_id:
+                        $ref: '../components/schemas/Course.yml#/CourseId'
+                      title:
+                        $ref: '../components/schemas/Notification.yml#/Title'
+                      content:
+                        $ref: '../components/schemas/Notification.yml#/Content'
+                      start_date:
+                        $ref: '../components/schemas/Notification.yml#/StartDate'
+                      end_date:
+                        $ref: '../components/schemas/Notification.yml#/EndDate'
+                      type:
+                        $ref: '../components/schemas/Notification.yml#/Type'
+    patch:
+      tags:
+        - Instructor-Notification
+      operationId: patchInstructorNotification
+      summary: "お知らせ情報を更新する。"
+      parameters:
+        - name: notification_id
+          in: path
+          description: お知らせテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - "title"
+                - "content"
+                - "start_date"
+                - "end_date"
+                - "type"
+              type: "object"
+              properties:
+                title:
+                  type: "string"
+                  description: お知らせタイトル
+                  example: 'レッスン「変数とは？」閲覧について'
+                content:
+                  type: "string"
+                  description: 本文
+                  example: '10月1日〜10日の間、レッスン「変数とは？」がメンテナンスにつき閲覧できなくなります。'
+                start_date:
+                  type: "string"
+                  description: お知らせ開始日
+                  example: '2021-10-01 00:00:00'
+                end_date:
+                  type: "string"
+                  description: お知らせ終了日
+                  example: '2021-10-10 00:00:00'
+                type:
+                  type: "string"
+                  description: お知らせタイプ
+                  example: 'once'
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+                  data:
+                    type: "object"
+                    properties:
+                      title:
+                        $ref: '../components/schemas/Notification.yml#/Title'
+                      content:
+                        $ref: '../components/schemas/Notification.yml#/Content'
+                      start_date:
+                        $ref: '../components/schemas/Notification.yml#/StartDate'
+                      end_date:
+                        $ref: '../components/schemas/Notification.yml#/EndDate'
+                      type:
+                        $ref: '../components/schemas/Notification.yml#/Type'

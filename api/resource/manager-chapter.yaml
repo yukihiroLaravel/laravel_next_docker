@@ -1,0 +1,239 @@
+openapi: 3.0.0
+info:
+  title: Manager Chapter API
+  version: 1.0.0
+  description: This is the Manager Chapter API
+paths:
+  /api/v1/manager/course/{course_id}/chapter:
+    post:
+      tags:
+        - Manager-Chapter
+      operationId: postManagerChapter
+      summary: "チャプター情報を登録する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  $ref: '../components/schemas/Chapter.yml#/Title'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+  /api/v1/manager/course/{course_id}/chapter/{chapter_id}:
+    get:
+      tags:
+        - Manager-Chapter
+      operationId: getManagerChapter
+      summary: "チャプターの詳細情報を取得する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: チャプター詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      chapter_id:
+                        $ref: '../components/schemas/Chapter.yml#/ChapterId'
+                      title:
+                        $ref: '../components/schemas/Chapter.yml#/Title'
+                      lessons:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            lesson_id:
+                              $ref: '../components/schemas/Lesson.yml#/LessonId'
+                            title:
+                              $ref: '../components/schemas/Lesson.yml#/Title'
+                            url:
+                              $ref: '../components/schemas/Lesson.yml#/Url'
+                            remarks:
+                              $ref: '../components/schemas/Lesson.yml#/Remarks'
+                            status:
+                              $ref: '../components/schemas/Lesson.yml#/Status'
+    patch:
+      tags:
+        - Manager-Chapter
+      operationId: patchManagerChapter
+      summary: "チャプター情報を更新する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: "string"
+                  description: タイトル
+                  example: 'チャプタータイトル'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+    delete:
+      tags:
+        - Manager-Chapter
+      operationId: deleteManagerChapter
+      summary: "チャプター情報を削除する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+  /api/v1/manager/course/{course_id}/chapter/sort:
+    post:
+      tags:
+        - Manager-Chapter
+      operationId: sortManagerChapter
+      summary: "チャプター情報の並び順を更新する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                chapters:
+                  type: "array"
+                  description: チャプターの配列
+                  items:
+                    type: "object"
+                    properties:
+                      chapter_id:
+                        $ref: '../components/schemas/Chapter.yml#/ChapterId'
+                      order:
+                        $ref: '../components/schemas/Chapter.yml#/Order'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+  /api/v1/manager/course/{course_id}/chapter/{chapter_id}/status:
+    patch:
+      tags:
+        - Manager-Chapter
+      operationId: patchManagerChapterStatus
+      summary: "チャプターの公開状態を更新する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターID
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - "status"
+              type: "object"
+              properties:
+                status:
+                  type: "string"
+                  description: 状態(公開、非公開)
+                  example: 'public'
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true

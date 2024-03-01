@@ -1,0 +1,8 @@
+Page:
+  type: integer
+  description: ページ番号
+  example: 1
+Total:
+  type: integer
+  description: ページ総数
+  example: 1

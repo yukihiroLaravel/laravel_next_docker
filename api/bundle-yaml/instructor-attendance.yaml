@@ -1,0 +1,61 @@
+openapi: 3.0.0
+info:
+  title: Instructor Course API
+  version: 1.0.0
+  description: This is the Instructor Course API
+paths:
+  /api/v1/instructor/attendance:
+    post:
+      tags:
+        - Instructor-Attendance
+      operationId: postInstructorAttendance
+      summary: 受講情報を登録する。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                student_id:
+                  type: integer
+                  description: 生徒テーブル主キー
+                  example: 1
+                course_id:
+                  type: integer
+                  description: 講座テーブル主キー
+                  example: 1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  '/api/v1/instructor/attendance/{attendance_id}':
+    delete:
+      tags:
+        - Instructor-Attendance
+      operationId: deleteInstructorAttendance
+      summary: 受講情報を削除する。
+      parameters:
+        - name: attendance_id
+          in: path
+          description: 受講テーブル主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true

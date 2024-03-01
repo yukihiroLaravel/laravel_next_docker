@@ -1,0 +1,52 @@
+StudentId:
+  type: integer
+  description: 生徒テーブル主キー
+  example: 1
+GivenNameByInstructor:
+  type: string
+  description: ユーザー名
+  example: "ユーザー名"
+StudentNickName:
+  type: string
+  description: ニックネーム
+  example: "ニックネーム"
+LastName:
+  type: string
+  description: 名字
+  example: "名字"
+FirstName:
+  type: string
+  description: 名前
+  example: "名前"
+Occupation:
+  type: string
+  description: 職業
+  example: "エンジニア"
+StudentEmail:
+  type: string
+  description: メールアドレス
+  example: "test@example.com"
+Purpose:
+  type: string
+  description: 目的
+  example: "スキルアップのため"
+BirthDate:
+  type: string
+  description: 生年月日
+  example: "2022/10/17"
+Sex:
+  type: string
+  description: 性別
+  example: "man"
+Address:
+  type: string
+  description: 住所
+  example: "東京都"
+LastLoginAt:
+  type: string
+  description: 最終ログイン日時
+  example: "2022/10/17 00:00:00"
+StudentProfileImage:
+  type: string
+  description: プロフィール画像
+  example: "/student/xxx.png"

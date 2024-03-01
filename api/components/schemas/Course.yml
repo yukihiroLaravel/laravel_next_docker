@@ -1,0 +1,16 @@
+CourseId:
+  type: integer
+  description: 講座テーブル主キー
+  example: 1
+Title:
+  type: "string"
+  description: "講座名"
+  example: "PHP入門講座"
+Image:
+  type: "string"
+  description: "講座サムネイル画像ファイルパス"
+  example: "/course/xxx.png"
+Status:
+  type: "string"
+  description: "講座ステータス"
+  example: "public"
