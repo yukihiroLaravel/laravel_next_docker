@@ -373,6 +373,21 @@ paths:
           description: ソート順
           required: false
           type: string
+        - name: inputText
+          in: query
+          description: 検索文字列
+          required: false
+          type: integer
+        - name: startDate
+          in: query
+          description: 日付検索開始日
+          required: false
+          type: integer
+        - name: endDate
+          in: query
+          description: 日付検索終了日
+          required: false
+          type: integer
       responses:
         '200':
           description: 講座受講生一覧
@@ -395,6 +410,15 @@ paths:
                               $ref: '#/paths/~1api~1v1~1instructor~1course~1%7Bcourse_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/title'
                             image:
                               $ref: '#/paths/~1api~1v1~1instructor~1course~1%7Bcourse_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/image'
+                        pagination:
+                          type: object
+                          properties:
+                            page:
+                              type: integer
+                              example: 1
+                            total:
+                              type: integer
+                              example: 1
                         students:
                           type: array
                           items:
@@ -422,15 +446,6 @@ paths:
                                 type: string
                                 description: 受講日時
                                 example: 2022/10/17
-                          pagination:
-                            type: object
-                            properties:
-                              page:
-                                type: integer
-                                example: 1
-                              total:
-                                type: integer
-                                example: 1
   /api/v1/instructor/course/status:
     put:
       tags:

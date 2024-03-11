@@ -1401,6 +1401,21 @@ paths:
           description: ソート順
           required: false
           type: string
+        - name: inputText
+          in: query
+          description: 検索文字列
+          required: false
+          type: integer
+        - name: startDate
+          in: query
+          description: 日付検索開始日
+          required: false
+          type: integer
+        - name: endDate
+          in: query
+          description: 日付検索終了日
+          required: false
+          type: integer
       responses:
         '200':
           description: 講座受講生一覧
@@ -1429,6 +1444,15 @@ paths:
                               type: string
                               description: 講座サムネイル画像ファイルパス
                               example: /course/xxx.png
+                        pagination:
+                          type: object
+                          properties:
+                            page:
+                              type: integer
+                              example: 1
+                            total:
+                              type: integer
+                              example: 1
                         students:
                           type: array
                           items:
@@ -1458,15 +1482,6 @@ paths:
                                 type: string
                                 description: 受講日時
                                 example: 2022/10/17
-                          pagination:
-                            type: object
-                            properties:
-                              page:
-                                type: integer
-                                example: 1
-                              total:
-                                type: integer
-                                example: 1
   /api/v1/instructor/course/status:
     put:
       tags:
@@ -2766,6 +2781,21 @@ paths:
           description: ソート順
           required: false
           type: string
+        - name: inputText
+          in: query
+          description: 検索文字列
+          required: false
+          type: integer
+        - name: startDate
+          in: query
+          description: 日付検索開始日
+          required: false
+          type: integer
+        - name: endDate
+          in: query
+          description: 日付検索終了日
+          required: false
+          type: integer
       responses:
         '200':
           description: 講座受講生一覧
@@ -2794,6 +2824,15 @@ paths:
                               type: string
                               description: 講座サムネイル画像ファイルパス
                               example: /course/xxx.png
+                        pagination:
+                          type: object
+                          properties:
+                            page:
+                              type: integer
+                              example: 1
+                            total:
+                              type: integer
+                              example: 1
                         students:
                           type: array
                           items:
@@ -2823,15 +2862,6 @@ paths:
                                 type: string
                                 description: 受講日時
                                 example: 2022/10/17
-                          pagination:
-                            type: object
-                            properties:
-                              page:
-                                type: integer
-                                example: 1
-                              total:
-                                type: integer
-                                example: 1
   /api/v1/manager/course/status:
     put:
       tags:

@@ -351,6 +351,21 @@ paths:
           description: ソート順
           required: false
           type: string
+        - name: inputText
+          in: query
+          description: 検索文字列
+          required: false
+          type: integer
+        - name: startDate
+          in: query
+          description: 日付検索開始日
+          required: false
+          type: integer
+        - name: endDate
+          in: query
+          description: 日付検索終了日
+          required: false
+          type: integer
       responses:
         '200':
           description: 講座受講生一覧
@@ -373,6 +388,15 @@ paths:
                               $ref: '../components/schemas/Course.yml#/Title'
                             image:
                               $ref: '../components/schemas/Course.yml#/Image'
+                        pagination:
+                          type: object
+                          properties:
+                            page:
+                              type: integer
+                              example: 1
+                            total:
+                              type: integer
+                              example: 1
                         students:
                           type: array
                           items:
@@ -390,15 +414,6 @@ paths:
                                 $ref: '../components/schemas/Student.yml#/LastLoginAt'
                               attendanced_at:
                                 $ref: '../components/schemas/Attendance.yml#/AttendancedAt'
-                          pagination:
-                            type: object
-                            properties:
-                              page:
-                                type: integer
-                                example: 1
-                              total:
-                                type: integer
-                                example: 1
   /api/v1/instructor/course/status:
     put:
       tags:

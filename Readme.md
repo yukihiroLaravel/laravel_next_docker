@@ -62,7 +62,7 @@ APIドキュメントを作成する手順は以下の通りです。
 以下のコマンドを実行して、APIドキュメントを結合します。
 
 ```shell
-npx swagger-combine swagger-config.json -o combined-api.yaml -f yaml
+npx swagger-combine swagger-config.json -o openapi.yaml -f yaml
 ```
 
 ### ドキュメントの確認
