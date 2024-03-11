@@ -11,3 +11,9 @@ for file in $yaml_files; do
   # Execute the command
   npx swagger-cli bundle "$file" -o "bundle-yaml/$filename.yaml" -t yaml
 done
+
+# Combine all the YAML files into a single file
+npx swagger-combine swagger-config.json -o openapi.yaml -f yaml
+
+# info
+echo "OpenAPI file has been created"
