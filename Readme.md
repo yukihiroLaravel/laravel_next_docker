@@ -3,15 +3,17 @@
 ## ディレクトリ構造
 
 ````
-├── Docker
-│   ├── App // アプリケーションサーバーの設定ファイル
-│   ├── DB // データベースサーバーの設定ファイル
-│   └── Front // フロントサーバーーの設定ファイル
-├── backend
-│   └── laravelapp // Laravelソースコード
-├── docker-compose.yml
-└── frontend
-    └── nextapp　// Next.jsソースコード
+laravel_next_docker
+    ├── api // APIドキュメント
+    ├── Docker
+    │   ├── App // アプリケーションサーバーの設定ファイル
+    │   ├── DB // データベースサーバーの設定ファイル
+    │   └── Front // フロントサーバーーの設定ファイル
+    ├── backend
+    │   └── laravelapp // Laravelソースコード
+    ├── docker-compose.yml
+    └── frontend
+        └── nextapp　// Next.jsソースコード
 ````
 
 ## Dockerコマンド
@@ -38,6 +40,20 @@ docker exec -it next_app bash
 
 ````
 /www/html# git clone https://github.com/yukihiroLaravel/juko_next.git nextapp
+````
+
+## Node.js （v18.17.0以上）をインストール
+
+バージョン確認
+````
+node --version
+````
+
+## npmパッケージをインストール
+
+````
+npm install swagger-cli
+npm install swagger-combine
 ````
 
 ## APIドキュメントの作成方法
