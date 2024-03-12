@@ -400,7 +400,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              id:
+                              student_id:
                                 $ref: '../components/schemas/Student.yml#/StudentId'
                               nick_name:
                                 $ref: '../components/schemas/Student.yml#/StudentNickName'

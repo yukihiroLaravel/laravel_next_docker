@@ -22,7 +22,7 @@ paths:
                     items:
                       type: object
                       properties:
-                        id:
+                        notification_id:
                           type: integer
                           description: お知らせテーブルの主キー
                           example: 1

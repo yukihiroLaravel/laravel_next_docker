@@ -14,7 +14,7 @@ paths:
         '200':
           description: 講師情報
           content:
-            application/json:
+            multipart/form-data:
               schema:
                 type: object
                 properties:

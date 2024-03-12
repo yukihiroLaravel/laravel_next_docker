@@ -395,7 +395,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              id:
+                              student_id:
                                 type: integer
                                 description: 生徒テーブル主キー
                                 example: 1

@@ -848,7 +848,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
@@ -1460,7 +1460,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              id:
+                              student_id:
                                 type: integer
                                 description: 生徒テーブル主キー
                                 example: 1
@@ -1982,7 +1982,7 @@ paths:
                   data:
                     type: object
                     properties:
-                      id:
+                      student_id:
                         type: integer
                         description: 生徒テーブル主キー
                         example: 1
@@ -2089,7 +2089,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              id:
+                              notification_id:
                                 type: integer
                                 description: お知らせテーブルの主キー
                                 example: 1
@@ -2263,7 +2263,7 @@ paths:
         '200':
           description: 講師情報
           content:
-            application/json:
+            multipart/form-data:
               schema:
                 type: object
                 properties:
@@ -2842,7 +2842,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              id:
+                              student_id:
                                 type: integer
                                 description: 生徒テーブル主キー
                                 example: 1
@@ -3364,7 +3364,7 @@ paths:
                   data:
                     type: object
                     properties:
-                      id:
+                      student_id:
                         type: integer
                         description: 生徒テーブル主キー
                         example: 1
@@ -3471,7 +3471,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              id:
+                              notification_id:
                                 type: integer
                                 description: お知らせテーブルの主キー
                                 example: 1
@@ -3654,7 +3654,7 @@ paths:
                     items:
                       type: object
                       properties:
-                        id:
+                        notification_id:
                           type: integer
                           description: お知らせテーブルの主キー
                           example: 1

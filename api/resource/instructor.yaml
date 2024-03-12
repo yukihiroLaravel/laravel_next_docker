@@ -3,6 +3,7 @@ info:
   title: Instructor API
   version: 1.0.0
   description: This is the Instructor API
+  # TODO multipart/form-dataに対応する
 paths:
   /api/v1/instructor:
     post:
@@ -15,7 +16,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: "object"
               properties:

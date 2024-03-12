@@ -28,7 +28,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              id:
+                              notification_id:
                                 $ref: '../components/schemas/Notification.yml#/NotificationId'
                               title:
                                 $ref: '../components/schemas/Notification.yml#/Title'
