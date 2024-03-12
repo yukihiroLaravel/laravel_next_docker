@@ -361,11 +361,9 @@ paths:
                           type: object
                           properties:
                             page:
-                              type: integer
-                              example: 1
+                              $ref: '../components/schemas/Pagination.yml#/Page'
                             total:
-                              type: integer
-                              example: 1
+                              $ref: '../components/schemas/Pagination.yml#/Total'
                         students:
                           type: array
                           items:

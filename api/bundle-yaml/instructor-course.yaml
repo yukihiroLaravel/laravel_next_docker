@@ -415,9 +415,11 @@ paths:
                           properties:
                             page:
                               type: integer
+                              description: ページ番号
                               example: 1
                             total:
                               type: integer
+                              description: ページ総数
                               example: 1
                         students:
                           type: array
