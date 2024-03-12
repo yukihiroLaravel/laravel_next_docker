@@ -3,15 +3,17 @@
 ## ディレクトリ構造
 
 ````
-├── Docker
-│   ├── App // アプリケーションサーバーの設定ファイル
-│   ├── DB // データベースサーバーの設定ファイル
-│   └── Front // フロントサーバーーの設定ファイル
-├── backend
-│   └── laravelapp // Laravelソースコード
-├── docker-compose.yml
-└── frontend
-    └── nextapp　// Next.jsソースコード
+laravel_next_docker
+    ├── api // APIドキュメント
+    ├── Docker
+    │   ├── App // アプリケーションサーバーの設定ファイル
+    │   ├── DB // データベースサーバーの設定ファイル
+    │   └── Front // フロントサーバーーの設定ファイル
+    ├── backend
+    │   └── laravelapp // Laravelソースコード
+    ├── docker-compose.yml
+    └── frontend
+        └── nextapp　// Next.jsソースコード
 ````
 
 ## Dockerコマンド
@@ -40,6 +42,20 @@ docker exec -it next_app bash
 /www/html# git clone https://github.com/yukihiroLaravel/juko_next.git nextapp
 ````
 
+## Node.js （v18.17.0以上）をインストール
+
+バージョン確認
+````
+node --version
+````
+
+## npmパッケージをインストール
+
+````
+npm install swagger-cli
+npm install swagger-combine
+````
+
 ## APIドキュメントの作成方法
 APIドキュメントを作成する手順は以下の通りです。
 
@@ -47,7 +63,6 @@ APIドキュメントを作成する手順は以下の通りです。
 2. 新規作成した場合は、`swagger-config.json`に追記します。
 3. 新規スキーマを定義する場合は、`schemas`ディレクトリ以下にYAMLファイルを配置します。
 4. バンドルコマンドを実行します。
-5. 結合コマンドを実行します。
 
 ### バンドルコマンド
 
@@ -55,14 +70,6 @@ APIドキュメントを作成する手順は以下の通りです。
 
 ```shell
 ./bundle.sh
-```
-
-### 結合コマンド
-
-以下のコマンドを実行して、APIドキュメントを結合します。
-
-```shell
-npx swagger-combine swagger-config.json -o combined-api.yaml -f yaml
 ```
 
 ### ドキュメントの確認

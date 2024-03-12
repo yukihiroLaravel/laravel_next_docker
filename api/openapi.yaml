@@ -848,7 +848,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
@@ -1401,6 +1401,21 @@ paths:
           description: ソート順
           required: false
           type: string
+        - name: inputText
+          in: query
+          description: 検索文字列
+          required: false
+          type: integer
+        - name: startDate
+          in: query
+          description: 日付検索開始日
+          required: false
+          type: integer
+        - name: endDate
+          in: query
+          description: 日付検索終了日
+          required: false
+          type: integer
       responses:
         '200':
           description: 講座受講生一覧
@@ -1429,12 +1444,23 @@ paths:
                               type: string
                               description: 講座サムネイル画像ファイルパス
                               example: /course/xxx.png
+                        pagination:
+                          type: object
+                          properties:
+                            page:
+                              type: integer
+                              description: ページ番号
+                              example: 1
+                            total:
+                              type: integer
+                              description: ページ総数
+                              example: 1
                         students:
                           type: array
                           items:
                             type: object
                             properties:
-                              id:
+                              student_id:
                                 type: integer
                                 description: 生徒テーブル主キー
                                 example: 1
@@ -1458,15 +1484,6 @@ paths:
                                 type: string
                                 description: 受講日時
                                 example: 2022/10/17
-                          pagination:
-                            type: object
-                            properties:
-                              page:
-                                type: integer
-                                example: 1
-                              total:
-                                type: integer
-                                example: 1
   /api/v1/instructor/course/status:
     put:
       tags:
@@ -1965,7 +1982,7 @@ paths:
                   data:
                     type: object
                     properties:
-                      id:
+                      student_id:
                         type: integer
                         description: 生徒テーブル主キー
                         example: 1
@@ -2072,7 +2089,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              id:
+                              notification_id:
                                 type: integer
                                 description: お知らせテーブルの主キー
                                 example: 1
@@ -2246,7 +2263,7 @@ paths:
         '200':
           description: 講師情報
           content:
-            application/json:
+            multipart/form-data:
               schema:
                 type: object
                 properties:
@@ -2766,6 +2783,21 @@ paths:
           description: ソート順
           required: false
           type: string
+        - name: inputText
+          in: query
+          description: 検索文字列
+          required: false
+          type: integer
+        - name: startDate
+          in: query
+          description: 日付検索開始日
+          required: false
+          type: integer
+        - name: endDate
+          in: query
+          description: 日付検索終了日
+          required: false
+          type: integer
       responses:
         '200':
           description: 講座受講生一覧
@@ -2794,12 +2826,23 @@ paths:
                               type: string
                               description: 講座サムネイル画像ファイルパス
                               example: /course/xxx.png
+                        pagination:
+                          type: object
+                          properties:
+                            page:
+                              type: integer
+                              description: ページ番号
+                              example: 1
+                            total:
+                              type: integer
+                              description: ページ総数
+                              example: 1
                         students:
                           type: array
                           items:
                             type: object
                             properties:
-                              id:
+                              student_id:
                                 type: integer
                                 description: 生徒テーブル主キー
                                 example: 1
@@ -2823,15 +2866,6 @@ paths:
                                 type: string
                                 description: 受講日時
                                 example: 2022/10/17
-                          pagination:
-                            type: object
-                            properties:
-                              page:
-                                type: integer
-                                example: 1
-                              total:
-                                type: integer
-                                example: 1
   /api/v1/manager/course/status:
     put:
       tags:
@@ -3330,7 +3364,7 @@ paths:
                   data:
                     type: object
                     properties:
-                      id:
+                      student_id:
                         type: integer
                         description: 生徒テーブル主キー
                         example: 1
@@ -3437,7 +3471,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              id:
+                              notification_id:
                                 type: integer
                                 description: お知らせテーブルの主キー
                                 example: 1
@@ -3620,7 +3654,7 @@ paths:
                     items:
                       type: object
                       properties:
-                        id:
+                        notification_id:
                           type: integer
                           description: お知らせテーブルの主キー
                           example: 1

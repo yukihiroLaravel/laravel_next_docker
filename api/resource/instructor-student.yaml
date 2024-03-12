@@ -41,7 +41,7 @@ paths:
                   data:
                     type: "object"
                     properties:
-                      id:
+                      student_id:
                         $ref: '../components/schemas/Student.yml#/StudentId'
                       given_name_by_instructor:
                         $ref: '../components/schemas/Student.yml#/GivenNameByInstructor'

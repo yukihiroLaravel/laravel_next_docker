@@ -23,7 +23,7 @@ paths:
                     items:
                       type: object
                       properties:
-                        id:
+                        notification_id:
                           $ref: '../components/schemas/Notification.yml#/NotificationId'
                         course_id:
                           $ref: '../components/schemas/Course.yml#/CourseId'

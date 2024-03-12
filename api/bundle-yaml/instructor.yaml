@@ -15,7 +15,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
@@ -56,15 +56,15 @@ paths:
                     type: object
                     properties:
                       nick_name:
-                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/application~1json/schema/properties/nick_name'
+                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/multipart~1form-data/schema/properties/nick_name'
                       last_name:
-                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/application~1json/schema/properties/last_name'
+                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/multipart~1form-data/schema/properties/last_name'
                       first_name:
-                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/application~1json/schema/properties/first_name'
+                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/multipart~1form-data/schema/properties/first_name'
                       email:
-                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/application~1json/schema/properties/email'
+                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/multipart~1form-data/schema/properties/email'
                       profile_image:
-                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/application~1json/schema/properties/profile_image'
+                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/multipart~1form-data/schema/properties/profile_image'
   /api/v1/instructor/edit:
     get:
       tags:
@@ -87,12 +87,12 @@ paths:
                         description: 講師テーブル主キー
                         example: 1
                       nick_name:
-                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/application~1json/schema/properties/nick_name'
+                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/multipart~1form-data/schema/properties/nick_name'
                       last_name:
-                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/application~1json/schema/properties/last_name'
+                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/multipart~1form-data/schema/properties/last_name'
                       first_name:
-                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/application~1json/schema/properties/first_name'
+                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/multipart~1form-data/schema/properties/first_name'
                       email:
-                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/application~1json/schema/properties/email'
+                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/multipart~1form-data/schema/properties/email'
                       profile_image:
-                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/application~1json/schema/properties/profile_image'
+                        $ref: '#/paths/~1api~1v1~1instructor/post/requestBody/content/multipart~1form-data/schema/properties/profile_image'

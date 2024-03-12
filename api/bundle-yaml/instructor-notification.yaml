@@ -28,7 +28,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              id:
+                              notification_id:
                                 $ref: '#/paths/~1api~1v1~1instructor~1notification~1%7Bnotification_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/notification_id'
                               title:
                                 $ref: '#/paths/~1api~1v1~1instructor~1notification~1%7Bnotification_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/title'
