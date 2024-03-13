@@ -148,6 +148,52 @@ paths:
                   result:
                     type: "boolean"
                     example: true
+  /api/v1/manager/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}/title:
+    patch:
+      tags:
+        - Manager-Lesson
+      operationId: patchManagerChapterLessonTitle
+      summary: "レッスン名を更新する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: intege
+        - name: lesson_id
+          in: path
+          description: レッスンテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: "string"
+                  description: タイトル
+                  example: 'レッスンタイトル'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                required:
+                  - "result"
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
   /api/v1/manager/course/{course_id}/chapter/{chapter_id}/lesson/sort:
     post:
       tags:
@@ -184,6 +230,52 @@ paths:
                         $ref: '#../components/schemas/Lesson.yml#/Order'
       responses:
         '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "boolean"
+                    example: true
+  /api/v1/manager/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}/status:
+    patch:
+      tags:
+        - Manager-Lesson
+      operationId: patchManagerChapterLessonStatus
+      summary: "レッスンの公開状態を更新する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+        - name: lesson_id
+          in: path
+          description: レッスンテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            required:
+              - "status"
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                description: 状態(公開、非公開)
+                example: 'public'
+      responses:
+        200:
           description: "Success"
           content:
             application/json:
