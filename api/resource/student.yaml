@@ -210,4 +210,31 @@ paths:
                         $ref: '../components/schemas/Student.yml#/Address'
                       profile_image:
                         $ref: '../components/schemas/Student.yml#/StudentProfileImage'
-
+  /api/v1/student/verification/{token}:
+    post:
+      tags:
+        - Student
+      operationId: verifyStudent
+      summary: "生徒情報を認証する。"
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: トークン
+          schema:
+            type: string
+            example: 'token'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Authorization success.'

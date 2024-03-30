@@ -232,3 +232,31 @@ paths:
                         $ref: '#/paths/~1api~1v1~1student~1/post/responses/200/content/application~1json/schema/properties/data/properties/address'
                       profile_image:
                         $ref: '#/paths/~1api~1v1~1student~1edit/get/responses/200/content/application~1json/schema/properties/data/properties/profile_image'
+  '/api/v1/student/verification/{token}':
+    post:
+      tags:
+        - Student
+      operationId: verifyStudent
+      summary: 生徒情報を認証する。
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: トークン
+          schema:
+            type: string
+            example: token
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Authorization success.
