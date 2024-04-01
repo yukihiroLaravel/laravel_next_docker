@@ -7,7 +7,7 @@ paths:
   /api/v1/attendance/index:
     get:
       tags:
-        - Student-Attendance
+        - Attendance
       operationId: getAttendanceIndex
       summary: 受講中の講座一覧を取得する。
       parameters:
@@ -58,7 +58,7 @@ paths:
   '/api/v1/attendance/{attendance_id}':
     get:
       tags:
-        - Student-Attendance
+        - Attendance
       operationId: getAttendance
       summary: 受講中の講座の詳細情報を取得する。
       parameters:
@@ -156,7 +156,7 @@ paths:
   '/api/v1/attendance/{attendance_id}/progress':
     get:
       tags:
-        - Student-Attendance
+        - Attendance
       operationId: getAttendanceProgress
       summary: 受講中の講座の進捗率を取得する。
       parameters:
@@ -210,7 +210,7 @@ paths:
   '/api/v1/attendance/{attendance_id}/course/{course_id}/chapter/{chapter_id}':
     get:
       tags:
-        - Student-Attendance
+        - Attendance
       operationId: getAttendanceCourseChapter
       summary: 受講中の講座のチャプターの詳細情報を取得する。
       parameters:

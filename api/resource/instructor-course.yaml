@@ -431,3 +431,45 @@ paths:
                   type: "string"
                   description: ステータス
                   example: 'public'
+  /api/v1/instructor/course/{course_id}/attendance/{period}:
+    get:
+      tags:
+        - Instructor-Course
+      operationId: getInstructorCourseAttendance
+      summary: "講座の受講状況を取得する。"
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+        - name: period
+          in: path
+          description: 期間
+          required: true
+          enum:
+            - today
+            - week
+            - month
+            - all
+      responses:
+        '200':
+          description: 講座受講状況
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        student_id:
+                          $ref: '../components/schemas/Student.yml#/StudentId'
+                        nick_name:
+                          $ref: '../components/schemas/Student.yml#/StudentNickName'
+                        email:
+                          $ref: '../components/schemas/Student.yml#/StudentEmail'
+                        attendanced_at:
+                          $ref: '../components/schemas/Attendance.yml#/AttendancedAt'

@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: This is the Student Lesson Attendance API
 paths:
-  /api/v1/lesson-attendance:
+  /api/v1/lesson_attendance:
     patch:
       tags:
         - Lesson-Attendance

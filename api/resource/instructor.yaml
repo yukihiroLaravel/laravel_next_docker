@@ -5,7 +5,7 @@ info:
   description: This is the Instructor API
   # TODO multipart/form-dataに対応する
 paths:
-  /api/v1/instructor:
+  api/v1/instructor/update:
     post:
       tags:
         - Instructor
