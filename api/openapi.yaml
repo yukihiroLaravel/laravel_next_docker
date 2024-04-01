@@ -113,7 +113,7 @@ paths:
                   message:
                     type: string
                     example: Unauthenticated.
-  /api/v1/user:
+  /api/user:
     get:
       tags:
         - Login
@@ -828,7 +828,7 @@ paths:
                                           type: string
                                           description: レッスン受講状態（未着手, 着手, 完了）
                                           example: before_attendance
-  /api/v1/lesson-attendance:
+  /api/v1/lesson_attendance:
     patch:
       tags:
         - Lesson-Attendance
@@ -865,7 +865,7 @@ paths:
                   result:
                     type: boolean
                     example: true
-  /api/v1/instructor:
+  api/v1/instructor/update:
     post:
       tags:
         - Instructor
@@ -1531,6 +1531,56 @@ paths:
                   type: string
                   description: ステータス
                   example: public
+  /api/v1/instructor/course/{course_id}/attendance/{period}:
+    get:
+      tags:
+        - Instructor-Course
+      operationId: getInstructorCourseAttendance
+      summary: 講座の受講状況を取得する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+        - name: period
+          in: path
+          description: 期間
+          required: true
+          enum:
+            - today
+            - week
+            - month
+            - all
+      responses:
+        '200':
+          description: 講座受講状況
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        student_id:
+                          type: integer
+                          description: 生徒テーブル主キー
+                          example: 1
+                        nick_name:
+                          type: string
+                          description: ニックネーム
+                          example: ニックネーム
+                        email:
+                          type: string
+                          description: メールアドレス
+                          example: test@example.com
+                        attendanced_at:
+                          type: string
+                          description: 受講日時
+                          example: 2022/10/17
   /api/v1/instructor/course/{course_id}/chapter:
     post:
       tags:
@@ -1773,6 +1823,36 @@ paths:
                   type: string
                   description: 状態(公開、非公開)
                   example: public
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/course/{course_id}/chapter/{status}:
+    put:
+      tags:
+        - Instructor-Course
+      operationId: putInstructorCourseChapterStatus
+      summary: チャプターのステータスを一括更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+        - name: status
+          in: path
+          description: ステータス
+          required: true
+          enum:
+            - public
+            - private
       responses:
         '200':
           description: Success

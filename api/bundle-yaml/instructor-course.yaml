@@ -427,17 +427,11 @@ paths:
                             type: object
                             properties:
                               student_id:
-                                type: integer
-                                description: 生徒テーブル主キー
-                                example: 1
+                                $ref: '#/paths/~1api~1v1~1instructor~1course~1%7Bcourse_id%7D~1attendance~1%7Bperiod%7D/get/responses/200/content/application~1json/schema/properties/data/items/properties/student_id'
                               nick_name:
-                                type: string
-                                description: ニックネーム
-                                example: ニックネーム
+                                $ref: '#/paths/~1api~1v1~1instructor~1course~1%7Bcourse_id%7D~1attendance~1%7Bperiod%7D/get/responses/200/content/application~1json/schema/properties/data/items/properties/nick_name'
                               email:
-                                type: string
-                                description: メールアドレス
-                                example: test@example.com
+                                $ref: '#/paths/~1api~1v1~1instructor~1course~1%7Bcourse_id%7D~1attendance~1%7Bperiod%7D/get/responses/200/content/application~1json/schema/properties/data/items/properties/email'
                               course_title:
                                 $ref: '#/paths/~1api~1v1~1instructor~1course~1%7Bcourse_id%7D/get/responses/200/content/application~1json/schema/properties/data/properties/title'
                               last_login_at:
@@ -445,9 +439,7 @@ paths:
                                 description: 最終ログイン日時
                                 example: '2022/10/17 00:00:00'
                               attendanced_at:
-                                type: string
-                                description: 受講日時
-                                example: 2022/10/17
+                                $ref: '#/paths/~1api~1v1~1instructor~1course~1%7Bcourse_id%7D~1attendance~1%7Bperiod%7D/get/responses/200/content/application~1json/schema/properties/data/items/properties/attendanced_at'
   /api/v1/instructor/course/status:
     put:
       tags:
@@ -467,3 +459,53 @@ paths:
                   type: string
                   description: ステータス
                   example: public
+  '/api/v1/instructor/course/{course_id}/attendance/{period}':
+    get:
+      tags:
+        - Instructor-Course
+      operationId: getInstructorCourseAttendance
+      summary: 講座の受講状況を取得する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+        - name: period
+          in: path
+          description: 期間
+          required: true
+          enum:
+            - today
+            - week
+            - month
+            - all
+      responses:
+        '200':
+          description: 講座受講状況
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        student_id:
+                          type: integer
+                          description: 生徒テーブル主キー
+                          example: 1
+                        nick_name:
+                          type: string
+                          description: ニックネーム
+                          example: ニックネーム
+                        email:
+                          type: string
+                          description: メールアドレス
+                          example: test@example.com
+                        attendanced_at:
+                          type: string
+                          description: 受講日時
+                          example: 2022/10/17
