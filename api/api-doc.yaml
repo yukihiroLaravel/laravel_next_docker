@@ -8,7 +8,7 @@ paths:
       tags:
         - Student-Auth
       operationId: login-student
-      summary: 生徒でログイン
+      summary: 生徒でログインする。
       parameters:
         - in: header
           name: Origin
@@ -21,7 +21,7 @@ paths:
           schema:
             type: string
           required: true
-          example: http://localhost:3000/login
+          example: http://localhost:3000
         - in: header
           name: X-XSRF-TOKEN
           schema:
@@ -65,7 +65,7 @@ paths:
       tags:
         - Student-Auth
       operationId: logout-student
-      summary: 生徒でログアウト
+      summary: 生徒でログアウトする。
       parameters:
         - in: header
           name: Origin
@@ -78,7 +78,7 @@ paths:
           schema:
             type: string
           required: true
-          example: http://localhost:3000/login
+          example: http://localhost:3000
         - in: header
           name: X-XSRF-TOKEN
           schema:
@@ -101,7 +101,7 @@ paths:
       tags:
         - Instructor-Auth
       operationId: login-instructor
-      summary: 講師でログイン
+      summary: 講師でログインする。
       parameters:
         - in: header
           name: Origin
@@ -114,7 +114,7 @@ paths:
           schema:
             type: string
           required: true
-          example: http://localhost:3000/login
+          example: http://localhost:3000
         - in: header
           name: X-XSRF-TOKEN
           schema:
@@ -158,7 +158,7 @@ paths:
       tags:
         - Instructor-Auth
       operationId: logout-instructor
-      summary: 講師でログアウト
+      summary: 講師でログアウトする。
       parameters:
         - in: header
           name: Origin
@@ -171,7 +171,7 @@ paths:
           schema:
             type: string
           required: true
-          example: http://localhost:3000/login
+          example: http://localhost:3000
         - in: header
           name: X-XSRF-TOKEN
           schema:
@@ -189,69 +189,25 @@ paths:
                   message:
                     type: string
                     example: Unauthenticated.
-  /api/v1/user:
-    get:
-      tags:
-        - Login
-      operationId: getLoginUser
-      summary: 認証者情報を取得する
-      responses:
-        '200':
-          description: 認証者情報
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    example: 1
-                  given_name_by_instructor:
-                    type: string
-                    description: ユーザー名
-                    example: ユーザー名
-                  nick_name:
-                    type: string
-                    description: ニックネーム
-                    example: ニックネーム
-                  last_name:
-                    type: string
-                    description: 名字
-                    example: 名字
-                  first_name:
-                    type: string
-                    description: 名前
-                    example: 名前
-                  occupation:
-                    type: string
-                    description: 職業
-                    example: エンジニア
-                  email:
-                    type: string
-                    description: メールアドレス
-                    example: test@example.com
-                  purpose:
-                    type: string
-                    description: 目的
-                    example: スキルアップのため
-                  birth_date:
-                    type: string
-                    description: 生年月日
-                    example: 2022/10/17
-                  sex:
-                    type: string
-                    description: 性別
-                    example: man
-                  address:
-                    type: string
-                    description: 住所
-                    example: 東京都
-  /api/v1/student/edit:
+  /api/v1/student:
     get:
       tags:
         - Student
-      operationId: getStudent
+      operationId: show-student
       summary: 生徒情報を取得する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
       responses:
         '200':
           description: 生徒情報
@@ -295,24 +251,42 @@ paths:
                         type: string
                         description: 生年月日
                         example: 2022/10/17
-                      sex:
+                      gender:
                         type: string
                         description: 性別
-                        example: man
+                        enum: ['man', 'woman']
                       address:
                         type: string
                         description: 住所
-                        example: 東京都
+                        example: 東京都千代田区
                       profile_image:
                         type: string
                         description: プロフィール画像
                         example: /student/xxx.png
-  /api/v1/student/:
     post:
       tags:
         - Student
-      operationId: storeStudent
+      operationId: store-student
       summary: 生徒情報を登録する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
       requestBody:
         required: true
         content:
@@ -348,10 +322,10 @@ paths:
                   type: string
                   description: 生年月日
                   example: '2022-10-17'
-                sex:
+                gender::
                   type: string
                   description: 性別
-                  example: woman
+                  enum: ['man', 'woman']
                 address:
                   type: string
                   description: 住所
@@ -370,6 +344,10 @@ paths:
                   data:
                     type: object
                     properties:
+                      student_id:
+                        type: integer
+                        description: 生徒テーブル主キー
+                        example: 1
                       nick_name:
                         type: string
                         description: ニックネーム
@@ -398,20 +376,43 @@ paths:
                         type: string
                         description: 生年月日
                         example: 2022/10/17
-                      sex:
+                      gender:
                         type: string
                         description: 性別
-                        example: man
+                        enum: ['man', 'woman']
                       address:
                         type: string
                         description: 住所
                         example: 東京都
+                      profile_image:
+                        type: string
+                        description: プロフィール画像
+                        example: /student/xxx.png
   /api/v1/student/update:
     post:
       tags:
         - Student
-      operationId: patchStudent
+      operationId: update-student
       summary: 生徒情報を更新する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
       requestBody:
         required: true
         content:
@@ -447,18 +448,17 @@ paths:
                   type: string
                   description: 生年月日
                   example: '2022-10-17'
-                sex:
+                gender:
                   type: string
                   description: 性別
-                  example: man
+                  enum: ['man', 'woman']
                 address:
                   type: string
                   description: 住所
                   example: 住所
                 profile_image:
-                  type: file
-                  description: プロフィール画像
-                  example: profile.png
+                  type: string
+                  description: プロフィール画像のバイナリデータ
       responses:
         '200':
           description: Success
@@ -473,6 +473,10 @@ paths:
                   data:
                     type: object
                     properties:
+                      student_id:
+                        type: integer
+                        description: 生徒テーブル主キー
+                        example: 1
                       nick_name:
                         type: string
                         description: ニックネーム
@@ -501,10 +505,10 @@ paths:
                         type: string
                         description: 生年月日
                         example: 2022/10/17
-                      sex:
+                      gender:
                         type: string
                         description: 性別
-                        example: man
+                        enum: ['man', 'woman']
                       address:
                         type: string
                         description: 住所
@@ -513,6 +517,66 @@ paths:
                         type: string
                         description: プロフィール画像
                         example: /student/xxx.png
+  /api/v1/student/verification/{token}:
+    get:
+      tags:
+        - Student
+      operationId: verification-student
+      summary: 生徒のメールアドレスを認証する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: path
+          name: token
+          description: 認証トークン
+          required: true
+          schema:
+            type: string
+            example: 1234567890
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: 認証コード
+                  example: 123456
+                password:
+                  type: string
+                  description: パスワード
+                  example: password
+                password_confirmation:
+                  type: string
+                  description: パスワード確認
+                  example: password
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Authorization success.
+
   /api/v1/attendance/index:
     get:
       tags:
