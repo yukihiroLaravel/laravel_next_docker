@@ -518,7 +518,7 @@ paths:
                         description: プロフィール画像
                         example: /student/xxx.png
   /api/v1/student/verification/{token}:
-    get:
+    post:
       tags:
         - Student
       operationId: verification-student
@@ -581,14 +581,28 @@ paths:
     get:
       tags:
         - Student-Attendance
-      operationId: getAttendanceIndex
+      operationId: get-attendance-index
       summary: 受講中の講座一覧を取得する。
       parameters:
-        - name: search_word
-          in: query
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: query
+          name: search_word
           description: 検索ワード
           required: false
-          type: string
+          schema:
+            type: string
+          example: PHP
       responses:
         '200':
           description: 受講一覧
@@ -648,18 +662,35 @@ paths:
                                   type: string
                                   description: メールアドレス
                                   example: test@example.com
+                                profile_image:
+                                  type: string
+                                  description: プロフィール画像
+                                  example: /instructor/xxx.png
   /api/v1/attendance/{attendance_id}:
     get:
       tags:
         - Student-Attendance
-      operationId: getAttendance
+      operationId: get-attendance
       summary: 受講中の講座の詳細情報を取得する。
       parameters:
-        - name: attendance_id
-          in: path
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: path
+          name: attendance_id
           description: 受講テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         '200':
           description: 受講詳細情報
@@ -717,6 +748,10 @@ paths:
                                 type: string
                                 description: メールアドレス
                                 example: test@example.com
+                              profile_image:
+                                type: string
+                                description: プロフィール画像
+                                example: /instructor/xxx.png
                           chapters:
                             type: array
                             items:
@@ -760,20 +795,39 @@ paths:
                                             example: 1
                                           status:
                                             type: string
-                                            description: レッスン受講状態（未着手, 着手, 完了）
-                                            example: before_attendance
+                                            description: レッスン受講状態
+                                            enum: ['before_attendance', 'in_attendance', 'completed_attendance']
   /api/v1/attendance/{attendance_id}/progress:
     get:
       tags:
         - Student-Attendance
-      operationId: getAttendanceProgress
+      operationId: get-attendance-progress
       summary: 受講中の講座の進捗率を取得する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - name: attendance_id
+          in: path
+          description: 受講テーブルの主キー
+          required: true
+          schema:
+            type: integer
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         '200':
           description: 講座進捗率
@@ -785,16 +839,31 @@ paths:
                   data:
                     type: object
                     properties:
-                      course:
+                      attendance:
                         type: object
                         properties:
-                          course_id:
+                          attendance_id:
                             type: integer
-                            description: 講座テーブル主キー
+                            description: 受講テーブル主キー
                             example: 1
                           progress:
                             type: integer
                             example: 10
+                          course:
+                            type: object
+                            properties:
+                              course_id:
+                                type: integer
+                                description: 講座テーブル主キー
+                                example: 1
+                              title:
+                                type: string
+                                description: 講座名
+                                example: PHP入門講座
+                              image:
+                                type: string
+                                description: 講座サムネイル画像ファイルパス
+                                example: /course/xxx.png
                       number_of_completed_chapters:
                         type: integer
                         example: 1
@@ -822,24 +891,39 @@ paths:
     get:
       tags:
         - Student-Attendance
-      operationId: getAttendanceCourseChapter
+      operationId: get-attendance-chapter
       summary: 受講中の講座のチャプターの詳細情報を取得する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
         - name: attendance_id
           in: path
           description: 受講テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
         - name: chapter_id
           in: path
           description: チャプターテーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         '200':
           description: チャプター詳細情報
@@ -874,29 +958,6 @@ paths:
                             type: string
                             description: 講座サムネイル画像ファイルパス
                             example: /course/xxx.png
-                          instructor:
-                            type: object
-                            properties:
-                              instructor_id:
-                                type: integer
-                                description: 講師テーブル主キー
-                                example: 1
-                              nick_name:
-                                type: string
-                                description: ニックネーム
-                                example: ニックネーム
-                              last_name:
-                                type: string
-                                description: 名字
-                                example: 名字
-                              first_name:
-                                type: string
-                                description: 名前
-                                example: 名前
-                              email:
-                                type: string
-                                description: メールアドレス
-                                example: test@example.com
                           chapter:
                             type: object
                             properties:
@@ -938,14 +999,33 @@ paths:
                                           example: 1
                                         status:
                                           type: string
-                                          description: レッスン受講状態（未着手, 着手, 完了）
-                                          example: before_attendance
+                                          description: レッスン受講状態
+                                          enum: ['before_attendance', 'in_attendance', 'completed_attendance']
   /api/v1/lesson-attendance:
     patch:
       tags:
-        - Lesson-Attendance
-      operationId: patchLessonAttendance
+        - Student-Lesson-Attendance
+      operationId: patch-student-lesson-attendance
       summary: レッスン受講状態を更新する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
       requestBody:
         required: true
         content:
@@ -957,13 +1037,13 @@ paths:
               type: object
               properties:
                 lesson_attendance_id:
-                  type: int
+                  type: integer
                   description: レッスン受講状態ID
                   example: 1
                 status:
                   type: string
-                  description: 状態(受講前、受講中、受講完了)
-                  example: in_attendance
+                  description: レッスン受講状態
+                  enum: ['before_attendance', 'in_attendance', 'completed_attendance']
       responses:
         '200':
           description: Success
