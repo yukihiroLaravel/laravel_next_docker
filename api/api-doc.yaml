@@ -1,0 +1,3940 @@
+openapi: 3.0.0
+info:
+  title: 受講管理API
+  version: 1.0.0
+paths:
+  /login:
+    post:
+      tags:
+        - Student-Auth
+      operationId: login-student
+      summary: 生徒でログイン
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000/login
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - email
+                - password
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: メールアドレス
+                  example: test@example.com
+                password:
+                  type: string
+                  description: パスワード
+                  example: password
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Authenticated.
+  /logout:
+    post:
+      tags:
+        - Student-Auth
+      operationId: logout-student
+      summary: 生徒でログアウト
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000/login
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+  /login/instructor:
+    post:
+      tags:
+        - Instructor-Auth
+      operationId: login-instructor
+      summary: 講師でログイン
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000/login
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - email
+                - password
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: メールアドレス
+                  example: test@example.com
+                password:
+                  type: string
+                  description: パスワード
+                  example: password
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Authenticated.
+  /logout/instructor:
+    post:
+      tags:
+        - Instructor-Auth
+      operationId: logout-instructor
+      summary: 講師でログアウト
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000/login
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+  /api/v1/user:
+    get:
+      tags:
+        - Login
+      operationId: getLoginUser
+      summary: 認証者情報を取得する
+      responses:
+        '200':
+          description: 認証者情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  given_name_by_instructor:
+                    type: string
+                    description: ユーザー名
+                    example: ユーザー名
+                  nick_name:
+                    type: string
+                    description: ニックネーム
+                    example: ニックネーム
+                  last_name:
+                    type: string
+                    description: 名字
+                    example: 名字
+                  first_name:
+                    type: string
+                    description: 名前
+                    example: 名前
+                  occupation:
+                    type: string
+                    description: 職業
+                    example: エンジニア
+                  email:
+                    type: string
+                    description: メールアドレス
+                    example: test@example.com
+                  purpose:
+                    type: string
+                    description: 目的
+                    example: スキルアップのため
+                  birth_date:
+                    type: string
+                    description: 生年月日
+                    example: 2022/10/17
+                  sex:
+                    type: string
+                    description: 性別
+                    example: man
+                  address:
+                    type: string
+                    description: 住所
+                    example: 東京都
+  /api/v1/student/edit:
+    get:
+      tags:
+        - Student
+      operationId: getStudent
+      summary: 生徒情報を取得する。
+      responses:
+        '200':
+          description: 生徒情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      student_id:
+                        type: integer
+                        description: 生徒テーブル主キー
+                        example: 1
+                      nick_name:
+                        type: string
+                        description: ニックネーム
+                        example: ニックネーム
+                      last_name:
+                        type: string
+                        description: 名字
+                        example: 名字
+                      first_name:
+                        type: string
+                        description: 名前
+                        example: 名前
+                      occupation:
+                        type: string
+                        description: 職業
+                        example: エンジニア
+                      purpose:
+                        type: string
+                        description: 目的
+                        example: スキルアップのため
+                      email:
+                        type: string
+                        description: メールアドレス
+                        example: test@example.com
+                      birth_date:
+                        type: string
+                        description: 生年月日
+                        example: 2022/10/17
+                      sex:
+                        type: string
+                        description: 性別
+                        example: man
+                      address:
+                        type: string
+                        description: 住所
+                        example: 東京都
+                      profile_image:
+                        type: string
+                        description: プロフィール画像
+                        example: /student/xxx.png
+  /api/v1/student/:
+    post:
+      tags:
+        - Student
+      operationId: storeStudent
+      summary: 生徒情報を登録する。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nick_name:
+                  type: string
+                  description: ニックネーム
+                  example: ニックネーム
+                last_name:
+                  type: string
+                  description: 姓
+                  example: 名字
+                first_name:
+                  type: string
+                  description: 名
+                  example: 名前
+                occupation:
+                  type: string
+                  description: 職業
+                  example: エンジニア
+                purpose:
+                  type: string
+                  description: 目的
+                  example: スキルアップのため
+                email:
+                  type: string
+                  description: メールアドレス
+                  example: test@example.com
+                birth_date:
+                  type: string
+                  description: 生年月日
+                  example: '2022-10-17'
+                sex:
+                  type: string
+                  description: 性別
+                  example: woman
+                address:
+                  type: string
+                  description: 住所
+                  example: 東京都
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      nick_name:
+                        type: string
+                        description: ニックネーム
+                        example: ニックネーム
+                      last_name:
+                        type: string
+                        description: 名字
+                        example: 名字
+                      first_name:
+                        type: string
+                        description: 名前
+                        example: 名前
+                      occupation:
+                        type: string
+                        description: 職業
+                        example: エンジニア
+                      purpose:
+                        type: string
+                        description: 目的
+                        example: スキルアップのため
+                      email:
+                        type: string
+                        description: メールアドレス
+                        example: test@example.com
+                      birth_date:
+                        type: string
+                        description: 生年月日
+                        example: 2022/10/17
+                      sex:
+                        type: string
+                        description: 性別
+                        example: man
+                      address:
+                        type: string
+                        description: 住所
+                        example: 東京都
+  /api/v1/student/update:
+    post:
+      tags:
+        - Student
+      operationId: patchStudent
+      summary: 生徒情報を更新する。
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                nick_name:
+                  type: string
+                  description: ニックネーム
+                  example: ニックネーム
+                last_name:
+                  type: string
+                  description: 姓
+                  example: 姓
+                first_name:
+                  type: string
+                  description: 名
+                  example: 名
+                occupation:
+                  type: string
+                  description: 職業
+                  example: 職業
+                purpose:
+                  type: string
+                  description: 目的
+                  example: 目的
+                email:
+                  type: string
+                  description: メールアドレス
+                  example: test@example.com
+                birth_date:
+                  type: string
+                  description: 生年月日
+                  example: '2022-10-17'
+                sex:
+                  type: string
+                  description: 性別
+                  example: man
+                address:
+                  type: string
+                  description: 住所
+                  example: 住所
+                profile_image:
+                  type: file
+                  description: プロフィール画像
+                  example: profile.png
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      nick_name:
+                        type: string
+                        description: ニックネーム
+                        example: ニックネーム
+                      last_name:
+                        type: string
+                        description: 名字
+                        example: 名字
+                      first_name:
+                        type: string
+                        description: 名前
+                        example: 名前
+                      occupation:
+                        type: string
+                        description: 職業
+                        example: エンジニア
+                      purpose:
+                        type: string
+                        description: 目的
+                        example: スキルアップのため
+                      email:
+                        type: string
+                        description: メールアドレス
+                        example: test@example.com
+                      birth_date:
+                        type: string
+                        description: 生年月日
+                        example: 2022/10/17
+                      sex:
+                        type: string
+                        description: 性別
+                        example: man
+                      address:
+                        type: string
+                        description: 住所
+                        example: 東京都
+                      profile_image:
+                        type: string
+                        description: プロフィール画像
+                        example: /student/xxx.png
+  /api/v1/attendance/index:
+    get:
+      tags:
+        - Student-Attendance
+      operationId: getAttendanceIndex
+      summary: 受講中の講座一覧を取得する。
+      parameters:
+        - name: search_word
+          in: query
+          description: 検索ワード
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 受講一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        attendance_id:
+                          type: integer
+                          description: 受講テーブル主キー
+                          example: 1
+                        progress:
+                          type: integer
+                          description: 進捗率
+                          example: 70
+                        course:
+                          type: object
+                          properties:
+                            course_id:
+                              type: integer
+                              description: 講座テーブル主キー
+                              example: 1
+                            title:
+                              type: string
+                              description: 講座名
+                              example: PHP入門講座
+                            image:
+                              type: string
+                              description: 講座サムネイル画像ファイルパス
+                              example: /course/xxx.png
+                            instructor:
+                              type: object
+                              properties:
+                                instructor_id:
+                                  type: integer
+                                  description: 講師テーブル主キー
+                                  example: 1
+                                nick_name:
+                                  type: string
+                                  description: ニックネーム
+                                  example: ニックネーム
+                                last_name:
+                                  type: string
+                                  description: 名字
+                                  example: 名字
+                                first_name:
+                                  type: string
+                                  description: 名前
+                                  example: 名前
+                                email:
+                                  type: string
+                                  description: メールアドレス
+                                  example: test@example.com
+  /api/v1/attendance/{attendance_id}:
+    get:
+      tags:
+        - Student-Attendance
+      operationId: getAttendance
+      summary: 受講中の講座の詳細情報を取得する。
+      parameters:
+        - name: attendance_id
+          in: path
+          description: 受講テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 受講詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      attendance_id:
+                        type: integer
+                        description: 受講テーブル主キー
+                        example: 1
+                      progress:
+                        type: integer
+                        description: 進捗率
+                        example: 70
+                      course:
+                        type: object
+                        properties:
+                          course_id:
+                            type: integer
+                            description: 講座テーブル主キー
+                            example: 1
+                          title:
+                            type: string
+                            description: 講座名
+                            example: PHP入門講座
+                          image:
+                            type: string
+                            description: 講座サムネイル画像ファイルパス
+                            example: /course/xxx.png
+                          instructor:
+                            type: object
+                            properties:
+                              instructor_id:
+                                type: integer
+                                description: 講師テーブル主キー
+                                example: 1
+                              nick_name:
+                                type: string
+                                description: ニックネーム
+                                example: ニックネーム
+                              last_name:
+                                type: string
+                                description: 名字
+                                example: 名字
+                              first_name:
+                                type: string
+                                description: 名前
+                                example: 名前
+                              email:
+                                type: string
+                                description: メールアドレス
+                                example: test@example.com
+                          chapters:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                chapter_id:
+                                  type: integer
+                                  description: チャプターテーブルの主キー
+                                  example: 1
+                                title:
+                                  type: string
+                                  description: チャプタータイトル
+                                  example: Hello Worldを出力する
+                                lessons:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      lesson_id:
+                                        type: integer
+                                        description: レッスンテーブルの主キー
+                                        example: 1
+                                      title:
+                                        type: string
+                                        description: レッスン名
+                                        example: swaggerの書き方
+                                      url:
+                                        type: string
+                                        description: 教材動画URL
+                                        example: http::www.youtube
+                                      remarks:
+                                        type: string
+                                        description: 備考欄
+                                        example: 動画index
+                                      lesson_attendance:
+                                        type: object
+                                        properties:
+                                          lesson_attendance_id:
+                                            type: integer
+                                            description: レッスン受講テーブルの主キー
+                                            example: 1
+                                          status:
+                                            type: string
+                                            description: レッスン受講状態（未着手, 着手, 完了）
+                                            example: before_attendance
+  /api/v1/attendance/{attendance_id}/progress:
+    get:
+      tags:
+        - Student-Attendance
+      operationId: getAttendanceProgress
+      summary: 受講中の講座の進捗率を取得する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 講座進捗率
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      course:
+                        type: object
+                        properties:
+                          course_id:
+                            type: integer
+                            description: 講座テーブル主キー
+                            example: 1
+                          progress:
+                            type: integer
+                            example: 10
+                      number_of_completed_chapters:
+                        type: integer
+                        example: 1
+                      number_of_total_chapters:
+                        type: integer
+                        example: 3
+                      number_of_completed_lessons:
+                        type: integer
+                        example: 2
+                      number_of_total_lessons:
+                        type: integer
+                        example: 6
+                      continue_lesson:
+                        type: object
+                        properties:
+                          chapter_id:
+                            type: integer
+                            description: チャプターテーブルの主キー
+                            example: 1
+                          lesson_id:
+                            type: integer
+                            description: レッスンテーブルの主キー
+                            example: 1
+  /api/v1/attendance/{attendance_id}/course/{course_id}/chapter/{chapter_id}:
+    get:
+      tags:
+        - Student-Attendance
+      operationId: getAttendanceCourseChapter
+      summary: 受講中の講座のチャプターの詳細情報を取得する。
+      parameters:
+        - name: attendance_id
+          in: path
+          description: 受講テーブルの主キー
+          required: true
+          type: integer
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: チャプター詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      attendance_id:
+                        type: integer
+                        description: 受講テーブル主キー
+                        example: 1
+                      progress:
+                        type: integer
+                        description: 進捗率
+                        example: 70
+                      course:
+                        type: object
+                        properties:
+                          course_id:
+                            type: integer
+                            description: 講座テーブル主キー
+                            example: 1
+                          title:
+                            type: string
+                            description: 講座名
+                            example: PHP入門講座
+                          image:
+                            type: string
+                            description: 講座サムネイル画像ファイルパス
+                            example: /course/xxx.png
+                          instructor:
+                            type: object
+                            properties:
+                              instructor_id:
+                                type: integer
+                                description: 講師テーブル主キー
+                                example: 1
+                              nick_name:
+                                type: string
+                                description: ニックネーム
+                                example: ニックネーム
+                              last_name:
+                                type: string
+                                description: 名字
+                                example: 名字
+                              first_name:
+                                type: string
+                                description: 名前
+                                example: 名前
+                              email:
+                                type: string
+                                description: メールアドレス
+                                example: test@example.com
+                          chapter:
+                            type: object
+                            properties:
+                              chapter_id:
+                                type: integer
+                                description: チャプターテーブルの主キー
+                                example: 1
+                              title:
+                                type: string
+                                description: チャプタータイトル
+                                example: Hello Worldを出力する
+                              lessons:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    lesson_id:
+                                      type: integer
+                                      description: レッスンテーブルの主キー
+                                      example: 1
+                                    title:
+                                      type: string
+                                      description: レッスン名
+                                      example: swaggerの書き方
+                                    url:
+                                      type: string
+                                      description: 教材動画URL
+                                      example: http::www.youtube
+                                    remarks:
+                                      type: string
+                                      description: 備考欄
+                                      example: 動画index
+                                    lesson_attendance:
+                                      type: object
+                                      properties:
+                                        lesson_attendance_id:
+                                          type: integer
+                                          description: レッスン受講テーブルの主キー
+                                          example: 1
+                                        status:
+                                          type: string
+                                          description: レッスン受講状態（未着手, 着手, 完了）
+                                          example: before_attendance
+  /api/v1/lesson-attendance:
+    patch:
+      tags:
+        - Lesson-Attendance
+      operationId: patchLessonAttendance
+      summary: レッスン受講状態を更新する。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - lesson_attendance_id
+                - status
+              type: object
+              properties:
+                lesson_attendance_id:
+                  type: int
+                  description: レッスン受講状態ID
+                  example: 1
+                status:
+                  type: string
+                  description: 状態(受講前、受講中、受講完了)
+                  example: in_attendance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor:
+    post:
+      tags:
+        - Instructor
+      operationId: updateInstructor
+      summary: 講師情報を更新する。
+      description: |
+        講師情報を更新する。
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                nick_name:
+                  type: string
+                  description: ニックネーム
+                  example: ニックネーム
+                last_name:
+                  type: string
+                  description: 名字
+                  example: 名字
+                first_name:
+                  type: string
+                  description: 名前
+                  example: 名前
+                email:
+                  type: string
+                  description: メールアドレス
+                  example: test@example.com
+                profile_image:
+                  type: string
+                  description: プロフィール画像
+                  example: /instructor/xxx.png
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      nick_name:
+                        type: string
+                        description: ニックネーム
+                        example: ニックネーム
+                      last_name:
+                        type: string
+                        description: 名字
+                        example: 名字
+                      first_name:
+                        type: string
+                        description: 名前
+                        example: 名前
+                      email:
+                        type: string
+                        description: メールアドレス
+                        example: test@example.com
+                      profile_image:
+                        type: string
+                        description: プロフィール画像
+                        example: /instructor/xxx.png
+  /api/v1/instructor/edit:
+    get:
+      tags:
+        - Instructor
+      operationId: getInstructor
+      summary: 講師情報を取得する。
+      responses:
+        '200':
+          description: 講師情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      instructor_id:
+                        type: integer
+                        description: 講師テーブル主キー
+                        example: 1
+                      nick_name:
+                        type: string
+                        description: ニックネーム
+                        example: ニックネーム
+                      last_name:
+                        type: string
+                        description: 名字
+                        example: 名字
+                      first_name:
+                        type: string
+                        description: 名前
+                        example: 名前
+                      email:
+                        type: string
+                        description: メールアドレス
+                        example: test@example.com
+                      profile_image:
+                        type: string
+                        description: プロフィール画像
+                        example: /instructor/xxx.png
+  /api/v1/instructor/attendance:
+    post:
+      tags:
+        - Instructor-Attendance
+      operationId: postInstructorAttendance
+      summary: 受講情報を登録する。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                student_id:
+                  type: integer
+                  description: 生徒テーブル主キー
+                  example: 1
+                course_id:
+                  type: integer
+                  description: 講座テーブル主キー
+                  example: 1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/attendance/{attendance_id}:
+    delete:
+      tags:
+        - Instructor-Attendance
+      operationId: deleteInstructorAttendance
+      summary: 受講情報を削除する。
+      parameters:
+        - name: attendance_id
+          in: path
+          description: 受講テーブル主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/course/index:
+    get:
+      tags:
+        - Instructor-Course
+      operationId: getInstructorCourseIndex
+      summary: 講師講座一覧を取得する。
+      responses:
+        '200':
+          description: 講座一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        course_id:
+                          type: integer
+                          description: 講座テーブル主キー
+                          example: 1
+                        title:
+                          type: string
+                          description: 講座名
+                          example: PHP入門講座
+                        image:
+                          type: string
+                          description: 講座サムネイル画像ファイルパス
+                          example: /course/xxx.png
+                        status:
+                          type: string
+                          description: 講座ステータス
+                          example: public
+  /api/v1/instructor/course/{course_id}:
+    get:
+      tags:
+        - Instructor-Course
+      operationId: getInstructorCourse
+      summary: 講座の詳細情報を取得する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 講座詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      course_id:
+                        type: integer
+                        description: 講座テーブル主キー
+                        example: 1
+                      title:
+                        type: string
+                        description: 講座名
+                        example: PHP入門講座
+                      image:
+                        type: string
+                        description: 講座サムネイル画像ファイルパス
+                        example: /course/xxx.png
+                      status:
+                        type: string
+                        description: 講座ステータス
+                        example: public
+                      chapters:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            chapter_id:
+                              type: integer
+                              description: チャプターテーブルの主キー
+                              example: 1
+                            title:
+                              type: string
+                              description: チャプタータイトル
+                              example: Hello Worldを出力する
+                            order:
+                              type: integer
+                              description: 順番
+                              example: 1
+                            lessons:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  lesson_id:
+                                    type: integer
+                                    description: レッスンテーブルの主キー
+                                    example: 1
+                                  title:
+                                    type: string
+                                    description: レッスン名
+                                    example: swaggerの書き方
+                                  url:
+                                    type: string
+                                    description: 教材動画URL
+                                    example: http::www.youtube
+                                  remarks:
+                                    type: string
+                                    description: 備考欄
+                                    example: 動画index
+    post:
+      tags:
+        - Instructor-Course
+      operationId: patchInstructorCourse
+      summary: 講座情報を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: タイトル
+                  example: 講座タイトル
+                status:
+                  type: string
+                  description: ステータス
+                  example: public
+                image:
+                  type: file
+                  description: 画像ファイル
+                  example: thumbnail.png
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      course_id:
+                        type: integer
+                        description: 講座テーブル主キー
+                        example: 1
+                      title:
+                        type: string
+                        description: 講座名
+                        example: PHP入門講座
+                      image:
+                        type: string
+                        description: 講座サムネイル画像ファイルパス
+                        example: /course/xxx.png
+                      status:
+                        type: string
+                        description: 講座ステータス
+                        example: public
+    delete:
+      tags:
+        - Instructor-Course
+      operationId: deleteInstructorCourse
+      summary: 講座情報を削除する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/course/{course_id}/edit:
+    get:
+      tags:
+        - Instructor-Course
+      operationId: getInstructorCourseEdit
+      summary: 編集講座の情報を取得する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 講座詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      course_id:
+                        type: integer
+                        description: 講座テーブル主キー
+                        example: 1
+                      title:
+                        type: string
+                        description: 講座名
+                        example: PHP入門講座
+                      image:
+                        type: string
+                        description: 講座サムネイル画像ファイルパス
+                        example: /course/xxx.png
+                      status:
+                        type: string
+                        description: 講座ステータス
+                        example: public
+  /api/v1/instructor/course:
+    post:
+      tags:
+        - Instructor-Course
+      operationId: postInstructorCourse
+      summary: 講座情報を登録する。
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: タイトル
+                  example: 講座タイトル
+                image:
+                  type: file
+                  description: 画像ファイル
+                  example: thumbnail.png
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/course/{course_id}/attendance/status:
+    get:
+      tags:
+        - Instructor-Course
+      operationId: getInstructorCourseAttendanceStatus
+      summary: 講座の受講状況を取得する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 講座受講状況
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        chapters:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              chapter_id:
+                                type: integer
+                                description: チャプターテーブルの主キー
+                                example: 1
+                              title:
+                                type: string
+                                description: チャプタータイトル
+                                example: Hello Worldを出力する
+                              completed_count:
+                                type: integer
+                                example: 1
+  /api/v1/instructor/course/{course_id}/notification:
+    post:
+      tags:
+        - Instructor-Course
+      operationId: postInstructorCourseNotification
+      summary: 講座のお知らせを登録する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - title
+                - body
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: お知らせタイトル
+                  example: レッスン「変数とは？」閲覧について
+                content:
+                  type: string
+                  description: 本文
+                  example: 10月1日〜10日の間、レッスン「変数とは？」がメンテナンスにつき閲覧できなくなります。
+                start_date:
+                  type: string
+                  description: お知らせ開始日
+                  example: '2021-10-01 00:00:00'
+                end_date:
+                  type: string
+                  description: お知らせ終了日
+                  example: '2021-10-10 00:00:00'
+                type:
+                  type: string
+                  description: お知らせタイプ
+                  example: once
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/course/{course_id}/student/index:
+    get:
+      tags:
+        - Instructor-Course
+      operationId: getInstructorCourseStudentIndex
+      summary: 講座の受講生一覧を取得する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+        - name: page
+          in: query
+          description: ページ番号
+          required: false
+          type: integer
+        - name: per_page
+          in: query
+          description: 1ページあたりの表示件数
+          required: false
+          type: integer
+        - name: sort_by
+          in: query
+          description: ソート対象
+          required: false
+          type: string
+        - name: order
+          in: query
+          description: ソート順
+          required: false
+          type: string
+        - name: inputText
+          in: query
+          description: 検索文字列
+          required: false
+          type: integer
+        - name: startDate
+          in: query
+          description: 日付検索開始日
+          required: false
+          type: integer
+        - name: endDate
+          in: query
+          description: 日付検索終了日
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: 講座受講生一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        course:
+                          type: object
+                          properties:
+                            course_id:
+                              type: integer
+                              description: 講座テーブル主キー
+                              example: 1
+                            title:
+                              type: string
+                              description: 講座名
+                              example: PHP入門講座
+                            image:
+                              type: string
+                              description: 講座サムネイル画像ファイルパス
+                              example: /course/xxx.png
+                        pagination:
+                          type: object
+                          properties:
+                            page:
+                              type: integer
+                              description: ページ番号
+                              example: 1
+                            total:
+                              type: integer
+                              description: ページ総数
+                              example: 1
+                        students:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              student_id:
+                                type: integer
+                                description: 生徒テーブル主キー
+                                example: 1
+                              nick_name:
+                                type: string
+                                description: ニックネーム
+                                example: ニックネーム
+                              email:
+                                type: string
+                                description: メールアドレス
+                                example: test@example.com
+                              course_title:
+                                type: string
+                                description: 講座名
+                                example: PHP入門講座
+                              last_login_at:
+                                type: string
+                                description: 最終ログイン日時
+                                example: 2022/10/17 00:00:00
+                              attendanced_at:
+                                type: string
+                                description: 受講日時
+                                example: 2022/10/17
+  /api/v1/instructor/course/status:
+    put:
+      tags:
+        - Instructor-Course
+      operationId: putInstructorCourseStatus
+      summary: 講座のステータスを一括更新する。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - status
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: ステータス
+                  example: public
+  /api/v1/instructor/course/{course_id}/chapter:
+    post:
+      tags:
+        - Instructor-Chapter
+      operationId: postInstructorChapter
+      summary: チャプター情報を登録する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: チャプタータイトル
+                  example: Hello Worldを出力する
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}:
+    get:
+      tags:
+        - Instructor-Chapter
+      operationId: getInstructorChapter
+      summary: チャプターの詳細情報を取得する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: チャプター詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      chapter_id:
+                        type: integer
+                        description: チャプターテーブルの主キー
+                        example: 1
+                      title:
+                        type: string
+                        description: チャプタータイトル
+                        example: Hello Worldを出力する
+                      lessons:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            lesson_id:
+                              type: integer
+                              description: レッスンテーブルの主キー
+                              example: 1
+                            title:
+                              type: string
+                              description: レッスン名
+                              example: swaggerの書き方
+                            url:
+                              type: string
+                              description: 教材動画URL
+                              example: http::www.youtube
+                            remarks:
+                              type: string
+                              description: 備考欄
+                              example: 動画index
+                            status:
+                              type: string
+                              description: レッスンステータス
+                              example: public
+    patch:
+      tags:
+        - Instructor-Chapter
+      operationId: patchInstructorChapter
+      summary: チャプター情報を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: タイトル
+                  example: チャプタータイトル
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+    delete:
+      tags:
+        - Instructor-Chapter
+      operationId: deleteInstructorChapter
+      summary: チャプター情報を削除する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/course/{course_id}/chapter/sort:
+    post:
+      tags:
+        - Instructor-Chapter
+      operationId: sortInstructorChapter
+      summary: チャプター情報の並び順を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                chapters:
+                  type: array
+                  description: チャプターの配列
+                  items:
+                    type: object
+                    properties:
+                      chapter_id:
+                        type: integer
+                        description: チャプターテーブルの主キー
+                        example: 1
+                      order:
+                        type: integer
+                        description: 順番
+                        example: 1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/status:
+    patch:
+      tags:
+        - Instructor-Chapter
+      operationId: patchInstructorChapterStatus
+      summary: チャプターの公開状態を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターID
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - status
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: 状態(公開、非公開)
+                  example: public
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson:
+    post:
+      tags:
+        - Instructor-Lesson
+      operationId: storeInstructorChapterLesson
+      summary: レッスン情報を登録する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: タイトル
+                  example: swaggerの書き方
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      lesson_id:
+                        $ref: '#../components/schemas/Lesson.yml#/LessonId'
+                      title:
+                        $ref: '#../components/schemas/Lesson.yml#/Title'
+                      status:
+                        $ref: '#../components/schemas/Lesson.yml#/Status'
+                      order:
+                        $ref: '#../components/schemas/Lesson.yml#/Order'
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}:
+    put:
+      tags:
+        - Instructor-Lesson
+      operationId: putInstructorChapterLesson
+      summary: レッスン情報を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+        - name: lesson_id
+          in: path
+          description: レッスンテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: タイトル
+                  example: レッスンタイトル
+                url:
+                  type: string
+                  description: URL
+                  example: https://www.youtube.com/watch?v=xxxxxxxxxxx
+                remarks:
+                  type: string
+                  description: 備考
+                  example: 備考
+                status:
+                  type: string
+                  description: ステータス
+                  example: public
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+    delete:
+      tags:
+        - Instructor-Lesson
+      operationId: deleteInstructorChapterLesson
+      summary: レッスン情報を削除する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+        - name: lesson_id
+          in: path
+          description: レッスンテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}/title:
+    patch:
+      tags:
+        - Instructor-Lesson
+      operationId: patchInstructorChapterLessonTitle
+      summary: レッスン名を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: intege
+        - name: lesson_id
+          in: path
+          description: レッスンテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: タイトル
+                  example: レッスンタイトル
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/sort:
+    post:
+      tags:
+        - Instructor-Lesson
+      operationId: sortInstructorChapterLesson
+      summary: レッスン情報の並び順を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lessons:
+                  type: array
+                  description: レッスンの配列
+                  items:
+                    type: object
+                    properties:
+                      lesson_id:
+                        $ref: '#../components/schemas/Lesson.yml#/LessonId'
+                      order:
+                        $ref: '#../components/schemas/Lesson.yml#/Order'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}/status:
+    patch:
+      tags:
+        - Instructor-Lesson
+      operationId: patchInstructorChapterLessonStatus
+      summary: レッスンの公開状態を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: intege
+        - name: lesson_id
+          in: path
+          description: レッスンテーブルの主キー
+          required: true
+          type: integer
+      requestBody: null
+      required: true
+      content:
+        application/json:
+          schema:
+            required:
+              - status
+            type: object
+            properties:
+              status:
+                type: string
+                description: 状態(公開、非公開)
+                example: public
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/student/:
+    post:
+      tags:
+        - Instructor-Student
+      operationId: postInstructorStudent
+      summary: 生徒情報を登録する。
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - given_name_by_instructor
+                - email
+              type: object
+              properties:
+                given_name_by_instructor:
+                  type: string
+                  description: ユーザー名
+                  example: ユーザー名
+                email:
+                  type: string
+                  description: メールアドレス
+                  example: test@example.com
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      student_id:
+                        type: integer
+                        description: 生徒テーブル主キー
+                        example: 1
+                      given_name_by_instructor:
+                        type: string
+                        description: ユーザー名
+                        example: ユーザー名
+                      email:
+                        type: string
+                        description: メールアドレス
+                        example: test@example.com
+  /api/v1/instructor/student/{student_id}:
+    get:
+      tags:
+        - Instructor-Student
+      operationId: getInstructorStudent
+      summary: 生徒の詳細情報を取得する。
+      parameters:
+        - name: student_id
+          in: path
+          description: 生徒テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      student_id:
+                        type: integer
+                        description: 生徒テーブル主キー
+                        example: 1
+                      given_name_by_instructor:
+                        type: string
+                        description: ユーザー名
+                        example: ユーザー名
+                      nick_name:
+                        type: string
+                        description: ニックネーム
+                        example: ニックネーム
+                      last_name:
+                        type: string
+                        description: 名字
+                        example: 名字
+                      first_name:
+                        type: string
+                        description: 名前
+                        example: 名前
+                      occupation:
+                        type: string
+                        description: 職業
+                        example: エンジニア
+                      email:
+                        type: string
+                        description: メールアドレス
+                        example: test@example.com
+                      purpose:
+                        type: string
+                        description: 目的
+                        example: スキルアップのため
+                      birth_date:
+                        type: string
+                        description: 生年月日
+                        example: 2022/10/17
+                      sex:
+                        type: string
+                        description: 性別
+                        example: man
+                      address:
+                        type: string
+                        description: 住所
+                        example: 東京都
+                      last_login_at:
+                        type: string
+                        description: 最終ログイン日時
+                        example: 2022/10/17 00:00:00
+  /api/v1/instructor/notification/index:
+    get:
+      tags:
+        - Instructor-Notification
+      operationId: getInstructorNotificationIndex
+      summary: お知らせ一覧を取得する。
+      responses:
+        '200':
+          description: お知らせ一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        notifications:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              notification_id:
+                                type: integer
+                                description: お知らせテーブルの主キー
+                                example: 1
+                              title:
+                                type: string
+                                description: お知らせタイトル
+                                example: レッスン「変数とは？」閲覧について
+                              content:
+                                type: string
+                                description: 本文
+                                example: 10月1日〜10日の間、レッスン「変数とは？」がメンテナンスにつき閲覧できなくなります。
+                              start_date:
+                                type: string
+                                description: 開始日
+                                example: 2022/10/17 00:00:00
+                              end_date:
+                                type: string
+                                description: 終了日
+                                example: 2022/11/17 00:00:00
+                              type:
+                                type: string
+                                description: 表示区分（一度だけ表示、毎回表示）
+                                example: once
+                        pagination:
+                          type: object
+                          properties:
+                            page:
+                              type: integer
+                              description: ページ番号
+                              example: 1
+                            total:
+                              type: integer
+                              description: ページ総数
+                              example: 1
+  /api/v1/instructor/notification/{notification_id}:
+    get:
+      tags:
+        - Instructor-Notification
+      operationId: getInstructorNotification
+      summary: お知らせの詳細情報を取得する。
+      parameters:
+        - name: notification_id
+          in: path
+          description: お知らせテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: お知らせ詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      notification_id:
+                        type: integer
+                        description: お知らせテーブルの主キー
+                        example: 1
+                      couse_id:
+                        type: integer
+                        description: 講座テーブル主キー
+                        example: 1
+                      title:
+                        type: string
+                        description: お知らせタイトル
+                        example: レッスン「変数とは？」閲覧について
+                      content:
+                        type: string
+                        description: 本文
+                        example: 10月1日〜10日の間、レッスン「変数とは？」がメンテナンスにつき閲覧できなくなります。
+                      start_date:
+                        type: string
+                        description: 開始日
+                        example: 2022/10/17 00:00:00
+                      end_date:
+                        type: string
+                        description: 終了日
+                        example: 2022/11/17 00:00:00
+                      type:
+                        type: string
+                        description: 表示区分（一度だけ表示、毎回表示）
+                        example: once
+    patch:
+      tags:
+        - Instructor-Notification
+      operationId: patchInstructorNotification
+      summary: お知らせ情報を更新する。
+      parameters:
+        - name: notification_id
+          in: path
+          description: お知らせテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - title
+                - content
+                - start_date
+                - end_date
+                - type
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: お知らせタイトル
+                  example: レッスン「変数とは？」閲覧について
+                content:
+                  type: string
+                  description: 本文
+                  example: 10月1日〜10日の間、レッスン「変数とは？」がメンテナンスにつき閲覧できなくなります。
+                start_date:
+                  type: string
+                  description: お知らせ開始日
+                  example: '2021-10-01 00:00:00'
+                end_date:
+                  type: string
+                  description: お知らせ終了日
+                  example: '2021-10-10 00:00:00'
+                type:
+                  type: string
+                  description: お知らせタイプ
+                  example: once
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                        description: お知らせタイトル
+                        example: レッスン「変数とは？」閲覧について
+                      content:
+                        type: string
+                        description: 本文
+                        example: 10月1日〜10日の間、レッスン「変数とは？」がメンテナンスにつき閲覧できなくなります。
+                      start_date:
+                        type: string
+                        description: 開始日
+                        example: 2022/10/17 00:00:00
+                      end_date:
+                        type: string
+                        description: 終了日
+                        example: 2022/11/17 00:00:00
+                      type:
+                        type: string
+                        description: 表示区分（一度だけ表示、毎回表示）
+                        example: once
+  /api/v1/manager/instructor/{instructor_id}:
+    get:
+      tags:
+        - Manager-Instructor
+      operationId: getManagerInstructor
+      summary: 講師情報を取得する。
+      responses:
+        '200':
+          description: 講師情報
+          content:
+            multipart/form-data:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      instructor_id:
+                        type: integer
+                        description: 講師テーブル主キー
+                        example: 1
+                      nick_name:
+                        type: string
+                        description: ニックネーム
+                        example: ニックネーム
+                      last_name:
+                        type: string
+                        description: 名字
+                        example: 名字
+                      first_name:
+                        type: string
+                        description: 名前
+                        example: 名前
+                      email:
+                        type: string
+                        description: メールアドレス
+                        example: test@example.com
+                      profile_image:
+                        type: string
+                        description: プロフィール画像
+                        example: /instructor/xxx.png
+    post:
+      tags:
+        - Manager-Instructor
+      operationId: postManagerInstructor
+      summary: 講師情報を更新する。
+      description: |
+        講師情報を更新する。
+      parameters:
+        - name: instructor_id
+          in: path
+          description: 講師テーブル主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nick_name:
+                  type: string
+                  description: ニックネーム
+                  example: ニックネーム
+                last_name:
+                  type: string
+                  description: 名字
+                  example: 名字
+                first_name:
+                  type: string
+                  description: 名前
+                  example: 名前
+                email:
+                  type: string
+                  description: メールアドレス
+                  example: test@example.com
+                profile_image:
+                  type: string
+                  description: プロフィール画像
+                  example: /instructor/xxx.png
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      nick_name:
+                        type: string
+                        description: ニックネーム
+                        example: ニックネーム
+                      last_name:
+                        type: string
+                        description: 名字
+                        example: 名字
+                      first_name:
+                        type: string
+                        description: 名前
+                        example: 名前
+                      email:
+                        type: string
+                        description: メールアドレス
+                        example: test@example.com
+                      profile_image:
+                        type: string
+                        description: プロフィール画像
+                        example: /instructor/xxx.png
+  /api/v1/manager/attendance:
+    post:
+      tags:
+        - Manager-Attendance
+      operationId: postManagerAttendance
+      summary: 受講情報を登録する。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                student_id:
+                  type: integer
+                  description: 生徒テーブル主キー
+                  example: 1
+                course_id:
+                  type: integer
+                  description: 講座テーブル主キー
+                  example: 1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/attendance/{attendance_id}:
+    delete:
+      tags:
+        - Manager-Attendance
+      operationId: deleteManagerAttendance
+      summary: 受講情報を削除する。
+      parameters:
+        - name: attendance_id
+          in: path
+          description: 受講テーブル主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/course/index:
+    get:
+      tags:
+        - Manager-Course
+      operationId: getManagerCourseIndex
+      summary: 講師講座一覧を取得する。
+      responses:
+        '200':
+          description: 講座一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        course_id:
+                          type: integer
+                          description: 講座テーブル主キー
+                          example: 1
+                        title:
+                          type: string
+                          description: 講座名
+                          example: PHP入門講座
+                        image:
+                          type: string
+                          description: 講座サムネイル画像ファイルパス
+                          example: /course/xxx.png
+                        status:
+                          type: string
+                          description: 講座ステータス
+                          example: public
+  /api/v1/manager/course/{course_id}:
+    get:
+      tags:
+        - Manager-Course
+      operationId: getManagerCourse
+      summary: 講座の詳細情報を取得する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 講座詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      course_id:
+                        type: integer
+                        description: 講座テーブル主キー
+                        example: 1
+                      title:
+                        type: string
+                        description: 講座名
+                        example: PHP入門講座
+                      image:
+                        type: string
+                        description: 講座サムネイル画像ファイルパス
+                        example: /course/xxx.png
+                      status:
+                        type: string
+                        description: 講座ステータス
+                        example: public
+                      chapters:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            chapter_id:
+                              type: integer
+                              description: チャプターテーブルの主キー
+                              example: 1
+                            title:
+                              type: string
+                              description: チャプタータイトル
+                              example: Hello Worldを出力する
+                            order:
+                              type: integer
+                              description: 順番
+                              example: 1
+                            lessons:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  lesson_id:
+                                    type: integer
+                                    description: レッスンテーブルの主キー
+                                    example: 1
+                                  title:
+                                    type: string
+                                    description: レッスン名
+                                    example: swaggerの書き方
+                                  url:
+                                    type: string
+                                    description: 教材動画URL
+                                    example: http::www.youtube
+                                  remarks:
+                                    type: string
+                                    description: 備考欄
+                                    example: 動画index
+    post:
+      tags:
+        - Manager-Course
+      operationId: postManagerCourse
+      summary: 講座情報を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: タイトル
+                  example: 講座タイトル
+                status:
+                  type: string
+                  description: ステータス
+                  example: public
+                image:
+                  type: file
+                  description: 画像ファイル
+                  example: thumbnail.png
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      course_id:
+                        type: integer
+                        description: 講座テーブル主キー
+                        example: 1
+                      title:
+                        type: string
+                        description: 講座名
+                        example: PHP入門講座
+                      image:
+                        type: string
+                        description: 講座サムネイル画像ファイルパス
+                        example: /course/xxx.png
+                      status:
+                        type: string
+                        description: 講座ステータス
+                        example: public
+    delete:
+      tags:
+        - Manager-Course
+      operationId: deleteManagerCourse
+      summary: 講座情報を削除する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/course:
+    post:
+      tags:
+        - Manager-Course
+      operationId: postManagerCourse
+      summary: 講座情報を登録する。
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: タイトル
+                  example: 講座タイトル
+                image:
+                  type: file
+                  description: 画像ファイル
+                  example: thumbnail.png
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/course/{course_id}/attendance/status:
+    get:
+      tags:
+        - Manager-Course
+      operationId: getManagerCourseAttendanceStatus
+      summary: 講座の受講状況を取得する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 講座受講状況
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        chapters:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              chapter_id:
+                                type: integer
+                                description: チャプターテーブルの主キー
+                                example: 1
+                              title:
+                                type: string
+                                description: チャプタータイトル
+                                example: Hello Worldを出力する
+                              completed_count:
+                                type: integer
+                                example: 1
+  /api/v1/manager/course/{course_id}/notification:
+    post:
+      tags:
+        - Manager-Course
+      operationId: postManagerCourseNotification
+      summary: 講座のお知らせを登録する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - title
+                - body
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: お知らせタイトル
+                  example: レッスン「変数とは？」閲覧について
+                content:
+                  type: string
+                  description: 本文
+                  example: 10月1日〜10日の間、レッスン「変数とは？」がメンテナンスにつき閲覧できなくなります。
+                start_date:
+                  type: string
+                  description: お知らせ開始日
+                  example: '2021-10-01 00:00:00'
+                end_date:
+                  type: string
+                  description: お知らせ終了日
+                  example: '2021-10-10 00:00:00'
+                type:
+                  type: string
+                  description: お知らせタイプ
+                  example: once
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/course/{course_id}/student/index:
+    get:
+      tags:
+        - Manager-Course
+      operationId: getManagerCourseStudentIndex
+      summary: 講座の受講生一覧を取得する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+        - name: page
+          in: query
+          description: ページ番号
+          required: false
+          type: integer
+        - name: per_page
+          in: query
+          description: 1ページあたりの表示件数
+          required: false
+          type: integer
+        - name: sort_by
+          in: query
+          description: ソート対象
+          required: false
+          type: string
+        - name: order
+          in: query
+          description: ソート順
+          required: false
+          type: string
+        - name: inputText
+          in: query
+          description: 検索文字列
+          required: false
+          type: integer
+        - name: startDate
+          in: query
+          description: 日付検索開始日
+          required: false
+          type: integer
+        - name: endDate
+          in: query
+          description: 日付検索終了日
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: 講座受講生一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        course:
+                          type: object
+                          properties:
+                            course_id:
+                              type: integer
+                              description: 講座テーブル主キー
+                              example: 1
+                            title:
+                              type: string
+                              description: 講座名
+                              example: PHP入門講座
+                            image:
+                              type: string
+                              description: 講座サムネイル画像ファイルパス
+                              example: /course/xxx.png
+                        pagination:
+                          type: object
+                          properties:
+                            page:
+                              type: integer
+                              description: ページ番号
+                              example: 1
+                            total:
+                              type: integer
+                              description: ページ総数
+                              example: 1
+                        students:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              student_id:
+                                type: integer
+                                description: 生徒テーブル主キー
+                                example: 1
+                              nick_name:
+                                type: string
+                                description: ニックネーム
+                                example: ニックネーム
+                              email:
+                                type: string
+                                description: メールアドレス
+                                example: test@example.com
+                              course_title:
+                                type: string
+                                description: 講座名
+                                example: PHP入門講座
+                              last_login_at:
+                                type: string
+                                description: 最終ログイン日時
+                                example: 2022/10/17 00:00:00
+                              attendanced_at:
+                                type: string
+                                description: 受講日時
+                                example: 2022/10/17
+  /api/v1/manager/course/status:
+    put:
+      tags:
+        - Manager-Course
+      operationId: putManagerCourseStatus
+      summary: 講座のステータスを一括更新する。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - status
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: ステータス
+                  example: public
+  /api/v1/manager/course/{course_id}/chapter:
+    post:
+      tags:
+        - Manager-Chapter
+      operationId: postManagerChapter
+      summary: チャプター情報を登録する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: チャプタータイトル
+                  example: Hello Worldを出力する
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/course/{course_id}/chapter/{chapter_id}:
+    get:
+      tags:
+        - Manager-Chapter
+      operationId: getManagerChapter
+      summary: チャプターの詳細情報を取得する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: チャプター詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      chapter_id:
+                        type: integer
+                        description: チャプターテーブルの主キー
+                        example: 1
+                      title:
+                        type: string
+                        description: チャプタータイトル
+                        example: Hello Worldを出力する
+                      lessons:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            lesson_id:
+                              type: integer
+                              description: レッスンテーブルの主キー
+                              example: 1
+                            title:
+                              type: string
+                              description: レッスン名
+                              example: swaggerの書き方
+                            url:
+                              type: string
+                              description: 教材動画URL
+                              example: http::www.youtube
+                            remarks:
+                              type: string
+                              description: 備考欄
+                              example: 動画index
+                            status:
+                              type: string
+                              description: レッスンステータス
+                              example: public
+    patch:
+      tags:
+        - Manager-Chapter
+      operationId: patchManagerChapter
+      summary: チャプター情報を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: タイトル
+                  example: チャプタータイトル
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+    delete:
+      tags:
+        - Manager-Chapter
+      operationId: deleteManagerChapter
+      summary: チャプター情報を削除する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/course/{course_id}/chapter/sort:
+    post:
+      tags:
+        - Manager-Chapter
+      operationId: sortManagerChapter
+      summary: チャプター情報の並び順を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                chapters:
+                  type: array
+                  description: チャプターの配列
+                  items:
+                    type: object
+                    properties:
+                      chapter_id:
+                        type: integer
+                        description: チャプターテーブルの主キー
+                        example: 1
+                      order:
+                        type: integer
+                        description: 順番
+                        example: 1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/course/{course_id}/chapter/{chapter_id}/status:
+    patch:
+      tags:
+        - Manager-Chapter
+      operationId: patchManagerChapterStatus
+      summary: チャプターの公開状態を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターID
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - status
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: 状態(公開、非公開)
+                  example: public
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/course/{course_id}/chapter/{chapter_id}/lesson:
+    post:
+      tags:
+        - Manager-Lesson
+      operationId: storeManagerChapterLesson
+      summary: レッスン情報を登録する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: タイトル
+                  example: swaggerの書き方
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      lesson_id:
+                        $ref: '#../components/schemas/Lesson.yml#/LessonId'
+                      title:
+                        $ref: '#../components/schemas/Lesson.yml#/Title'
+                      status:
+                        $ref: '#../components/schemas/Lesson.yml#/Status'
+                      order:
+                        $ref: '#../components/schemas/Lesson.yml#/Order'
+  /api/v1/manager/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}:
+    put:
+      tags:
+        - Manager-Lesson
+      operationId: putManagerChapterLesson
+      summary: レッスン情報を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+        - name: lesson_id
+          in: path
+          description: レッスンテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: タイトル
+                  example: レッスンタイトル
+                url:
+                  type: string
+                  description: URL
+                  example: https://www.youtube.com/watch?v=xxxxxxxxxxx
+                remarks:
+                  type: string
+                  description: 備考
+                  example: 備考
+                status:
+                  type: string
+                  description: ステータス
+                  example: public
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+    delete:
+      tags:
+        - Manager-Lesson
+      operationId: deleteManagerChapterLesson
+      summary: レッスン情報を削除する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+        - name: lesson_id
+          in: path
+          description: レッスンテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}/title:
+    patch:
+      tags:
+        - Manager-Lesson
+      operationId: patchManagerChapterLessonTitle
+      summary: レッスン名を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: intege
+        - name: lesson_id
+          in: path
+          description: レッスンテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: タイトル
+                  example: レッスンタイトル
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/course/{course_id}/chapter/{chapter_id}/lesson/sort:
+    post:
+      tags:
+        - Manager-Lesson
+      operationId: sortManagerChapterLesson
+      summary: レッスン情報の並び順を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lessons:
+                  type: array
+                  description: レッスンの配列
+                  items:
+                    type: object
+                    properties:
+                      lesson_id:
+                        $ref: '#../components/schemas/Lesson.yml#/LessonId'
+                      order:
+                        $ref: '#../components/schemas/Lesson.yml#/Order'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}/status:
+    patch:
+      tags:
+        - Manager-Lesson
+      operationId: patchManagerChapterLessonStatus
+      summary: レッスンの公開状態を更新する。
+      parameters:
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          type: integer
+        - name: lesson_id
+          in: path
+          description: レッスンテーブルの主キー
+          required: true
+          type: integer
+      requestBody: null
+      required: true
+      content:
+        application/json:
+          schema:
+            required:
+              - status
+            type: object
+            properties:
+              status:
+                type: string
+                description: 状態(公開、非公開)
+                example: public
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/student/:
+    post:
+      tags:
+        - Manager-Student
+      operationId: postManagerStudent
+      summary: 生徒情報を登録する。
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - given_name_by_instructor
+                - email
+              type: object
+              properties:
+                given_name_by_instructor:
+                  type: string
+                  description: ユーザー名
+                  example: ユーザー名
+                email:
+                  type: string
+                  description: メールアドレス
+                  example: test@example.com
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      student_id:
+                        type: integer
+                        description: 生徒テーブル主キー
+                        example: 1
+                      given_name_by_instructor:
+                        type: string
+                        description: ユーザー名
+                        example: ユーザー名
+                      email:
+                        type: string
+                        description: メールアドレス
+                        example: test@example.com
+  /api/v1/manager/student/{student_id}:
+    get:
+      tags:
+        - Manager-Student
+      operationId: getManagerStudent
+      summary: 生徒の詳細情報を取得する。
+      parameters:
+        - name: student_id
+          in: path
+          description: 生徒テーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      student_id:
+                        type: integer
+                        description: 生徒テーブル主キー
+                        example: 1
+                      given_name_by_instructor:
+                        type: string
+                        description: ユーザー名
+                        example: ユーザー名
+                      nick_name:
+                        type: string
+                        description: ニックネーム
+                        example: ニックネーム
+                      last_name:
+                        type: string
+                        description: 名字
+                        example: 名字
+                      first_name:
+                        type: string
+                        description: 名前
+                        example: 名前
+                      occupation:
+                        type: string
+                        description: 職業
+                        example: エンジニア
+                      email:
+                        type: string
+                        description: メールアドレス
+                        example: test@example.com
+                      purpose:
+                        type: string
+                        description: 目的
+                        example: スキルアップのため
+                      birth_date:
+                        type: string
+                        description: 生年月日
+                        example: 2022/10/17
+                      sex:
+                        type: string
+                        description: 性別
+                        example: man
+                      address:
+                        type: string
+                        description: 住所
+                        example: 東京都
+                      last_login_at:
+                        type: string
+                        description: 最終ログイン日時
+                        example: 2022/10/17 00:00:00
+  /api/v1/manager/notification/index:
+    get:
+      tags:
+        - Manager-Notification
+      operationId: getManagerNotification
+      summary: お知らせ一覧を取得する。
+      responses:
+        '200':
+          description: お知らせ一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        notifications:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              notification_id:
+                                type: integer
+                                description: お知らせテーブルの主キー
+                                example: 1
+                              title:
+                                type: string
+                                description: お知らせタイトル
+                                example: レッスン「変数とは？」閲覧について
+                              content:
+                                type: string
+                                description: 本文
+                                example: 10月1日〜10日の間、レッスン「変数とは？」がメンテナンスにつき閲覧できなくなります。
+                              start_date:
+                                type: string
+                                description: 開始日
+                                example: 2022/10/17 00:00:00
+                              end_date:
+                                type: string
+                                description: 終了日
+                                example: 2022/11/17 00:00:00
+                              type:
+                                type: string
+                                description: 表示区分（一度だけ表示、毎回表示）
+                                example: once
+                        pagination:
+                          type: object
+                          properties:
+                            page:
+                              type: integer
+                              description: ページ番号
+                              example: 1
+                            total:
+                              type: integer
+                              description: ページ総数
+                              example: 1
+  /api/v1/manager/notification/{notification_id}:
+    get:
+      tags:
+        - Manager-Notification
+      operationId: getManagerNotificationDetail
+      summary: お知らせの詳細情報を取得する。
+      parameters:
+        - name: notification_id
+          in: path
+          description: お知らせテーブルの主キー
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: お知らせ詳細情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      notification_id:
+                        type: integer
+                        description: お知らせテーブルの主キー
+                        example: 1
+                      couse_id:
+                        type: integer
+                        description: 講座テーブル主キー
+                        example: 1
+                      title:
+                        type: string
+                        description: お知らせタイトル
+                        example: レッスン「変数とは？」閲覧について
+                      content:
+                        type: string
+                        description: 本文
+                        example: 10月1日〜10日の間、レッスン「変数とは？」がメンテナンスにつき閲覧できなくなります。
+                      start_date:
+                        type: string
+                        description: 開始日
+                        example: 2022/10/17 00:00:00
+                      end_date:
+                        type: string
+                        description: 終了日
+                        example: 2022/11/17 00:00:00
+                      type:
+                        type: string
+                        description: 表示区分（一度だけ表示、毎回表示）
+                        example: once
+    patch:
+      tags:
+        - Manager-Notification
+      operationId: patchManagerNotification
+      summary: お知らせ情報を更新する。
+      parameters:
+        - name: notification_id
+          in: path
+          description: お知らせテーブルの主キー
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - title
+                - content
+                - start_date
+                - end_date
+                - type
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: お知らせタイトル
+                  example: レッスン「変数とは？」閲覧について
+                content:
+                  type: string
+                  description: 本文
+                  example: 10月1日〜10日の間、レッスン「変数とは？」がメンテナンスにつき閲覧できなくなります。
+                start_date:
+                  type: string
+                  description: お知らせ開始日
+                  example: '2021-10-01 00:00:00'
+                end_date:
+                  type: string
+                  description: お知らせ終了日
+                  example: '2021-10-10 00:00:00'
+                type:
+                  type: string
+                  description: お知らせタイプ
+                  example: once
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                        description: お知らせタイトル
+                        example: レッスン「変数とは？」閲覧について
+                      content:
+                        type: string
+                        description: 本文
+                        example: 10月1日〜10日の間、レッスン「変数とは？」がメンテナンスにつき閲覧できなくなります。
+                      start_date:
+                        type: string
+                        description: 開始日
+                        example: 2022/10/17 00:00:00
+                      end_date:
+                        type: string
+                        description: 終了日
+                        example: 2022/11/17 00:00:00
+                      type:
+                        type: string
+                        description: 表示区分（一度だけ表示、毎回表示）
+                        example: once
+  /api/v1/notification:
+    get:
+      tags:
+        - Notification
+      operationId: getNotification
+      summary: お知らせ一覧を取得する。
+      responses:
+        '200':
+          description: お知らせ一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        notification_id:
+                          type: integer
+                          description: お知らせテーブルの主キー
+                          example: 1
+                        course_id:
+                          type: integer
+                          description: 講座テーブル主キー
+                          example: 1
+                        course_title:
+                          type: string
+                          description: 講座名
+                          example: PHP入門講座
+                        title:
+                          type: string
+                          description: お知らせタイトル
+                          example: レッスン「変数とは？」閲覧について
+                        content:
+                          type: string
+                          description: 本文
+                          example: 10月1日〜10日の間、レッスン「変数とは？」がメンテナンスにつき閲覧できなくなります。
+                        type:
+                          type: string
+                          description: 表示区分（一度だけ表示、毎回表示）
+                          example: once
