@@ -2038,18 +2038,38 @@ paths:
                                     description: 受講日時
                                     example: 2022/10/17 00:00:00
 
+
   /api/v1/instructor/course/{course_id}/chapter:
     post:
       tags:
         - Instructor-Chapter
-      operationId: postInstructorChapter
+      operationId: store-instructor-chapter
       summary: チャプター情報を登録する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -2078,19 +2098,33 @@ paths:
     get:
       tags:
         - Instructor-Chapter
-      operationId: getInstructorChapter
+      operationId: get-instructor-chapter
       summary: チャプターの詳細情報を取得する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
         - name: chapter_id
           in: path
           description: チャプターテーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         '200':
           description: チャプター詳細情報
@@ -2110,6 +2144,10 @@ paths:
                         type: string
                         description: チャプタータイトル
                         example: Hello Worldを出力する
+                      status:
+                        type: string
+                        description: チャプターステータス
+                        enum: ['public', 'private']
                       lessons:
                         type: array
                         items:
@@ -2126,7 +2164,7 @@ paths:
                             url:
                               type: string
                               description: 教材動画URL
-                              example: http::www.youtube
+                              example: https://www.youtube.com/watch
                             remarks:
                               type: string
                               description: 備考欄
@@ -2134,23 +2172,43 @@ paths:
                             status:
                               type: string
                               description: レッスンステータス
-                              example: public
+                              enum: ['public', 'private']
     patch:
       tags:
         - Instructor-Chapter
-      operationId: patchInstructorChapter
+      operationId: patch-instructor-chapter
       summary: チャプター情報を更新する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
         - name: chapter_id
           in: path
           description: チャプターテーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -2178,19 +2236,39 @@ paths:
     delete:
       tags:
         - Instructor-Chapter
-      operationId: deleteInstructorChapter
+      operationId: delete-instructor-chapter
       summary: チャプター情報を削除する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
         - name: chapter_id
           in: path
           description: チャプターテーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         '200':
           description: Success
@@ -2208,14 +2286,33 @@ paths:
     post:
       tags:
         - Instructor-Chapter
-      operationId: sortInstructorChapter
+      operationId: sort-instructor-chapter
       summary: チャプター情報の並び順を更新する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -2254,19 +2351,39 @@ paths:
     patch:
       tags:
         - Instructor-Chapter
-      operationId: patchInstructorChapterStatus
-      summary: チャプターの公開状態を更新する。
+      operationId: patch-instructor-chapter-status
+      summary: チャプターのステータスを更新する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
         - name: course_id
           in: path
           description: 講座ID
           required: true
-          type: integer
+          schema:
+            type: integer
         - name: chapter_id
           in: path
           description: チャプターID
           required: true
-          type: integer
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -2278,8 +2395,63 @@ paths:
               properties:
                 status:
                   type: string
-                  description: 状態(公開、非公開)
-                  example: public
+                  description: チャプターステータス
+                  enum: ['public', 'private']
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/course/{course_id}/chapter/status:
+    put:
+      tags:
+        - Instructor-Chapter
+      operationId: put-instructor-chapter-status
+      summary: チャプターのステータスを一括更新する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - status
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: チャプターステータス
+                  enum: ['public', 'private']
       responses:
         '200':
           description: Success
