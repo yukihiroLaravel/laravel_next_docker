@@ -2463,23 +2463,44 @@ paths:
                   result:
                     type: boolean
                     example: true
+
   /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson:
     post:
       tags:
         - Instructor-Lesson
-      operationId: storeInstructorChapterLesson
+      operationId: store-instructor-chapter-lesson
       summary: レッスン情報を登録する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
         - name: chapter_id
           in: path
           description: チャプターテーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -2504,39 +2525,49 @@ paths:
                   result:
                     type: boolean
                     example: true
-                  data:
-                    type: object
-                    properties:
-                      lesson_id:
-                        $ref: '#../components/schemas/Lesson.yml#/LessonId'
-                      title:
-                        $ref: '#../components/schemas/Lesson.yml#/Title'
-                      status:
-                        $ref: '#../components/schemas/Lesson.yml#/Status'
-                      order:
-                        $ref: '#../components/schemas/Lesson.yml#/Order'
   /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}:
     put:
       tags:
         - Instructor-Lesson
-      operationId: putInstructorChapterLesson
+      operationId: put-instructor-chapter-lesson
       summary: レッスン情報を更新する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
         - name: chapter_id
           in: path
           description: チャプターテーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
         - name: lesson_id
           in: path
           description: レッスンテーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -2576,24 +2607,45 @@ paths:
     delete:
       tags:
         - Instructor-Lesson
-      operationId: deleteInstructorChapterLesson
+      operationId: delete-instructor-chapter-lesson
       summary: レッスン情報を削除する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
         - name: chapter_id
           in: path
           description: チャプターテーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
         - name: lesson_id
           in: path
           description: レッスンテーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         '200':
           description: Success
@@ -2611,24 +2663,45 @@ paths:
     patch:
       tags:
         - Instructor-Lesson
-      operationId: patchInstructorChapterLessonTitle
+      operationId: patch-instructor-chapter-lesson-title
       summary: レッスン名を更新する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
         - name: chapter_id
           in: path
           description: チャプターテーブルの主キー
           required: true
-          type: intege
+          schema:
+            type: integer
         - name: lesson_id
           in: path
           description: レッスンテーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -2653,23 +2726,110 @@ paths:
                   result:
                     type: boolean
                     example: true
-  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/sort:
-    post:
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}/status:
+    patch:
       tags:
         - Instructor-Lesson
-      operationId: sortInstructorChapterLesson
-      summary: レッスン情報の並び順を更新する。
+      operationId: patch-instructor-chapter-lesson-status
+      summary: レッスンのステータスを更新する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
         - name: chapter_id
           in: path
           description: チャプターテーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
+        - name: lesson_id
+          in: path
+          description: レッスンテーブルの主キー
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - status
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: レッスンステータス
+                  enum: ['public', 'private']
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/sort:
+    post:
+      tags:
+        - Instructor-Lesson
+      operationId: sort-instructor-chapter-lesson
+      summary: レッスン情報の並び順を更新する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          schema:
+            type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -2684,9 +2844,13 @@ paths:
                     type: object
                     properties:
                       lesson_id:
-                        $ref: '#../components/schemas/Lesson.yml#/LessonId'
+                        type: integer
+                        description: レッスンテーブルの主キー
+                        example: 1
                       order:
-                        $ref: '#../components/schemas/Lesson.yml#/Order'
+                        type: integer
+                        description: 順番
+                        example: 1
       responses:
         '200':
           description: Success
@@ -2698,58 +2862,32 @@ paths:
                   result:
                     type: boolean
                     example: true
-  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}/status:
-    patch:
-      tags:
-        - Instructor-Lesson
-      operationId: patchInstructorChapterLessonStatus
-      summary: レッスンの公開状態を更新する。
-      parameters:
-        - name: course_id
-          in: path
-          description: 講座テーブルの主キー
-          required: true
-          type: integer
-        - name: chapter_id
-          in: path
-          description: チャプターテーブルの主キー
-          required: true
-          type: intege
-        - name: lesson_id
-          in: path
-          description: レッスンテーブルの主キー
-          required: true
-          type: integer
-      requestBody: null
-      required: true
-      content:
-        application/json:
-          schema:
-            required:
-              - status
-            type: object
-            properties:
-              status:
-                type: string
-                description: 状態(公開、非公開)
-                example: public
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  result:
-                    type: boolean
-                    example: true
+
   /api/v1/instructor/student/:
     post:
       tags:
         - Instructor-Student
-      operationId: postInstructorStudent
+      operationId: store-instructor-student
       summary: 生徒情報を登録する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
       requestBody:
         content:
           application/json:
@@ -2778,21 +2916,6 @@ paths:
                   result:
                     type: boolean
                     example: true
-                  data:
-                    type: object
-                    properties:
-                      student_id:
-                        type: integer
-                        description: 生徒テーブル主キー
-                        example: 1
-                      given_name_by_instructor:
-                        type: string
-                        description: ユーザー名
-                        example: ユーザー名
-                      email:
-                        type: string
-                        description: メールアドレス
-                        example: test@example.com
   /api/v1/instructor/student/{student_id}:
     get:
       tags:
@@ -2800,11 +2923,30 @@ paths:
       operationId: getInstructorStudent
       summary: 生徒の詳細情報を取得する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
         - name: student_id
           in: path
           description: 生徒テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         '200':
           description: Success
@@ -2852,24 +2994,57 @@ paths:
                         type: string
                         description: 生年月日
                         example: 2022/10/17
-                      sex:
+                      gender:
                         type: string
                         description: 性別
-                        example: man
+                        enum: ['man', 'woman']
                       address:
                         type: string
                         description: 住所
                         example: 東京都
+                      created_at:
+                        type: string
+                        description: 登録日時
+                        example: 2022/10/17 00:00:00
                       last_login_at:
                         type: string
                         description: 最終ログイン日時
                         example: 2022/10/17 00:00:00
+                      profile_image:
+                        type: string
+                        description: プロフィール画像ファイルパス
+                        example: /profile/xxx.png
   /api/v1/instructor/notification/index:
     get:
       tags:
         - Instructor-Notification
-      operationId: getInstructorNotificationIndex
+      operationId: get-instructor-notification
       summary: お知らせ一覧を取得する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - name: page
+          in: query
+          description: ページ番号
+          required: false
+          schema:
+            type: integer
+        - name: per_page
+          in: query
+          description: 1ページあたりの表示数
+          required: false
+          schema:
+            type: integer
       responses:
         '200':
           description: お知らせ一覧
@@ -2892,6 +3067,14 @@ paths:
                                 type: integer
                                 description: お知らせテーブルの主キー
                                 example: 1
+                              course_id:
+                                type: integer
+                                description: 講座テーブル主キー
+                                example: 1
+                              course_title:
+                                type: string
+                                description: 講座名
+                                example: PHP入門講座
                               title:
                                 type: string
                                 description: お知らせタイトル
@@ -2911,7 +3094,7 @@ paths:
                               type:
                                 type: string
                                 description: 表示区分（一度だけ表示、毎回表示）
-                                example: once
+                                enum: ['once', 'always']
                         pagination:
                           type: object
                           properties:
@@ -2927,14 +3110,27 @@ paths:
     get:
       tags:
         - Instructor-Notification
-      operationId: getInstructorNotification
+      operationId: get-instructor-notification
       summary: お知らせの詳細情報を取得する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
         - name: notification_id
           in: path
           description: お知らせテーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         '200':
           description: お知らせ詳細情報
@@ -2954,6 +3150,10 @@ paths:
                         type: integer
                         description: 講座テーブル主キー
                         example: 1
+                      course_title:
+                        type: string
+                        description: 講座名
+                        example: PHP入門講座
                       title:
                         type: string
                         description: お知らせタイトル
@@ -2973,18 +3173,37 @@ paths:
                       type:
                         type: string
                         description: 表示区分（一度だけ表示、毎回表示）
-                        example: once
+                        enum: ['once', 'always']
     patch:
       tags:
         - Instructor-Notification
-      operationId: patchInstructorNotification
+      operationId: patch-instructor-notification
       summary: お知らせ情報を更新する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
         - name: notification_id
           in: path
           description: お知らせテーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
