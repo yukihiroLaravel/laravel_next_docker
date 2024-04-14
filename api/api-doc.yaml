@@ -1361,8 +1361,21 @@ paths:
     get:
       tags:
         - Instructor-Course
-      operationId: getInstructorCourseIndex
+      operationId: get-instructor-course-index
       summary: 講師講座一覧を取得する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
       responses:
         '200':
           description: 講座一覧
@@ -1391,19 +1404,85 @@ paths:
                         status:
                           type: string
                           description: 講座ステータス
-                          example: public
+                          enum: ['public', 'private']
+  /api/v1/instructor/course:
+    post:
+      tags:
+        - Instructor-Course
+      operationId: store-instructor-course
+      summary: 講座情報を登録する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: タイトル
+                  example: 講座タイトル
+                image:
+                  type: string
+                  description: 講座サムネイル画像のバイナリデータ
+                  example: xxxxxxxxxxx
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
   /api/v1/instructor/course/{course_id}:
     get:
       tags:
         - Instructor-Course
-      operationId: getInstructorCourse
+      operationId: get-instructor-course
       summary: 講座の詳細情報を取得する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         '200':
           description: 講座詳細情報
@@ -1430,7 +1509,7 @@ paths:
                       status:
                         type: string
                         description: 講座ステータス
-                        example: public
+                        enum: ['public', 'private']
                       chapters:
                         type: array
                         items:
@@ -1444,10 +1523,10 @@ paths:
                               type: string
                               description: チャプタータイトル
                               example: Hello Worldを出力する
-                            order:
-                              type: integer
-                              description: 順番
-                              example: 1
+                            status:
+                              type: string
+                              description: チャプターステータス
+                              enum: ['public', 'private']
                             lessons:
                               type: array
                               items:
@@ -1469,17 +1548,40 @@ paths:
                                     type: string
                                     description: 備考欄
                                     example: 動画index
+                                  status:
+                                    type: string
+                                    description: レッスンステータス
+                                    enum: ['public', 'private']
     post:
       tags:
         - Instructor-Course
-      operationId: patchInstructorCourse
+      operationId: patch-instructor-course
       summary: 講座情報を更新する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -1496,9 +1598,9 @@ paths:
                   description: ステータス
                   example: public
                 image:
-                  type: file
-                  description: 画像ファイル
-                  example: thumbnail.png
+                  type: string
+                  description: 講座サムネイル画像のバイナリデータ
+                  example: xxxxxxxxxxx
       responses:
         '200':
           description: Success
@@ -1530,18 +1632,37 @@ paths:
                       status:
                         type: string
                         description: 講座ステータス
-                        example: public
+                        enum: ['public', 'private']
     delete:
       tags:
         - Instructor-Course
-      operationId: deleteInstructorCourse
+      operationId: delete-instructor-course
       summary: 講座情報を削除する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         '200':
           description: Success
@@ -1555,74 +1676,50 @@ paths:
                   result:
                     type: boolean
                     example: true
-  /api/v1/instructor/course/{course_id}/edit:
-    get:
+  /api/v1/instructor/course/status:
+    put:
       tags:
         - Instructor-Course
-      operationId: getInstructorCourseEdit
-      summary: 編集講座の情報を取得する。
+      operationId: put-instructor-course-status
+      summary: 講座のステータスを一括更新する。
       parameters:
-        - name: course_id
-          in: path
-          description: 講座テーブルの主キー
+        - in: header
+          name: Origin
+          schema:
+            type: string
           required: true
-          type: integer
-      responses:
-        '200':
-          description: 講座詳細情報
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      course_id:
-                        type: integer
-                        description: 講座テーブル主キー
-                        example: 1
-                      title:
-                        type: string
-                        description: 講座名
-                        example: PHP入門講座
-                      image:
-                        type: string
-                        description: 講座サムネイル画像ファイルパス
-                        example: /course/xxx.png
-                      status:
-                        type: string
-                        description: 講座ステータス
-                        example: public
-  /api/v1/instructor/course:
-    post:
-      tags:
-        - Instructor-Course
-      operationId: postInstructorCourse
-      summary: 講座情報を登録する。
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
       requestBody:
         required: true
         content:
-          multipart/form-data:
+          application/json:
             schema:
+              required:
+                - status
               type: object
               properties:
-                title:
+                status:
                   type: string
-                  description: タイトル
-                  example: 講座タイトル
-                image:
-                  type: file
-                  description: 画像ファイル
-                  example: thumbnail.png
+                  description: 講座ステータス
+                  enum: ['public', 'private']
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                required:
-                  - result
                 type: object
                 properties:
                   result:
@@ -1635,11 +1732,24 @@ paths:
       operationId: getInstructorCourseAttendanceStatus
       summary: 講座の受講状況を取得する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
         - name: course_id
           in: path
           description: 講座テーブルの主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         '200':
           description: 講座受講状況
@@ -1649,38 +1759,101 @@ paths:
                 type: object
                 properties:
                   data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        chapters:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              chapter_id:
-                                type: integer
-                                description: チャプターテーブルの主キー
-                                example: 1
-                              title:
-                                type: string
-                                description: チャプタータイトル
-                                example: Hello Worldを出力する
-                              completed_count:
-                                type: integer
-                                example: 1
+                    type: object
+                    properties:
+                      chapters:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            chapter_id:
+                              type: integer
+                              description: チャプターテーブルの主キー
+                              example: 1
+                            title:
+                              type: string
+                              description: チャプタータイトル
+                              example: Hello Worldを出力する
+                            completed_count:
+                              type: integer
+                              example: 1
+                      students_count:
+                        type: integer
+                        example: 1
+  /api/v1/instructor/course/{course_id}/attendance/{period}:
+    get:
+      tags:
+        - Instructor-Course
+      operationId: get-instructor-course-attendance
+      summary: 講座のログイン率を取得する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          schema:
+            type: integer
+        - name: period
+          in: path
+          description: 期間
+          required: true
+          schema:
+            type: string
+            enum: ['week', 'month', 'year']
+      responses:
+        '200':
+          description: 講座受講状況
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  login_rate:
+                    type: integer
+                    example: 100
   /api/v1/instructor/course/{course_id}/notification:
     post:
       tags:
         - Instructor-Course
-      operationId: postInstructorCourseNotification
+      operationId: post-instructor-course-notification
       summary: 講座のお知らせを登録する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
         - name: course_id
           in: path
           description: 講座ID
           required: true
-          type: integer
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -1710,7 +1883,7 @@ paths:
                 type:
                   type: string
                   description: お知らせタイプ
-                  example: once
+                  enum: ['once', 'always']
       responses:
         '200':
           description: Success
@@ -1726,49 +1899,69 @@ paths:
     get:
       tags:
         - Instructor-Course
-      operationId: getInstructorCourseStudentIndex
+      operationId: get-instructor-course-student-index
       summary: 講座の受講生一覧を取得する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
         - name: course_id
           in: path
           description: 講座ID
           required: true
-          type: integer
+          schema:
+            type: integer
         - name: page
           in: query
           description: ページ番号
           required: false
-          type: integer
+          schema:
+            type: integer
         - name: per_page
           in: query
           description: 1ページあたりの表示件数
           required: false
-          type: integer
+          schema:
+            type: integer
         - name: sort_by
           in: query
           description: ソート対象
           required: false
-          type: string
+          schema:
+            type: string
         - name: order
           in: query
           description: ソート順
           required: false
-          type: string
-        - name: inputText
+          schema:
+            type: string
+        - name: input_text
           in: query
           description: 検索文字列
           required: false
-          type: integer
-        - name: startDate
+          schema:
+            type: string
+        - name: start_date
           in: query
           description: 日付検索開始日
           required: false
-          type: integer
-        - name: endDate
+          schema:
+            type: string
+        - name: end_date
           in: query
           description: 日付検索終了日
           required: false
-          type: integer
+          schema:
+            type: string
       responses:
         '200':
           description: 講座受講生一覧
@@ -1833,29 +2026,18 @@ paths:
                                 type: string
                                 description: 最終ログイン日時
                                 example: 2022/10/17 00:00:00
-                              attendanced_at:
-                                type: string
-                                description: 受講日時
-                                example: 2022/10/17
-  /api/v1/instructor/course/status:
-    put:
-      tags:
-        - Instructor-Course
-      operationId: putInstructorCourseStatus
-      summary: 講座のステータスを一括更新する。
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              required:
-                - status
-              type: object
-              properties:
-                status:
-                  type: string
-                  description: ステータス
-                  example: public
+                              attendance:
+                                type: object
+                                properties:
+                                  attendance_id:
+                                    type: integer
+                                    description: 受講テーブル主キー
+                                    example: 1
+                                  attendanced_at:
+                                    type: string
+                                    description: 受講日時
+                                    example: 2022/10/17 00:00:00
+
   /api/v1/instructor/course/{course_id}/chapter:
     post:
       tags:
