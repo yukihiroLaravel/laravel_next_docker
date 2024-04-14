@@ -1172,7 +1172,7 @@ paths:
     post:
       tags:
         - Instructor
-      operationId: updateInstructor
+      operationId: update-instructor
       summary: 講師情報を更新する。
       description: |
         講師情報を更新する。
@@ -1273,8 +1273,27 @@ paths:
     post:
       tags:
         - Instructor-Attendance
-      operationId: postInstructorAttendance
+      operationId: store-instructor-attendance
       summary: 受講情報を登録する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
       requestBody:
         required: true
         content:
@@ -1305,14 +1324,27 @@ paths:
     delete:
       tags:
         - Instructor-Attendance
-      operationId: deleteInstructorAttendance
+      operationId: delete-instructor-attendance
       summary: 受講情報を削除する。
       parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
         - name: attendance_id
           in: path
           description: 受講テーブル主キー
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         '200':
           description: Success
@@ -1324,6 +1356,7 @@ paths:
                   result:
                     type: boolean
                     example: true
+
   /api/v1/instructor/course/index:
     get:
       tags:
