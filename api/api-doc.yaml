@@ -1063,6 +1063,19 @@ paths:
         - Student-Notification
       operationId: get-student-notification-read
       summary: お知らせを既読にした上で、お知らせ一覧を取得する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
       responses:
         '200':
           description: お知らせ一覧
@@ -1102,82 +1115,24 @@ paths:
                           enum: ['once', 'always']
 
   /api/v1/instructor:
-    post:
-      tags:
-        - Instructor
-      operationId: updateInstructor
-      summary: 講師情報を更新する。
-      description: |
-        講師情報を更新する。
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                nick_name:
-                  type: string
-                  description: ニックネーム
-                  example: ニックネーム
-                last_name:
-                  type: string
-                  description: 名字
-                  example: 名字
-                first_name:
-                  type: string
-                  description: 名前
-                  example: 名前
-                email:
-                  type: string
-                  description: メールアドレス
-                  example: test@example.com
-                profile_image:
-                  type: string
-                  description: プロフィール画像
-                  example: /instructor/xxx.png
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                required:
-                  - result
-                type: object
-                properties:
-                  result:
-                    type: boolean
-                    example: true
-                  data:
-                    type: object
-                    properties:
-                      nick_name:
-                        type: string
-                        description: ニックネーム
-                        example: ニックネーム
-                      last_name:
-                        type: string
-                        description: 名字
-                        example: 名字
-                      first_name:
-                        type: string
-                        description: 名前
-                        example: 名前
-                      email:
-                        type: string
-                        description: メールアドレス
-                        example: test@example.com
-                      profile_image:
-                        type: string
-                        description: プロフィール画像
-                        example: /instructor/xxx.png
-  /api/v1/instructor/edit:
     get:
       tags:
         - Instructor
-      operationId: getInstructor
+      operationId: get-instructor
       summary: 講師情報を取得する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
       responses:
         '200':
           description: 講師情報
@@ -1213,6 +1168,107 @@ paths:
                         type: string
                         description: プロフィール画像
                         example: /instructor/xxx.png
+  /api/v1/instructor/{instructor_id}:
+    post:
+      tags:
+        - Instructor
+      operationId: updateInstructor
+      summary: 講師情報を更新する。
+      description: |
+        講師情報を更新する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+        - in: path
+          name: instructor_id
+          description: 講師テーブル主キー
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                nick_name:
+                  type: string
+                  description: ニックネーム
+                  example: ニックネーム
+                last_name:
+                  type: string
+                  description: 名字
+                  example: 名字
+                first_name:
+                  type: string
+                  description: 名前
+                  example: 名前
+                email:
+                  type: string
+                  description: メールアドレス
+                  example: test@example.com
+                profile_image:
+                  type: string
+                  description: プロフィール画像のバイナリデータ
+                  example: xxxxxxxxxxx
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      instructor_id:
+                        type: integer
+                        description: 講師テーブル主キー
+                        example: 1
+                      nick_name:
+                        type: string
+                        description: ニックネーム
+                        example: ニックネーム
+                      last_name:
+                        type: string
+                        description: 名字
+                        example: 名字
+                      first_name:
+                        type: string
+                        description: 名前
+                        example: 名前
+                      email:
+                        type: string
+                        description: メールアドレス
+                        example: test@example.com
+                      profile_image:
+                        type: string
+                        description: プロフィール画像
+                        example: /instructor/xxx.png
+
   /api/v1/instructor/attendance:
     post:
       tags:
