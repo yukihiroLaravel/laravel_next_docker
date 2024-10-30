@@ -15,5 +15,8 @@ libpng-dev \
 libpq-dev \
 && docker-php-ext-install pdo_mysql
 
+RUN pecl install xdebug-3.1.6 && \
+docker-php-ext-enable xdebug
+
 RUN mv /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled
 RUN /bin/sh -c a2enmod rewrite
