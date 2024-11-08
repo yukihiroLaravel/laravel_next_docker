@@ -322,7 +322,7 @@ paths:
                   type: string
                   description: 生年月日
                   example: '2022-10-17'
-                gender::
+                gender:
                   type: string
                   description: 性別
                   enum: ['man', 'woman']
@@ -907,7 +907,7 @@ paths:
                                           type: string
                                           description: レッスン受講状態
                                           enum: ['before_attendance', 'in_attendance', 'completed_attendance']
-  /api/v1/lesson-attendance:
+  /api/v1/lesson_attendance:
     patch:
       tags:
         - Student-Lesson-Attendance
