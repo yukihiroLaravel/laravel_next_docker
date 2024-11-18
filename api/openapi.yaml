@@ -3105,6 +3105,66 @@ paths:
                   result:
                     type: boolean
                     example: true
+  /api/v1/instructor/notification/type/{notification_type}:
+    put:
+      tags:
+        - Instructor-Notification
+      operationId: put-instructor-notification-type
+      summary: お知らせ表示種別を更新する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+        - name: notification_type
+          in: path
+          description: お知らせ表示種別
+          schema:
+            type: string
+            enum:
+              - always
+              - once
+          required: true
+          example: always
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notifications:
+                  type: array
+                  items:
+                    type: integer
+                    description: お知らせテーブルの主キー
+                  example: [1, 2]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+
   /api/v1/manager/instructor/{instructor_id}:
     get:
       tags:
@@ -5094,7 +5154,7 @@ paths:
                         type: integer
                         description: お知らせテーブルの主キー
                         example: 1
-                      couse_id:
+                      course_id:
                         type: integer
                         description: 講座テーブル主キー
                         example: 1
@@ -5124,7 +5184,7 @@ paths:
                         enum: ['once', 'always']
     patch:
       tags:
-        - Instructor-Notification
+        - Manager-Notification
       operationId: patch-instructor-notification
       summary: お知らせ情報を更新する。
       parameters:
@@ -5185,6 +5245,65 @@ paths:
                   type: string
                   description: お知らせタイプ
                   example: once
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/notification/type/{notification_type}:
+    put:
+      tags:
+        - Manager-Notification
+      operationId: put-instructor-notification-type
+      summary: お知らせ表示種別を更新する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+        - name: notification_type
+          in: path
+          description: お知らせ表示種別
+          schema:
+            type: string
+            enum:
+              - always
+              - once
+          required: true
+          example: always
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notifications:
+                  type: array
+                  items:
+                    type: integer
+                    description: お知らせテーブルの主キー
+                  example: [1, 2]
       responses:
         '200':
           description: Success
