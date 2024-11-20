@@ -1993,7 +1993,7 @@ paths:
                   type: array
                   items:
                     type: integer
-                    description: お知らせテーブルの主キー
+                    description: チャプターテーブルの主キー
                   example: [1, 2, 3]
       responses:
         '200':
