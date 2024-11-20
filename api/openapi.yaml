@@ -1952,6 +1952,62 @@ paths:
                   result:
                     type: boolean
                     example: true
+    delete:
+      tags:
+        - Instructor-Chapter
+      operationId: delete-instructor-chapter
+      summary: 選択済みチャプターを削除する
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                chapters:
+                  type: array
+                  items:
+                    type: integer
+                    description: お知らせテーブルの主キー
+                  example: [1, 2, 3]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
   /api/v1/instructor/course/{course_id}/chapter/{chapter_id}:
     get:
       tags:
