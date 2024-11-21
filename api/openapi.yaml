@@ -2438,6 +2438,68 @@ paths:
                   result:
                     type: boolean
                     example: true
+    delete:
+      tags:
+        - Instructor-Lesson
+      operationId: delete-instructor-chapter-lesson
+      summary: 選択済みレッスンを削除する
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          schema:
+            type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lessons:
+                  type: array
+                  items:
+                    type: integer
+                    description: レッスンテーブルの主キー
+                  example: [1, 2, 3]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
   /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/{lesson_id}:
     put:
       tags:
@@ -4159,6 +4221,62 @@ paths:
                   result:
                     type: boolean
                     example: true
+    delete:
+      tags:
+        - Manager-Chapter
+      operationId: delete-instructor-chapter
+      summary: 選択済みチャプターを削除する
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                chapters:
+                  type: array
+                  items:
+                    type: integer
+                    description: チャプターテーブルの主キー
+                  example: [1, 2, 3]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
   /api/v1/manager/course/{course_id}/chapter/{chapter_id}:
     get:
       tags:
@@ -4576,6 +4694,68 @@ paths:
                   type: string
                   description: タイトル
                   example: swaggerの書き方
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+    delete:
+      tags:
+        - Manager-Lesson
+      operationId: delete-instructor-chapter-lesson
+      summary: 選択済みレッスンを削除する
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          schema:
+            type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lessons:
+                  type: array
+                  items:
+                    type: integer
+                    description: レッスンテーブルの主キー
+                  example: [1, 2, 3]
       responses:
         '200':
           description: Success
