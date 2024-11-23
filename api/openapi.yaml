@@ -1147,6 +1147,82 @@ paths:
                   result:
                     type: boolean
                     example: true
+  /api/v1/instructor/attendance/{attendance_id}/status:
+    get:
+      tags:
+        - Instructor-Attendance
+      operationId: get-instructor-attendance-status
+      summary: 対象の受講生の講座の進捗情報を取得する
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - name: attendance_id
+          in: path
+          description: 受講テーブル主キー
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 対象の受講生の講座の進捗情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      attendance_id:
+                        type: integer
+                        description: 受講テーブル主キー
+                        example: 1
+                      course:
+                        type: object
+                        properties:
+                          course_id:
+                            type: integer
+                            description: 講座テーブル主キー
+                            example: 1
+                          status:
+                            type: string
+                            description: 講座ステータス
+                            enum: ['public', 'private']
+                          image:
+                            type: string
+                            description: 講座サムネイル画像ファイルパス
+                            example: course/4459908b-3cdf-4521-94fa-c2a9746d92e1.png
+                          chapters:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                chapter_id:
+                                  type: integer
+                                  description: チャプターテーブルの主キー
+                                  example: 1
+                                title:
+                                  type: string
+                                  description: チャプタータイトル
+                                  example: Hello Worldを出力する
+                                status:
+                                  type: string
+                                  description: チャプターステータス
+                                  enum: ['public', 'private']
+                                progress:
+                                  type: integer
+                                  description: 進捗率
+                                  example: 70
   /api/v1/instructor/attendance:
     post:
       tags:
@@ -1234,7 +1310,6 @@ paths:
                   result:
                     type: boolean
                     example: true
-
   /api/v1/instructor/course/index:
     get:
       tags:
@@ -1639,6 +1714,52 @@ paths:
                       students_count:
                         type: integer
                         example: 1
+  /api/v1/instructor/course/{course_id}/attendance/status/{period}:
+    get:
+      tags:
+        - Instructor-Course
+      operationId: get-instructor-course-attendance-status-period
+      summary: 完了済みレッスン数と完了済みチャプター数取得する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          schema:
+            type: integer
+        - name: period
+          in: path
+          description: 期間
+          required: true
+          schema:
+            type: string
+            enum: ['today', 'month']
+      responses:
+        '200':
+          description: 完了済みレッスン数と完了済みチャプター数
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  completed_lessons_count:
+                    type: integer
+                    example: 4
+                  completed_chapters_count:
+                    type: integer
+                    example: 2
   /api/v1/instructor/course/{course_id}/attendance/{period}:
     get:
       tags:
@@ -2323,6 +2444,60 @@ paths:
                     type: boolean
                     example: true
   /api/v1/instructor/course/{course_id}/chapter/status:
+    patch:
+      tags:
+        - Instructor-Chapter
+      operationId: patch-instructor-chapter-status
+      summary: 複数チャプターの公開/非公開を更新する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+        - name: course_id
+          in: path
+          description: 講座ID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                chapters:
+                  type: array
+                  items:
+                    type: integer
+                    description: チャプターテーブルの主キー
+                  example: [1, 2, 3]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
     put:
       tags:
         - Instructor-Chapter
@@ -2487,6 +2662,56 @@ paths:
                     type: integer
                     description: レッスンテーブルの主キー
                   example: [1, 2, 3]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/all:
+    delete:
+      tags:
+        - Instructor-Lesson
+      operationId: delete-instructor-chapter-lesson-all
+      summary: チャプターに紐づく全レッスンを削除する
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          schema:
+            type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          schema:
+            type: integer
       responses:
         '200':
           description: Success
@@ -3415,7 +3640,82 @@ paths:
                   result:
                     type: boolean
                     example: true
-
+  /api/v1/manager/attendance/{attendance_id}/status:
+    get:
+      tags:
+        - Manager-Attendance
+      operationId: get-instructor-attendance-status
+      summary: 対象の受講生の講座の進捗情報を取得する
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - name: attendance_id
+          in: path
+          description: 受講テーブル主キー
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 対象の受講生の講座の進捗情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      attendance_id:
+                        type: integer
+                        description: 受講テーブル主キー
+                        example: 1
+                      course:
+                        type: object
+                        properties:
+                          course_id:
+                            type: integer
+                            description: 講座テーブル主キー
+                            example: 1
+                          status:
+                            type: string
+                            description: 講座ステータス
+                            enum: ['public', 'private']
+                          image:
+                            type: string
+                            description: 講座サムネイル画像ファイルパス
+                            example: course/4459908b-3cdf-4521-94fa-c2a9746d92e1.png
+                          chapters:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                chapter_id:
+                                  type: integer
+                                  description: チャプターテーブルの主キー
+                                  example: 1
+                                title:
+                                  type: string
+                                  description: チャプタータイトル
+                                  example: Hello Worldを出力する
+                                status:
+                                  type: string
+                                  description: チャプターステータス
+                                  enum: ['public', 'private']
+                                progress:
+                                  type: integer
+                                  description: 進捗率
+                                  example: 70
   /api/v1/manager/attendance:
     post:
       tags:
