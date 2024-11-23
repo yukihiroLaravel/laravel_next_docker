@@ -1187,10 +1187,6 @@ paths:
                         type: integer
                         description: 受講テーブル主キー
                         example: 1
-                      progress:
-                        type: integer
-                        description: 進捗率
-                        example: 70
                       course:
                         type: object
                         properties:
@@ -3684,10 +3680,6 @@ paths:
                         type: integer
                         description: 受講テーブル主キー
                         example: 1
-                      progress:
-                        type: integer
-                        description: 進捗率
-                        example: 70
                       course:
                         type: object
                         properties:
