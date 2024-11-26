@@ -3062,8 +3062,72 @@ paths:
                   result:
                     type: boolean
                     example: true
-
-  /api/v1/instructor/student/:
+  /api/v1/instructor/course/{course_id}/chapter/{chapter_id}/lesson/status:
+    put:
+      tags:
+        - Instructor-Lesson
+      operationId: put-instructor-course-lesson-status
+      summary: 選択済みのレッスンのステータスを一括で更新する
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          schema:
+            type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: 講座ステータス
+                  enum: ['public', 'private']
+                lessons:
+                  type: array
+                  items:
+                    type: integer
+                    description: レッスンテーブルの主キー
+                  example: [1, 2, 3]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/instructor/student:
     post:
       tags:
         - Instructor-Student
@@ -3507,7 +3571,55 @@ paths:
                   result:
                     type: boolean
                     example: true
-
+  /api/v1/instructor/notification:
+    delete:
+      tags:
+        - Instructor-Notification
+      operationId: delete-instructor-notification
+      summary: お知らせを一括で削除する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notifications:
+                  type: array
+                  items:
+                    type: integer
+                    description: お知らせテーブルの主キー
+                  example: [1, 2]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
   /api/v1/manager/instructor/{instructor_id}:
     get:
       tags:
@@ -4208,6 +4320,52 @@ paths:
                       students_count:
                         type: integer
                         example: 1
+  /api/v1/manager/course/{course_id}/attendance/status/{period}:
+    get:
+      tags:
+        - Manager-Course
+      operationId: get-instructor-course-attendance-status-period
+      summary: 完了済みレッスン数と完了済みチャプター数取得する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          schema:
+            type: integer
+        - name: period
+          in: path
+          description: 期間
+          required: true
+          schema:
+            type: string
+            enum: ['today', 'month']
+      responses:
+        '200':
+          description: 完了済みレッスン数と完了済みチャプター数
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  completed_lessons_count:
+                    type: integer
+                    example: 4
+                  completed_chapters_count:
+                    type: integer
+                    example: 2
   /api/v1/manager/course/{course_id}/attendance/{period}:
     get:
       tags:
@@ -5406,8 +5564,72 @@ paths:
                   result:
                     type: boolean
                     example: true
-
-  /api/v1/manager/student/:
+  /api/v1/manager/course/{course_id}/chapter/{chapter_id}/lesson/status:
+    put:
+      tags:
+        - Manager-Lesson
+      operationId: put-instructor-course-lesson-status
+      summary: 選択済みのレッスンのステータスを一括で更新する
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+        - name: course_id
+          in: path
+          description: 講座テーブルの主キー
+          required: true
+          schema:
+            type: integer
+        - name: chapter_id
+          in: path
+          description: チャプターテーブルの主キー
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: 講座ステータス
+                  enum: ['public', 'private']
+                lessons:
+                  type: array
+                  items:
+                    type: integer
+                    description: レッスンテーブルの主キー
+                  example: [1, 2, 3]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/student:
     post:
       tags:
         - Manager-Student
@@ -5827,6 +6049,55 @@ paths:
               - once
           required: true
           example: always
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notifications:
+                  type: array
+                  items:
+                    type: integer
+                    description: お知らせテーブルの主キー
+                  example: [1, 2]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/notification:
+    delete:
+      tags:
+        - Manager-Notification
+      operationId: delete-instructor-notification
+      summary: お知らせを一括で削除する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
       requestBody:
         required: true
         content:
