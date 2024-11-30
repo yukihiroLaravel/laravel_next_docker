@@ -459,7 +459,7 @@ paths:
                 code:
                   type: string
                   description: 認証コード
-                  example: 123456
+                  example: 1234
                 password:
                   type: string
                   description: パスワード
@@ -1074,6 +1074,68 @@ paths:
                         type: string
                         description: プロフィール画像
                         example: /instructor/xxx.png
+    post:
+      tags:
+        - Instructor
+      operationId: store-instructor
+      summary: 講師情報を登録する。
+      description: |
+        講師情報を登録する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                nick_name:
+                  type: string
+                  description: ニックネーム
+                  example: ニックネーム
+                last_name:
+                  type: string
+                  description: 名字
+                  example: 名字
+                first_name:
+                  type: string
+                  description: 名前
+                  example: 名前
+                email:
+                  type: string
+                  description: メールアドレス
+                  example: test@example.com
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
   /api/v1/instructor/{instructor_id}:
     post:
       tags:
@@ -1147,6 +1209,65 @@ paths:
                   result:
                     type: boolean
                     example: true
+  /api/v1/instructor/verification/{token}:
+    post:
+      tags:
+        - Instructor
+      operationId: verification-instructor
+      summary: 講師のメールアドレスを認証する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: path
+          name: token
+          description: 認証トークン
+          required: true
+          schema:
+            type: string
+            example: 1234567890
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: 認証コード
+                  example: 1234
+                password:
+                  type: string
+                  description: パスワード
+                  example: password
+                password_confirmation:
+                  type: string
+                  description: パスワード確認
+                  example: password
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Authorization success.
   /api/v1/instructor/attendance/{attendance_id}/status:
     get:
       tags:
@@ -3739,6 +3860,69 @@ paths:
                   type: string
                   description: プロフィール画像のバイナリデータ
                   example: xxxxxxxxxxx
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                required:
+                  - result
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    example: true
+  /api/v1/manager/instructor:
+    post:
+      tags:
+        - Manager-Instructor
+      operationId: store-manager-instructor
+      summary: 講師情報を登録する。
+      description: |
+        講師情報を登録する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: X-XSRF-TOKEN
+          schema:
+            type: string
+          required: true
+          example: eyJpdiI6IjJ2Z0J
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                nick_name:
+                  type: string
+                  description: ニックネーム
+                  example: ニックネーム
+                last_name:
+                  type: string
+                  description: 名字
+                  example: 名字
+                first_name:
+                  type: string
+                  description: 名前
+                  example: 名前
+                email:
+                  type: string
+                  description: メールアドレス
+                  example: test@example.com
       responses:
         '200':
           description: Success
