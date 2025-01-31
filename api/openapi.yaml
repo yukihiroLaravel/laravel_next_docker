@@ -1996,149 +1996,6 @@ paths:
                   result:
                     type: boolean
                     example: true
-  /api/v1/instructor/course/{course_id}/student/index:
-    get:
-      tags:
-        - Instructor-Course
-      operationId: get-instructor-course-student-index
-      summary: 講座の受講生一覧を取得する。
-      parameters:
-        - in: header
-          name: Origin
-          schema:
-            type: string
-          required: true
-          example: http://localhost:3000
-        - in: header
-          name: Referer
-          schema:
-            type: string
-          required: true
-          example: http://localhost:3000
-        - name: course_id
-          in: path
-          description: 講座ID
-          required: true
-          schema:
-            type: integer
-        - name: page
-          in: query
-          description: ページ番号
-          required: false
-          schema:
-            type: integer
-        - name: per_page
-          in: query
-          description: 1ページあたりの表示件数
-          required: false
-          schema:
-            type: integer
-        - name: sort_by
-          in: query
-          description: ソート対象
-          required: false
-          schema:
-            type: string
-        - name: order
-          in: query
-          description: ソート順
-          required: false
-          schema:
-            type: string
-        - name: input_text
-          in: query
-          description: 検索文字列
-          required: false
-          schema:
-            type: string
-        - name: start_date
-          in: query
-          description: 日付検索開始日
-          required: false
-          schema:
-            type: string
-        - name: end_date
-          in: query
-          description: 日付検索終了日
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: 講座受講生一覧
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        course:
-                          type: object
-                          properties:
-                            course_id:
-                              type: integer
-                              description: 講座テーブル主キー
-                              example: 1
-                            title:
-                              type: string
-                              description: 講座名
-                              example: PHP入門講座
-                            image:
-                              type: string
-                              description: 講座サムネイル画像ファイルパス
-                              example: /course/xxx.png
-                        pagination:
-                          type: object
-                          properties:
-                            page:
-                              type: integer
-                              description: ページ番号
-                              example: 1
-                            total:
-                              type: integer
-                              description: ページ総数
-                              example: 1
-                        students:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              student_id:
-                                type: integer
-                                description: 生徒テーブル主キー
-                                example: 1
-                              nick_name:
-                                type: string
-                                description: ニックネーム
-                                example: ニックネーム
-                              email:
-                                type: string
-                                description: メールアドレス
-                                example: test@example.com
-                              course_title:
-                                type: string
-                                description: 講座名
-                                example: PHP入門講座
-                              last_login_at:
-                                type: string
-                                description: 最終ログイン日時
-                                example: 2022/10/17 00:00:00
-                              attendance:
-                                type: object
-                                properties:
-                                  attendance_id:
-                                    type: integer
-                                    description: 受講テーブル主キー
-                                    example: 1
-                                  attendanced_at:
-                                    type: string
-                                    description: 受講日時
-                                    example: 2022/10/17 00:00:00
-
   /api/v1/instructor/course/{course_id}/chapter:
     post:
       tags:
@@ -3301,6 +3158,124 @@ paths:
                   result:
                     type: boolean
                     example: true
+  /api/v1/instructor/student/index:
+    get:
+      tags:
+        - Instructor-Student
+      operationId: get-instructor-student-index
+      summary: 受講生一覧を取得する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - name: page
+          in: query
+          description: ページ番号
+          required: false
+          schema:
+            type: integer
+        - name: per_page
+          in: query
+          description: 1ページあたりの表示件数
+          required: false
+          schema:
+            type: integer
+        - name: sort_by
+          in: query
+          description: ソート対象
+          required: false
+          schema:
+            type: string
+        - name: order
+          in: query
+          description: ソート順
+          required: false
+          schema:
+            type: string
+        - name: input_text
+          in: query
+          description: 検索文字列
+          required: false
+          schema:
+            type: string
+        - name: start_date
+          in: query
+          description: 日付検索開始日
+          required: false
+          schema:
+            type: string
+        - name: end_date
+          in: query
+          description: 日付検索終了日
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 受講生一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        pagination:
+                          type: object
+                          properties:
+                            page:
+                              type: integer
+                              description: ページ番号
+                              example: 1
+                            total:
+                              type: integer
+                              description: ページ総数
+                              example: 1
+                        students:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              student_id:
+                                type: integer
+                                description: 生徒テーブル主キー
+                                example: 1
+                              nick_name:
+                                type: string
+                                description: ニックネーム
+                                example: ニックネーム
+                              email:
+                                type: string
+                                description: メールアドレス
+                                example: test@example.com
+                              last_login_at:
+                                type: string
+                                description: 最終ログイン日時
+                                example: 2022/10/17 00:00:00
+                              attendance:
+                                type: object
+                                properties:
+                                  attendance_id:
+                                    type: integer
+                                    description: 受講テーブル主キー
+                                    example: 1
+                                  attendanced_at:
+                                    type: string
+                                    description: 受講日時
+                                    example: 2022/10/17 00:00:00
+
   /api/v1/instructor/student/{student_id}:
     get:
       tags:
@@ -4665,149 +4640,6 @@ paths:
                   result:
                     type: boolean
                     example: true
-  /api/v1/manager/course/{course_id}/student/index:
-    get:
-      tags:
-        - Manager-Course
-      operationId: get-instructor-course-student-index
-      summary: 講座の受講生一覧を取得する。
-      parameters:
-        - in: header
-          name: Origin
-          schema:
-            type: string
-          required: true
-          example: http://localhost:3000
-        - in: header
-          name: Referer
-          schema:
-            type: string
-          required: true
-          example: http://localhost:3000
-        - name: course_id
-          in: path
-          description: 講座ID
-          required: true
-          schema:
-            type: integer
-        - name: page
-          in: query
-          description: ページ番号
-          required: false
-          schema:
-            type: integer
-        - name: per_page
-          in: query
-          description: 1ページあたりの表示件数
-          required: false
-          schema:
-            type: integer
-        - name: sort_by
-          in: query
-          description: ソート対象
-          required: false
-          schema:
-            type: string
-        - name: order
-          in: query
-          description: ソート順
-          required: false
-          schema:
-            type: string
-        - name: input_text
-          in: query
-          description: 検索文字列
-          required: false
-          schema:
-            type: string
-        - name: start_date
-          in: query
-          description: 日付検索開始日
-          required: false
-          schema:
-            type: string
-        - name: end_date
-          in: query
-          description: 日付検索終了日
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: 講座受講生一覧
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        course:
-                          type: object
-                          properties:
-                            course_id:
-                              type: integer
-                              description: 講座テーブル主キー
-                              example: 1
-                            title:
-                              type: string
-                              description: 講座名
-                              example: PHP入門講座
-                            image:
-                              type: string
-                              description: 講座サムネイル画像ファイルパス
-                              example: /course/xxx.png
-                        pagination:
-                          type: object
-                          properties:
-                            page:
-                              type: integer
-                              description: ページ番号
-                              example: 1
-                            total:
-                              type: integer
-                              description: ページ総数
-                              example: 1
-                        students:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              student_id:
-                                type: integer
-                                description: 生徒テーブル主キー
-                                example: 1
-                              nick_name:
-                                type: string
-                                description: ニックネーム
-                                example: ニックネーム
-                              email:
-                                type: string
-                                description: メールアドレス
-                                example: test@example.com
-                              course_title:
-                                type: string
-                                description: 講座名
-                                example: PHP入門講座
-                              last_login_at:
-                                type: string
-                                description: 最終ログイン日時
-                                example: 2022/10/17 00:00:00
-                              attendance:
-                                type: object
-                                properties:
-                                  attendance_id:
-                                    type: integer
-                                    description: 受講テーブル主キー
-                                    example: 1
-                                  attendanced_at:
-                                    type: string
-                                    description: 受講日時
-                                    example: 2022/10/17 00:00:00
-
   /api/v1/manager/course/{course_id}/chapter:
     post:
       tags:
@@ -5866,6 +5698,123 @@ paths:
                   result:
                     type: boolean
                     example: true
+  /api/v1/manager/student/index:
+    get:
+      tags:
+        - Manager-Student
+      operationId: get-manager-student-index
+      summary: 受講生一覧を取得する。
+      parameters:
+        - in: header
+          name: Origin
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - in: header
+          name: Referer
+          schema:
+            type: string
+          required: true
+          example: http://localhost:3000
+        - name: page
+          in: query
+          description: ページ番号
+          required: false
+          schema:
+            type: integer
+        - name: per_page
+          in: query
+          description: 1ページあたりの表示件数
+          required: false
+          schema:
+            type: integer
+        - name: sort_by
+          in: query
+          description: ソート対象
+          required: false
+          schema:
+            type: string
+        - name: order
+          in: query
+          description: ソート順
+          required: false
+          schema:
+            type: string
+        - name: input_text
+          in: query
+          description: 検索文字列
+          required: false
+          schema:
+            type: string
+        - name: start_date
+          in: query
+          description: 日付検索開始日
+          required: false
+          schema:
+            type: string
+        - name: end_date
+          in: query
+          description: 日付検索終了日
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 受講生一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        pagination:
+                          type: object
+                          properties:
+                            page:
+                              type: integer
+                              description: ページ番号
+                              example: 1
+                            total:
+                              type: integer
+                              description: ページ総数
+                              example: 1
+                        students:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              student_id:
+                                type: integer
+                                description: 生徒テーブル主キー
+                                example: 1
+                              nick_name:
+                                type: string
+                                description: ニックネーム
+                                example: ニックネーム
+                              email:
+                                type: string
+                                description: メールアドレス
+                                example: test@example.com
+                              last_login_at:
+                                type: string
+                                description: 最終ログイン日時
+                                example: 2022/10/17 00:00:00
+                              attendance:
+                                type: object
+                                properties:
+                                  attendance_id:
+                                    type: integer
+                                    description: 受講テーブル主キー
+                                    example: 1
+                                  attendanced_at:
+                                    type: string
+                                    description: 受講日時
+                                    example: 2022/10/17 00:00:00
   /api/v1/manager/student/{student_id}:
     get:
       tags:
