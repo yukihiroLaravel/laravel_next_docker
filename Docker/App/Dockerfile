@@ -13,7 +13,10 @@ unzip \
 vim \
 libpng-dev \
 libpq-dev \
-&& docker-php-ext-install pdo_mysql
+libjpeg62-turbo-dev \
+&& docker-php-ext-install pdo_mysql \
+&& docker-php-ext-configure gd --with-jpeg \
+&& docker-php-ext-install -j$(nproc) gd
 
 RUN pecl install xdebug && \
 docker-php-ext-enable xdebug
