@@ -12,10 +12,14 @@ services:
       - "3000:3000"
     build: ./Docker/Front
     tty: true
+    stdin_open: true
     environment:
-     - WATCHPACK_POLLING=true
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
     volumes:
       - ./frontend:/www/html
+      - front_node_modules:/www/html/juko_next/node_modules
+    working_dir: /www/html/juko_next
  db:
    image: mysql:5.7
    container_name: laravel_db
@@ -41,3 +45,6 @@ services:
       - 8088:8080
     depends_on:
       - db
+
+volumes:
+  front_node_modules:
