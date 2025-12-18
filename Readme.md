@@ -1,4 +1,4 @@
-# Laravel + Next.js + Adminerの環境
+# Laravel + Next.js
 
 ## ディレクトリ構造
 
@@ -11,7 +11,7 @@ laravel_next_docker
     │   └── Front // フロントサーバーーの設定ファイル
     ├── backend
     │   └── laravelapp // Laravelソースコード
-    ├── docker-compose.yml
+    ├── compose.yml
     └── frontend
         └── nextapp　// Next.jsソースコード
 ````
