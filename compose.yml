@@ -1,42 +1,28 @@
 services:
- app:
-   container_name: laravel_app
-   ports:
-     - "8080:80"
-   build: ./Docker/App
-   volumes:
-     - ./backend:/var/www/html
- front:
-    container_name: next_app
+  app:
+    container_name: laravel_app
     ports:
-      - "3000:3000"
-    build: ./Docker/Front
-    tty: true
-    stdin_open: true
-    environment:
-      - WATCHPACK_POLLING=true
-      - CHOKIDAR_USEPOLLING=true
+      - "8080:80"
+    build: ./Docker/App
     volumes:
-      - ./frontend:/www/html
-      - front_node_modules:/www/html/juko_next/node_modules
-    working_dir: /www/html/juko_next
- db:
-   image: mysql:5.7
-   container_name: laravel_db
-   platform: linux/amd64
-   environment:
-     MYSQL_ROOT_PASSWORD: root
-     MYSQL_DATABASE: laraveldb
-     MYSQL_USER: dbuser
-     MYSQL_PASSWORD: dbpass
-     TZ: 'Asia/Tokyo'
-   command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-   volumes:
-     - ./Docker/DB/volume:/var/lib/mysql
-     - ./Docker/DB/my.cnf:/etc/mysql/conf.d/my.cnf
-   ports:
-     - 13306:3306
- adminer:
+      - ./backend:/var/www/html
+  db:
+    image: mysql:5.7
+    container_name: laravel_db
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laraveldb
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: dbpass
+      TZ: 'Asia/Tokyo'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./Docker/DB/volume:/var/lib/mysql
+      - ./Docker/DB/my.cnf:/etc/mysql/conf.d/my.cnf
+    ports:
+      - 13306:3306
+  adminer:
     container_name: adminer
     hostname: adminer
     image: adminer:4.7.5
@@ -45,6 +31,3 @@ services:
       - 8088:8080
     depends_on:
       - db
-
-volumes:
-  front_node_modules:
