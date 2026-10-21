@@ -2,32 +2,33 @@ services:
   app:
     container_name: laravel_app
     ports:
-      - "8080:80"
+      - "127.0.0.1:8080:80"
     build: ./Docker/App
     volumes:
       - ./backend:/var/www/html
   db:
-    image: mysql:5.7
+    image: mysql:8.4
     container_name: laravel_db
-    platform: linux/amd64
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: laraveldb
       MYSQL_USER: dbuser
       MYSQL_PASSWORD: dbpass
       TZ: 'Asia/Tokyo'
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
-      - ./Docker/DB/volume:/var/lib/mysql
+      - db-data:/var/lib/mysql
       - ./Docker/DB/my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
-      - 13306:3306
+      - "127.0.0.1:13306:3306"
   adminer:
     container_name: adminer
     hostname: adminer
-    image: adminer:4.7.5
+    image: adminer:6.1.2
     restart: always
     ports:
-      - 8088:8080
+      - "127.0.0.1:8088:8080"
     depends_on:
       - db
+
+volumes:
+  db-data:

@@ -98,6 +98,16 @@ pnpm dev
 docker exec -it laravel_app bash
 ```
 
+#### Xdebug でデバッグする
+
+Xdebug は、トリガーを付けたリクエストのときだけ IDE（ポート 9003）につなぎます。ふだんのリクエストでは何もしないので、IDE を起動していなくても遅くなりません。
+
+ブラウザから試すときは、Xdebug Helper などの拡張機能で `XDEBUG_SESSION` の Cookie を付けるか、URL に `?XDEBUG_TRIGGER=1` を付けます。Cookie はポートを区別しないので、Next.js（localhost:3000）から API を呼ぶリクエストにも付きます。artisan やテストをデバッグするときは、環境変数でトリガーを渡します。
+
+```bash
+docker compose exec -e XDEBUG_TRIGGER=1 -w /var/www/html/laravelapp app php artisan test --filter=テスト名
+```
+
 ### フロントエンド
 
 ```bash
