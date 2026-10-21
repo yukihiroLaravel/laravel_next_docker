@@ -17,9 +17,6 @@ libjpeg62-turbo-dev \
 && docker-php-ext-install -j$(nproc) gd \
 && rm -rf /var/lib/apt/lists/*
 
-RUN pecl install xdebug-3.5.1 && \
-docker-php-ext-enable xdebug
-
 RUN a2enmod rewrite
 
 COPY php.ini /usr/local/etc/php/
